@@ -1,0 +1,99 @@
+    
+      <div class="modal-dialog">
+        <div class="modal-content">
+        
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">New Employee</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          
+          <!-- Modal body -->
+          <div class="modal-body">
+              <form method = 'POST' action="/create/"  enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <div class="input-group">
+                     <input type="text" class="form-control" name="first_name" placeholder="Please enter the first name">
+                    </div>
+                  </div> 
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input type="text" class="form-control" name="last_name" placeholder="Please enter the last name">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="radio">
+                      <label class="radio-inline"><input type="radio" name="Gender" value="1" checked>Male</label>
+                      <label class="radio-inline"><input type="radio" name="Gender" value="0" >Female</label>
+                     </div>
+                  </div>  
+                  <div class="form-group">
+                    <label>Start Date</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                      </div>
+                      <input type="date" class="form-control" name="start_date" data-inputmask="'alias': 'yyyy/mm/dd'" data-mask />
+                    </div>
+                  </div>
+                    <div class="form-group">
+                      <div class="radio">
+                        <label class="radio-inline"><input type="radio" name="marital_status" value="1" checked>Married</label>
+                        <label class="radio-inline"><input type="radio" name="marital_status" value="0" >Single</label>
+                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Date Of Birth</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type="date" class="form-control" name="dob" data-inputmask="'alias': 'yyyy/mm/dd'" data-mask />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Phone number:</label>
+                      <div class="input-group">
+                        <div class="input-group-addon">
+                          <i class="fa fa-phone"></i>
+                        </div>
+                        <input type="text" class="form-control" name="mobile_number" data-inputmask="'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']" data-mask />
+                      </div><!-- /.input group -->
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input type="text" class="form-control" name="residence_address" placeholder="Please enter the Your address">
+                       </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <input type="text" class="form-control" name="aadhar" placeholder="Please enter the aadhar No.">
+                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Id Image </label>
+                        <input type="file" class="form-control" name="id_image">
+                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label>Profile Image </label>
+                        <input type="file" class="form-control" name="profile_image">
+                       </div>
+                    </div>
+                    <div class="input-group">
+                      <span class="input-group-btn">
+                        <input type="submit" class="btn btn-flat"></button>
+                      </span>
+                    </div>
+
+              </form>
+          </div>
+          
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          </div>
+          
+        </div>
+      </div>

@@ -6,5 +6,7 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-    path('employee_admin', views.employee_admin , name='employee_admin'),
+    path('employee_admin', views.employee_admin , name='dashboard'),
+    path('create/', views.employee_create, name='create_employee'),
+    path('info/<int:id>', views.info, name='info_emp_client'),
 ]

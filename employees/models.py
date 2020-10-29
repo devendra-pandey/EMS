@@ -12,20 +12,6 @@ TYPE_MARRIED = (
         ('1', 'Single'),
     )
 
-# Type_months = ['January','February','March','April','May','June','July','August','September','October','November','December']
-#     # ('1','January'),
-#     # ('2','February'),
-#     # ('3','March'),
-#     # ('4','April'),
-#     # ('5','May'),
-#     # ('6','June'),
-#     # ('7','July'),
-#     # ('8','August'),
-#     # ('9','September'),
-#     # ('10','October'),
-#     # ('11','November'),
-#     # ('12','December')
-#     # )
 
 class Employee(models.Model):
     first_name = models.CharField(max_length=30)
@@ -34,10 +20,9 @@ class Employee(models.Model):
     start_date = models.DateField()
     marital_status = models.CharField(max_length=10, choices=TYPE_MARRIED )
     dob = models.DateField()
-    nationality = models.CharField(max_length=20)
+    nationality = models.CharField(max_length=20, default="INDIA")
     mobile_number = models.IntegerField(default=12)
     residence_address = models.CharField(max_length=20)
-    pan= models.CharField(max_length=20 , unique=True , null=True , blank=True)
     aadhar = models.CharField(max_length=20 , unique=True , null=True, blank=True)
     id_image = models.FileField(upload_to='static/Uploads/id/', null= True)
     annual_allowance = models.IntegerField(default=21)
@@ -218,14 +203,6 @@ class Salary(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def salary_increment(self):
-        emp_name = Sallary_increament.objects.all().filter(employe_name = self.employee_name)
-        if emp_name:
-            self.incresed_sallary = emp_name.hike_sallary
-
-    def save(self,*args,**kwargs):
-        self.incresed_sallary = str(self.salary_increment())
-        super().save(*args, **kwargs)
 
 class Sallary_increament(models.Model):
     employe_name = models.OneToOneField(Employee, on_delete=models.CASCADE)

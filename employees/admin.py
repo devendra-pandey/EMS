@@ -20,10 +20,12 @@ admin.site.register(Sallary_increament)
 
 @admin.register(Employee)
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('first_name','last_name','gender','start_date','marital_status','profile_image','status','created')
-    search_fields = ('first_name','nationality')
-    date_hierarchy = ('created')
-    list_filter = ('created', 'marital_status')
+    list_display = ('first_name','last_name',
+    # 'gender','start_date','marital_status','profile_image','status','created'
+    )
+    # search_fields = ('first_name','nationality')
+    # date_hierarchy = ('created')
+    # list_filter = ('created', 'marital_status')
     
 
 @admin.register(Monthly_Salary)

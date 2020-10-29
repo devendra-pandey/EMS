@@ -5,14 +5,6 @@ from django.utils.html import format_html
 # Create your models here.
 
 
-TYPE_STATUS = (
-        ('0', 'Deactive'),
-        ('1', 'Active'),
-    )
-
-
-
-
 class Client(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -23,6 +15,7 @@ class Client(models.Model):
     mobile_no = models.CharField(max_length=20, null=True ,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, default="1")
 
     def linkedln_taf(self):
         return format_html('<img href="{0}" src="{0}" width="150" height="150" />'.format(self.linkedln_profile.url))
@@ -42,6 +35,7 @@ class Project(models.Model):
     project_type = models.CharField(max_length=50)
     project_files = models.FileField(upload_to='static/Uploads/projects/', null=True)
     amount = models.IntegerField(default=500)
+    status = models.CharField(max_length=20, default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -51,6 +45,7 @@ class Enquiry(models.Model):
     enquiry_date = models.DateField()
     proposal_file = models.FileField(upload_to='static/Uploads/proposals/', null= True)
     comment = models.CharField(max_length=1000, null = True,blank=True)
+    status = models.CharField(max_length=20, default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

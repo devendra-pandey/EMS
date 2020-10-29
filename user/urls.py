@@ -6,5 +6,6 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('', views.login , name='login'),
+    path("logout", views.logout_request, name="logout"),
     
 ]

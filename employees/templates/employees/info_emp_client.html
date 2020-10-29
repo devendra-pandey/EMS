@@ -1,0 +1,46 @@
+{% extends "employees/header.html" %}
+{% load static %}
+
+{%block title %} Admin|Information {% endblock title %}
+{% block content1 %}
+    <section class="content">
+        <div class="container">
+        <h2>Employee Information</h2>
+                    
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Gender</th>
+                <th>Start Date</th>
+                <th>Mobile number</th>
+                <th>Residence Address</th>
+                <th>Sallary</th>
+                <th>Profile Image</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{{ emp_info.first_name }}</td>
+                <td>{{ emp_info.last_name }}</td>
+                <td>{{ emp_info.gender }}</td>
+                <td>{{ emp_info.start_date }}</td>
+                <td>{{ emp_info.mobile_number }}</td>
+                <td>{{ emp_info.residence_address }}</td>
+                <td>{{ sallary_info.emp_salary }}</td>
+                <td><img src="{{ emp_info.profile_image.url }}" width="40px" , height="40px" ></img></td>
+                <td>{{ emp_info. }}</td>
+                <td>{{ emp_info. }}</td>
+                <td>{{ emp_info. }}</td>
+                <td>{{ emp_info. }}</td>
+                <td>{{ emp_info. }}</td>
+            </tr>
+            
+            </tbody>
+        </table>
+        </div>
+    </section>
+</div>
+{% include 'employees/footer.html' %}
+{% endblock %}
