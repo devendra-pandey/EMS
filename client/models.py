@@ -49,5 +49,8 @@ class Enquiry(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.client_name
+
     def older_than_ten_days(self):
         return (datetime.date.today() - self.enquiry_date).days > 10
