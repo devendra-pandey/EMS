@@ -30,16 +30,16 @@ class Employee(models.Model):
     leave_status = models.CharField(max_length=45, default="At Work")
     profile_image = models.FileField(upload_to='static/Uploads/profile/', null= True , blank=True)
     End_date = models.DateField(null=True, blank=True)
-    status = models.CharField(max_length=20, default="Active")
+    status = models.CharField(max_length=20, default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def image_tag(self):
-        return format_html('<img href="{0}" src="{0}" width="150" height="150" />'.format(self.profile_image.url))
-
-
     def __str__(self):
         return self.first_name + " " + self.last_name
+
+    class Meta:
+      get_latest_by = 'created'
+
 
 
 class Contacts(models.Model):

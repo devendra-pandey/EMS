@@ -30,6 +30,17 @@ def update_client(request, id):
        return redirect('dashboard')
     return render(request, 'client/client_create.html', {'upload_form':form})
 
+def delete_client(request, id):
+    client_id = int(id)
+    try:
+        client_data = Client.objects.get(id = client_id)
+    except Client.DoesNotExist:
+        return redirect('dashboard')
+    client_data.status = '0'
+    client_data.save()
+    return redirect('dashboard')
+
+
 @login_required
 def create_enquiry(request):
     form = EnquiryForm()
@@ -55,6 +66,18 @@ def update_enquiry(request, id):
        form.save()
        return redirect('dashboard')
     return render(request, 'client/enquiry.html', {'upload_form':form})
+
+def delete_enquiry(request, id):
+    enq_id = int(id)
+    try:
+        enq_data = Enquiry.objects.get(id = enq_id)
+    except Enquiry.DoesNotExist:
+        return redirect('dashboard')
+    enq_data.status = '0'
+    enq_data.save()
+    return redirect('dashboard')
+
+
 
 @login_required
 def info_client(request):

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import RadioSelect
-from employees.models import Employee,Monthly_Salary,Salary
+from employees.models import Employee,Monthly_Salary,Salary,Sallary_increament
 from django.forms import ClearableFileInput, ModelForm
 
 
@@ -39,6 +39,29 @@ class SallaryForm(forms.ModelForm):
     class Meta:
         model = Salary
         fields = [
-               'employee_name',
                'emp_salary',
            ]
+
+class Sallary_increasesForm(forms.ModelForm):
+    class Meta:
+        model = Salary
+        fields = [
+               'incresed_sallary',
+           ]
+
+
+
+
+class Increment_sallaryForm(forms.ModelForm):
+    class Meta:
+        model = Sallary_increament
+        fields = '__all__'
+        widgets = {
+               'Increment_date': DateInput,
+        }
+
+class Monthly_SalaryForm(forms.ModelForm):
+    class Meta:
+        model = Monthly_Salary
+        fields = '__all__'
+        exclude = ['total_salary']

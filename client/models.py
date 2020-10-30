@@ -17,11 +17,11 @@ class Client(models.Model):
     modified = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, default="1")
 
-    def linkedln_taf(self):
-        return format_html('<img href="{0}" src="{0}" width="150" height="150" />'.format(self.linkedln_profile.url))
-
     def __str__(self):
         return self.first_name + " " + self.last_name
+
+    class Meta:
+      get_latest_by = 'created'
     
 class Contacts(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
@@ -52,5 +52,3 @@ class Enquiry(models.Model):
     def __str__(self):
         return self.client_name
 
-    def older_than_ten_days(self):
-        return (datetime.date.today() - self.enquiry_date).days > 10

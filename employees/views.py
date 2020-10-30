@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
-from .models import Employee , Salary ,Sallary_increament
+from .models import Employee , Salary ,Sallary_increament ,Monthly_Salary
 from client.models import Client , Enquiry
 from bootstrap_modal_forms.generic import BSModalCreateView
-from .forms import EmployeeForm , SallaryForm
+from .forms import EmployeeForm , SallaryForm , Increment_sallaryForm , Sallary_increasesForm , Monthly_SalaryForm
 from user.models import User
 from django.contrib.auth.decorators import login_required
 import datetime
@@ -18,13 +18,17 @@ def employee_admin(request):
     emp_count = Employee.objects.all().count()
     client_count = Client.objects.all().count()
     user_count = User.objects.all().count()
-    enq = Enquiry.objects.all()
-    emp = Employee.objects.filter(status = 'Active')
-    client = Client.objects.all()
+    enq = Enquiry.objects.all().filter(status = '1')
+    emp = Employee.objects.filter(status = '1').order_by('-created')
+    client = Client.objects.all().filter(status = '1')
+    inc_sal = Sallary_increament.objects.all()
+    mon_sal = Monthly_Salary.objects.all().order_by('-created')
     
 ##employee Pagination
     page = request.GET.get('page',1)
-    paginator = Paginator(emp, 2)
+    paginator = Paginator(emp , 2)
+    print("******")
+    print(paginator)
     try:
         employee_all = paginator.page(page)
     except PageNotAnInteger:
@@ -64,38 +68,46 @@ def employee_admin(request):
                 'user_count':user_count,
                 'emp': emp,
                 'client':client,
+                'inc_sal':inc_sal,
+                'mon_sal':mon_sal,
                 
             }
     return render(request, 'employees/dashboard.html',context)
 
 
-
-
 @login_required
 def employee_create(request):  
     form = EmployeeForm()
+    form1 = SallaryForm()
     if request.method == 'POST':
         form = EmployeeForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
+        form1 = SallaryForm(request.POST, request.FILES)
+        if form.is_valid() and form1.is_valid():
+            obj = form.save()
+            choice = form1.save(commit=False)
+            choice.employee_name = obj
+            choice.save()
             return redirect('dashboard')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
     else:
-        return render(request, 'employees/employee_create.html', {'upload_form':form}) 
+        return render(request, 'employees/employee_create.html', {'upload_form':form, 'upload_form1':form1 }) 
     
 
 def update_employee(request, id):
     emp_id = int(id)
     try:
         emp_get = Employee.objects.get(id = emp_id)
+        sal_get = Salary.objects.get(employee_name= emp_id)
     except Employee.DoesNotExist:
         return redirect('dashboard')
     form = EmployeeForm(request.POST or None, instance = emp_get)
-    if form.is_valid():
+    form1 = SallaryForm(request.POST or None, instance = sal_get)
+    if form.is_valid() and form1.is_valid():
        form.save()
+       form1.save()
        return redirect('dashboard')
-    return render(request, 'employees/employee_create.html', {'upload_form':form})
+    return render(request, 'employees/employee_create.html', {'upload_form':form, 'upload_form1':form1 })
 
 
 def info(request,id):
@@ -110,21 +122,65 @@ def info(request,id):
         'emp_info':emp_info,
         'sallary_info':sallary_info,
     }
-
-    # if emp_info:
-    #     return redirect ('dashboard')
-    # else:
     return render(request, 'employees/info_emp_client.html', context)
 
+def delete_emp(request, id):
+    emp_id = int(id)
+    try:
+        emp_data = Employee.objects.get(id = emp_id)
+    except Employee.DoesNotExist:
+        return redirect('dashboard')
+    emp_data.status = '0'
+    emp_data.save()
+    return redirect('dashboard')
 
-def sallary(request):
-    form = SallaryForm()
+def sallary_increment_create(request):  
+    form = Increment_sallaryForm()
     if request.method == 'POST':
-        form = SallaryForm(request.POST, request.FILES)
+        form = Increment_sallaryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('dashboard')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
     else:
-        return render(request , 'employees/sallary.html',{'upload_form':form})
+        return render(request, 'employees/increased_sallary.html', {'upload_form':form})
+
+def update_inc_sal(request, id):
+    inc_sal_id = int(id)
+    try:
+        inc_sal_get = Sallary_increament.objects.get(id = inc_sal_id)
+    except Sallary_increament.DoesNotExist:
+        return redirect('dashboard')
+    form = Increment_sallaryForm(request.POST or None, instance = inc_sal_get)
+    if form.is_valid():
+       form.save()
+       return redirect('dashboard')
+    return render(request, 'employees/increased_sallary.html', {'upload_form':form})
+
+
+
+
+def monthly_sal(request):
+    form = Monthly_SalaryForm()
+    if request.method == 'POST':
+        form = Monthly_SalaryForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
+    else:
+        return render(request, 'employees/monthly_sallary.html', {'upload_form':form})
+
+def update_monthly_sal(request, id):
+    month_sal_id = int(id)
+    try:
+        sal_get = Monthly_Salary.objects.get(id = month_sal_id)
+    except Monthly_Salary.DoesNotExist:
+        return redirect('dashboard')
+    form = Monthly_SalaryForm(request.POST or None, instance = sal_get)
+    if form.is_valid():
+       form.save()
+       return redirect('dashboard')
+    return render(request, 'employees/monthly_sallary.html', {'upload_form':form})
