@@ -30,7 +30,7 @@ class Employee(models.Model):
     leave_status = models.CharField(max_length=45, default="At Work")
     profile_image = models.FileField(upload_to='static/Uploads/profile/', null= True , blank=True)
     End_date = models.DateField(null=True, blank=True)
-    status = models.CharField(max_length=20, default="1")
+    status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -197,7 +197,7 @@ class Monthly_Salary(models.Model):
         super().save(*args, **kwargs)
 
 class Salary(models.Model):
-    employee_name = models.ForeignKey('Employee', on_delete=models.CASCADE)
+    employe_name = models.ForeignKey('Employee', on_delete=models.CASCADE)
     emp_salary = models.IntegerField(default= 10000)
     incresed_sallary = models.IntegerField(null=True, blank=True, default=0)
     created = models.DateTimeField(auto_now_add=True)
@@ -205,25 +205,12 @@ class Salary(models.Model):
 
 
 class Sallary_increament(models.Model):
-    employe_name = models.OneToOneField(Employee, on_delete=models.CASCADE)
+    employe_name = models.ForeignKey('Employee', on_delete=models.CASCADE)
     hike_sallary = models.IntegerField()
     description = models.CharField(max_length=300)
     Increment_date = models.DateTimeField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    def salary_hike(self):
-        emp_name = Salary.objects.all().filter(employee_name = self.employe_name)
-        print("hey hii")
-        print(emp_name)
-        emp_name.incresed_sallary = self.hike_sallary
-        inc_sallary = emp_name.incresed_sallary 
-        print("*******")
-        print(inc_sallary)
-        return inc_sallary
-
-    def save(self,*args,**kwargs):
-        inc_sallary = str(self.salary_hike())
-        super().save(*args, **kwargs)
-
+    
     

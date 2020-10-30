@@ -15,7 +15,7 @@ class Client(models.Model):
     mobile_no = models.CharField(max_length=20, null=True ,blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=20, default="1")
+    status = models.BooleanField(default="1")
 
     def __str__(self):
         return self.first_name + " " + self.last_name
@@ -35,7 +35,7 @@ class Project(models.Model):
     project_type = models.CharField(max_length=50)
     project_files = models.FileField(upload_to='static/Uploads/projects/', null=True)
     amount = models.IntegerField(default=500)
-    status = models.CharField(max_length=20, default="1")
+    status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
@@ -45,10 +45,16 @@ class Enquiry(models.Model):
     enquiry_date = models.DateField()
     proposal_file = models.FileField(upload_to='static/Uploads/proposals/', null= True)
     comment = models.CharField(max_length=1000, null = True,blank=True)
-    status = models.CharField(max_length=20, default="1")
+    status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.client_name
 
+class Followup(models.Model):
+    client_name = models.ForeignKey(Client, on_delete=models.CASCADE)
+    Comment = models.CharField(max_length=10000, null=True, blank=True)
+    status = models.BooleanField(default="1")
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)

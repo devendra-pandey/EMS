@@ -36,7 +36,7 @@ class Monthly_SalaryAdmin(admin.ModelAdmin):
 
 @admin.register(Salary)
 class SalaryAdmin(admin.ModelAdmin):
-    list_display = ('employee_name','emp_salary','incresed_sallary')
+    list_display = ('employe_name','emp_salary','incresed_sallary')
     readonly_fields = ('incresed_sallary',)
     
     def has_delete_permission(self, request, obj=None):

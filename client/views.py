@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from client.models import Client
 from django.contrib.auth.decorators import login_required
-from .forms import ClientForm , EnquiryForm
-from .models import Enquiry
+from .forms import ClientForm , EnquiryForm ,FollowupForm
+from .models import Enquiry ,Followup
 
 @login_required
 def client_create(request):
@@ -76,6 +76,20 @@ def delete_enquiry(request, id):
     enq_data.status = '0'
     enq_data.save()
     return redirect('dashboard')
+
+
+@login_required
+def create_followup(request):
+    form = FollowupForm()
+    if request.method == 'POST':
+        form = FollowupForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
+    else:      
+        return render(request, 'client/follow_up.html', {'upload_form':form})
 
 
 

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import RadioSelect
-from .models import Client, Project ,Enquiry
+from .models import Client, Project ,Enquiry , Followup
 
 
 class DateInput(forms.DateInput):
@@ -24,3 +24,7 @@ class EnquiryForm(forms.ModelForm):
                'enquiry_date': DateInput,               
            }
 
+class FollowupForm(forms.ModelForm):
+    class Meta:
+        model= Followup
+        fields = '__all__'

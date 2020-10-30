@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Project,Client,Contacts,Enquiry
+from .models import Project,Client,Contacts,Enquiry,Followup
 
 
 @admin.register(Client)
@@ -21,3 +21,4 @@ class EnquiryAdmin(admin.ModelAdmin):
 
 admin.site.register(Contacts)
 admin.site.register(Project)
+admin.site.register(Followup)

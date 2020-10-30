@@ -12,5 +12,6 @@ urlpatterns = [
     path('add_enquiry/', views.create_enquiry, name='create_enquiry'),
     path('update_enquiry/<int:id>', views.update_enquiry, name='update_enquiry'),
     path('delete_enquiry/<int:id>', views.delete_enquiry, name='delete_enquiry'),
+    path('follow_up_create/', views.create_followup, name='create_followup'),
     path('client/<int:id>', views.info_client, name='info_client'),
 ]

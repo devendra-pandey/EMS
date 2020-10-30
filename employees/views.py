@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 from django.urls import reverse_lazy
 from .models import Employee , Salary ,Sallary_increament ,Monthly_Salary
-from client.models import Client , Enquiry
+from client.models import Client , Enquiry , Followup
 from bootstrap_modal_forms.generic import BSModalCreateView
 from .forms import EmployeeForm , SallaryForm , Increment_sallaryForm , Sallary_increasesForm , Monthly_SalaryForm
 from user.models import User
@@ -23,6 +23,7 @@ def employee_admin(request):
     client = Client.objects.all().filter(status = '1')
     inc_sal = Sallary_increament.objects.all()
     mon_sal = Monthly_Salary.objects.all().order_by('-created')
+    feedback = Followup.objects.filter(status='1').order_by('-created')
     
 ##employee Pagination
     page = request.GET.get('page',1)
@@ -55,7 +56,7 @@ def employee_admin(request):
         enq_all = paginator.page(1)
     except EmptyPage:
         enq_all = paginator.page(paginator.num_pages)
-
+    
     context = {
                 'emp_count': emp_count,
                 'enq_count':enq_count,
@@ -70,6 +71,7 @@ def employee_admin(request):
                 'client':client,
                 'inc_sal':inc_sal,
                 'mon_sal':mon_sal,
+                'feedback':feedback,
                 
             }
     return render(request, 'employees/dashboard.html',context)
@@ -138,8 +140,17 @@ def sallary_increment_create(request):
     form = Increment_sallaryForm()
     if request.method == 'POST':
         form = Increment_sallaryForm(request.POST, request.FILES)
+        form1 = Sallary_increasesForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            obj = form.save()
+            id = obj.employe_name
+            
+            print("*** hey")
+            print(id)
+            # choice = form1.save(commit=False)
+            # if Salary.objects.filter(employe_name = obj.employe_name):
+            #     choice.incresed_sallary = obj.hike_sallary
+            #     choice.save()
             return redirect('dashboard')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
