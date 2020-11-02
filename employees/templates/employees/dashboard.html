@@ -80,22 +80,22 @@
                   <i class="ion ion-clipboard"></i>
                   <h3 class="box-title">Employees</h3>
                   <div class="box-tools pull-right">
-                      {% if employee_all.has_other_pages %}
+                      {% if page_obj.has_other_pages %}
                       <ul class="pagination pagination-sm inline">
-                          {% if employee_all.has_previous %}
-                            <li><a href="?page={{ employee_all.previous_page_number }}">&laquo;</a></li>
+                          {% if page_obj.has_previous %}
+                            <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
                           {% else %}
                             <li class="disabled"><span>&laquo;</span></li>
                           {% endif %}
-                          {% for i in employee_all.paginator.page_range %}
-                            {% if employee_all.number == i %}
+                          {% for i in page_obj.paginator.page_range %}
+                            {% if page_obj.number == i %}
                               <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
                             {% else %}
                               <li><a href="?page={{ i }}">{{ i }}</a></li>
                             {% endif %}
                           {% endfor %}
-                          {% if employee_all.has_next %}
-                            <li><a href="?page={{ employee_all.next_page_number }}">&raquo;</a></li>
+                          {% if page_obj.has_next %}
+                            <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
                           {% else %}
                             <li class="disabled"><span>&raquo;</span></li>
                           {% endif %}
@@ -105,7 +105,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <ul class="todo-list">
-                    {% for e in emp %}
+                    {% for e in page_obj %}
                     <li>
                       <!-- drag handle -->
                       <span class="handle">
@@ -152,7 +152,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <ul class="todo-list">
-                   {% for c in client %}
+                   {% for c in client_all %}
                     <li>
                       <!-- drag handle -->
                       {% if c %}
@@ -189,22 +189,22 @@
                   <i class="ion ion-clipboard"></i>
                   <h3 class="box-title">Employees Monthly sallary  </h3>
                   <div class="box-tools pull-right">
-                      {% if employee_all.has_other_pages %}
+                      {% if mon_sal_obj.has_other_pages %}
                       <ul class="pagination pagination-sm inline">
-                          {% if employee_all.has_previous %}
-                            <li><a href="?page={{ employee_all.previous_page_number }}">&laquo;</a></li>
+                          {% if mon_sal_obj.has_previous %}
+                            <li><a href="?page={{ mon_sal_obj.previous_page_number }}">&laquo;</a></li>
                           {% else %}
                             <li class="disabled"><span>&laquo;</span></li>
                           {% endif %}
-                          {% for i in employee_all.paginator.page_range %}
-                            {% if employee_all.number == i %}
+                          {% for i in mon_sal_obj.paginator.page_range %}
+                            {% if mon_sal_obj.number == i %}
                               <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
                             {% else %}
                               <li><a href="?page={{ i }}">{{ i }}</a></li>
                             {% endif %}
                           {% endfor %}
-                          {% if employee_all.has_next %}
-                            <li><a href="?page={{ employee_all.next_page_number }}">&raquo;</a></li>
+                          {% if mon_sal_obj.has_next %}
+                            <li><a href="?page={{ mon_sal_obj.next_page_number }}">&raquo;</a></li>
                           {% else %}
                             <li class="disabled"><span>&raquo;</span></li>
                           {% endif %}
@@ -231,7 +231,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          {% for ms in mon_sal %}
+                          {% for ms in mon_sal_obj %}
                           <tr>
                             <td>
                               <span class="handle">
@@ -245,7 +245,7 @@
                             <td>{{ ms.paid_leaves }}</td>
                             <td>{{ ms.total_salary }}</td>
                             <td><a href="update_month_Sal/{{ ms.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="delete_month_Sal/{{ ms.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            <td><a href="delete_monthly_sal/{{ ms.id }}"><i class="fa fa-trash-o"></i></a></td>
                             
                          </tr>
                          {% endfor %}
@@ -283,7 +283,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                   <ul class="todo-list">
-                    {% for e in enq %}
+                    {% for e in enq_all %}
                     <li>  
                       <span class="handle">
                         <i class="fa fa-ellipsis-v"></i>
@@ -314,12 +314,12 @@
                   <h3 class="box-title">Sallary Increment here</h3>
                   <div class="box-tools pull-right">
                     <ul class="pagination pagination-sm inline">
-                      {% if enq_all.has_previous %}
-                      <li><a href="?page={{ enq_all.previous_page_number }}">Previous</a></li>
+                      {% if inc_Sallary_page.has_previous %}
+                      <li><a href="?page={{ inc_Sallary_page.previous_page_number }}">Previous</a></li>
                       {% endif %}
-                      <li><a href="#">Page {{ enq_all.number }} of {{ enq_all.paginator.num_pages }}.</a></li>
-                      {% if enq_all.has_next %}
-                      <li><a href="?page={{ enq_all.next_page_number }}">next</a></li>
+                      <li><a href="#">Page {{ inc_Sallary_page.number }} of {{ inc_Sallary_page.paginator.num_pages }}.</a></li>
+                      {% if inc_Sallary_page.has_next %}
+                      <li><a href="?page={{ inc_Sallary_page.next_page_number }}">next</a></li>
                       {% endif %}
                     </ul>
                   </div>
@@ -339,7 +339,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          {% for i in inc_sal %}
+                          {% for i in inc_Sallary_page %}
                           <tr>
                             <td>
                               <span class="handle">
@@ -360,7 +360,7 @@
                     </table>
                 </div><!-- /.box-body -->
                 <div class="box-footer clearfix no-border">
-                  <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/add_enquiry"> Increment sallary </a></button>
+                  <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/increase_Sal"> Increment sallary </a></button>
                 </div>
               </div>
               <div class="box box-primary">
@@ -369,12 +369,12 @@
                   <h3 class="box-title">Feedback here</h3>
                   <div class="box-tools pull-right">
                     <ul class="pagination pagination-sm inline">
-                      {% if enq_all.has_previous %}
-                      <li><a href="?page={{ enq_all.previous_page_number }}">Previous</a></li>
+                      {% if feedback_obj.has_previous %}
+                      <li><a href="?page={{ feedback_obj.previous_page_number }}">Previous</a></li>
                       {% endif %}
-                      <li><a href="#">Page {{ enq_all.number }} of {{ enq_all.paginator.num_pages }}.</a></li>
-                      {% if enq_all.has_next %}
-                      <li><a href="?page={{ enq_all.next_page_number }}">next</a></li>
+                      <li><a href="#">Page {{ feedback_obj.number }} of {{ feedback_obj.paginator.num_pages }}.</a></li>
+                      {% if feedback_obj.has_next %}
+                      <li><a href="?page={{ feedback_obj.next_page_number }}">next</a></li>
                       {% endif %}
                     </ul>
                   </div>
@@ -392,7 +392,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                          {% for f in feedback %}
+                          {% for f in feedback_obj %}
                           <tr>
                             <td>
                               <span class="handle">
@@ -403,7 +403,8 @@
                             <td>{{ f.client_name }}</td>
                             <td>{{ f.Comment }}</td>
                             <td> {{ f.created }}</td>
-                            <td><a href="delete_emp/{{ i.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            <td><a href="update_followup/{{ f.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="delete_followup/{{ f.id }}"><i class="fa fa-trash-o"></i></a></td>
                           </tr>
                           {% endfor %}
                         </tbody>

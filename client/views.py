@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import ClientForm , EnquiryForm ,FollowupForm
 from .models import Enquiry ,Followup
 
-@login_required
+@login_required(login_url='/')
 def client_create(request):
     form = ClientForm()
     if request.method == 'POST':
@@ -17,7 +17,7 @@ def client_create(request):
     else:  
         return render(request, 'client/client_create.html', {'upload_form':form})
 
-@login_required
+@login_required(login_url='/')
 def update_client(request, id):
     client_id = int(id)
     try:
@@ -30,6 +30,7 @@ def update_client(request, id):
        return redirect('dashboard')
     return render(request, 'client/client_create.html', {'upload_form':form})
 
+@login_required(login_url='/')
 def delete_client(request, id):
     client_id = int(id)
     try:
@@ -41,7 +42,7 @@ def delete_client(request, id):
     return redirect('dashboard')
 
 
-@login_required
+@login_required(login_url='/')
 def create_enquiry(request):
     form = EnquiryForm()
     if request.method == 'POST':
@@ -54,7 +55,7 @@ def create_enquiry(request):
     else:      
         return render(request, 'client/enquiry.html', {'upload_form':form})
 
-@login_required
+@login_required(login_url='/')
 def update_enquiry(request, id):
     enquiry_id = int(id)
     try:
@@ -67,6 +68,7 @@ def update_enquiry(request, id):
        return redirect('dashboard')
     return render(request, 'client/enquiry.html', {'upload_form':form})
 
+@login_required(login_url='/')
 def delete_enquiry(request, id):
     enq_id = int(id)
     try:
@@ -78,7 +80,7 @@ def delete_enquiry(request, id):
     return redirect('dashboard')
 
 
-@login_required
+@login_required(login_url='/')
 def create_followup(request):
     form = FollowupForm()
     if request.method == 'POST':
@@ -92,7 +94,33 @@ def create_followup(request):
         return render(request, 'client/follow_up.html', {'upload_form':form})
 
 
+@login_required(login_url='/')
+def update_followup(request, id):
+    followup_id = int(id)
+    try:
+        fol_get = Followup.objects.get(id = followup_id)
+    except Followup.DoesNotExist:
+        return redirect('dashboard')
+    form = FollowupForm(request.POST or None, instance = fol_get)
+    if form.is_valid():
+       form.save()
+       return redirect('dashboard')
+    return render(request, 'client/follow_up.html', {'upload_form':form})
 
-@login_required
+
+@login_required(login_url='/')
+def delete_Followup(request, id):
+    fol_id = int(id)
+    try:
+        fol_data = Followup.objects.get(id = fol_id)
+    except Followup.DoesNotExist:
+        return redirect('dashboard')
+    fol_data.status = '0'
+    fol_data.save()
+    return redirect('dashboard')
+
+
+
+@login_required(login_url='/')
 def info_client(request):
     return render(request, 'client/info_client.html')

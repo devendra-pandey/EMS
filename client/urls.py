@@ -13,5 +13,7 @@ urlpatterns = [
     path('update_enquiry/<int:id>', views.update_enquiry, name='update_enquiry'),
     path('delete_enquiry/<int:id>', views.delete_enquiry, name='delete_enquiry'),
     path('follow_up_create/', views.create_followup, name='create_followup'),
+    path('update_followup/<int:id>', views.update_followup, name='update_followup'),
+    path('delete_followup/<int:id>', views.delete_Followup, name='delete_followup'),
     path('client/<int:id>', views.info_client, name='info_client'),
 ]

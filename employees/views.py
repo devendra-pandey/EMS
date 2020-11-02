@@ -11,34 +11,42 @@ import datetime
 
 
 
-@login_required
+@login_required(login_url='/')
 def employee_admin(request):
     now = datetime.datetime.now()
     enq_count = Enquiry.objects.all().count()
     emp_count = Employee.objects.all().count()
     client_count = Client.objects.all().count()
     user_count = User.objects.all().count()
-    enq = Enquiry.objects.all().filter(status = '1')
+    enq = Enquiry.objects.all().filter(status = '1').order_by('-created')
     emp = Employee.objects.filter(status = '1').order_by('-created')
-    client = Client.objects.all().filter(status = '1')
-    inc_sal = Sallary_increament.objects.all()
-    mon_sal = Monthly_Salary.objects.all().order_by('-created')
+    client = Client.objects.all().filter(status = '1').order_by('-created')
+    inc_sal = Sallary_increament.objects.filter(employe_name__status='1').order_by('-created')
+    mon_sal = Monthly_Salary.objects.filter(employee_name__status='1', status='1').order_by('-created')
     feedback = Followup.objects.filter(status='1').order_by('-created')
     
 ##employee Pagination
-    page = request.GET.get('page',1)
-    paginator = Paginator(emp , 2)
-    print("******")
-    print(paginator)
-    try:
-        employee_all = paginator.page(page)
-    except PageNotAnInteger:
-        employee_all = paginator.page(1)
-    except EmptyPage:
-        employee_all = paginator.page(paginator.num_pages)
+    paginator = Paginator(emp, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+##employee Sallary Pagination
+    paginator = Paginator(mon_sal, 2)
+    page_number = request.GET.get('page')
+    mon_sal_obj = paginator.get_page(page_number)
+
+##salary increment Pagination
+    paginator = Paginator(inc_sal, 2) 
+    page_number = request.GET.get('page')
+    inc_Sallary_page = paginator.get_page(page_number)
+
+##FeedBack Pagination
+    paginator = Paginator(feedback, 2)
+    page_number = request.GET.get('page')
+    feedback_obj = paginator.get_page(page_number)
 
 ##client pagination
-    paginator = Paginator(client, 5) 
+    paginator = Paginator(client, 2) 
     page = request.GET.get('page')
     try:
         client_all = paginator.page(page)
@@ -48,7 +56,7 @@ def employee_admin(request):
         client_all = paginator.page(paginator.num_pages)
 
 ##Enquiry Pagination
-    paginator = Paginator(enq, 5) 
+    paginator = Paginator(enq, 2) 
     page = request.GET.get('page')
     try:
         enq_all = paginator.page(page)
@@ -60,24 +68,21 @@ def employee_admin(request):
     context = {
                 'emp_count': emp_count,
                 'enq_count':enq_count,
-                'enq':enq,
-                'now':now,
-                'employee_all':employee_all,
+                'page_obj':page_obj,
+                'inc_Sallary_page':inc_Sallary_page,
                 'client_all':client_all,
                 'enq_all':enq_all,
                 'client_count':client_count,
                 'user_count':user_count,
-                'emp': emp,
                 'client':client,
-                'inc_sal':inc_sal,
-                'mon_sal':mon_sal,
-                'feedback':feedback,
+                'mon_sal_obj':mon_sal_obj,
+                'feedback_obj':feedback_obj,
                 
             }
     return render(request, 'employees/dashboard.html',context)
 
 
-@login_required
+@login_required(login_url='/')
 def employee_create(request):  
     form = EmployeeForm()
     form1 = SallaryForm()
@@ -87,7 +92,7 @@ def employee_create(request):
         if form.is_valid() and form1.is_valid():
             obj = form.save()
             choice = form1.save(commit=False)
-            choice.employee_name = obj
+            choice.employe_name_id = obj.id
             choice.save()
             return redirect('dashboard')
         else:
@@ -96,11 +101,12 @@ def employee_create(request):
         return render(request, 'employees/employee_create.html', {'upload_form':form, 'upload_form1':form1 }) 
     
 
+@login_required(login_url='/')
 def update_employee(request, id):
     emp_id = int(id)
     try:
         emp_get = Employee.objects.get(id = emp_id)
-        sal_get = Salary.objects.get(employee_name= emp_id)
+        sal_get = Salary.objects.get(employe_name= emp_id)
     except Employee.DoesNotExist:
         return redirect('dashboard')
     form = EmployeeForm(request.POST or None, instance = emp_get)
@@ -111,12 +117,12 @@ def update_employee(request, id):
        return redirect('dashboard')
     return render(request, 'employees/employee_create.html', {'upload_form':form, 'upload_form1':form1 })
 
-
+@login_required(login_url='/')
 def info(request,id):
     emp_info = get_object_or_404(Employee , id=id)
     print("********")
     print(emp_info)
-    sallary_info = get_object_or_404(Salary , employee_name = id)
+    sallary_info = get_object_or_404(Salary , employe_name = id)
     print("****")
     print(sallary_info)
 
@@ -126,6 +132,7 @@ def info(request,id):
     }
     return render(request, 'employees/info_emp_client.html', context)
 
+@login_required(login_url='/')
 def delete_emp(request, id):
     emp_id = int(id)
     try:
@@ -136,27 +143,32 @@ def delete_emp(request, id):
     emp_data.save()
     return redirect('dashboard')
 
+
+@login_required(login_url='/')
 def sallary_increment_create(request):  
     form = Increment_sallaryForm()
     if request.method == 'POST':
         form = Increment_sallaryForm(request.POST, request.FILES)
-        form1 = Sallary_increasesForm(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save()
             id = obj.employe_name
-            
+            emp_increased_sal = obj.hike_sallary
             print("*** hey")
             print(id)
-            # choice = form1.save(commit=False)
-            # if Salary.objects.filter(employe_name = obj.employe_name):
-            #     choice.incresed_sallary = obj.hike_sallary
-            #     choice.save()
+            ab = Salary.objects.filter(employe_name=id)
+            print(ab)
+            for fs in ab:
+                final_sallary1 = fs.finall_sallary
+
+            to_update = Salary.objects.filter(employe_name=id).update(incresed_sallary=emp_increased_sal, finall_sallary= final_sallary1 + emp_increased_sal )
+            print("done")
             return redirect('dashboard')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
     else:
         return render(request, 'employees/increased_sallary.html', {'upload_form':form})
-
+   
+@login_required(login_url='/')
 def update_inc_sal(request, id):
     inc_sal_id = int(id)
     try:
@@ -165,13 +177,19 @@ def update_inc_sal(request, id):
         return redirect('dashboard')
     form = Increment_sallaryForm(request.POST or None, instance = inc_sal_get)
     if form.is_valid():
-       form.save()
-       return redirect('dashboard')
+        obj = form.save()
+        id = obj.employe_name
+        emp_increased_sal = obj.hike_sallary
+        print("*** hey")
+        print(id)
+        to_update = Salary.objects.filter(employe_name=id).update(incresed_sallary=emp_increased_sal)
+        print("done")
+        return redirect('dashboard')
     return render(request, 'employees/increased_sallary.html', {'upload_form':form})
 
 
 
-
+@login_required(login_url='/')
 def monthly_sal(request):
     form = Monthly_SalaryForm()
     if request.method == 'POST':
@@ -184,6 +202,8 @@ def monthly_sal(request):
     else:
         return render(request, 'employees/monthly_sallary.html', {'upload_form':form})
 
+
+@login_required(login_url='/')
 def update_monthly_sal(request, id):
     month_sal_id = int(id)
     try:
@@ -195,3 +215,15 @@ def update_monthly_sal(request, id):
        form.save()
        return redirect('dashboard')
     return render(request, 'employees/monthly_sallary.html', {'upload_form':form})
+
+@login_required(login_url='/')
+def delete_monthly_sal(request, id):
+    monthly_sal_id = int(id)
+    try:
+        month_Sal = Monthly_Salary.objects.get(id = monthly_sal_id)
+    except Monthly_Salary.DoesNotExist:
+        return redirect('dashboard')
+    month_Sal.status = '0'
+    month_Sal.save()
+    return redirect('dashboard')
+

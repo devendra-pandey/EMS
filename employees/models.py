@@ -28,7 +28,7 @@ class Employee(models.Model):
     annual_allowance = models.IntegerField(default=21)
     balance_last_year = models.IntegerField(default=0)
     leave_status = models.CharField(max_length=45, default="At Work")
-    profile_image = models.FileField(upload_to='static/Uploads/profile/', null= True , blank=True)
+    profile_image = models.FileField(upload_to='static/Uploads/profile/')
     End_date = models.DateField(null=True, blank=True)
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
@@ -36,6 +36,7 @@ class Employee(models.Model):
 
     def __str__(self):
         return self.first_name + " " + self.last_name
+    
 
     class Meta:
       get_latest_by = 'created'
@@ -175,21 +176,29 @@ class Monthly_Salary(models.Model):
     leaves = models.IntegerField()
     paid_leaves = models.IntegerField(default=1)
     total_working_days = models.IntegerField(default=1)
+    deduction_per = models.FloatField(default=0.0)
     total_salary = models.CharField(max_length=20, default='0')
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+    status = models.BooleanField(default=1)
 
     def calculate_salary(self):
-        emp_name = Salary.objects.get(employee_name = self.employee_name)
+        emp_name = Salary.objects.get(employe_name = self.employee_name)
         print("hey hii")
         print(emp_name)
         total_days = self.total_working_days - self.leaves + self.paid_leaves
         print(total_days)
-        base_salary_emp = emp_name.emp_salary / self.total_working_days
+        base_salary_emp = emp_name.finall_sallary / self.total_working_days
         print(base_salary_emp)
-        salary_1 = total_days * base_salary_emp
-        self.total_salary = salary_1
-        return self.total_salary
+        salary_f = total_days * base_salary_emp
+        if self.deduction_per == 0.0:
+            salary_1 = salary_f
+            self.total_salary = salary_1
+            return self.total_salary
+        else:
+            salary_1 = salary_f * self.deduction_per/100
+            self.total_salary = salary_f - salary_1 
+            return self.total_salary
         
 
     def save(self,*args,**kwargs):
@@ -199,9 +208,23 @@ class Monthly_Salary(models.Model):
 class Salary(models.Model):
     employe_name = models.ForeignKey('Employee', on_delete=models.CASCADE)
     emp_salary = models.IntegerField(default= 10000)
+    finall_sallary = models.IntegerField(default=0)
     incresed_sallary = models.IntegerField(null=True, blank=True, default=0)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    def calculate_final_salary(self):
+        
+        salary_total = self.emp_salary + self.incresed_sallary
+        self.finall_sallary = salary_total
+        return self.finall_sallary
+        
+
+    def save(self,*args,**kwargs):
+        self.finall_sallary = str(self.calculate_final_salary())
+        super().save(*args, **kwargs)
+
+
 
 
 class Sallary_increament(models.Model):
@@ -212,5 +235,4 @@ class Sallary_increament(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    
     
