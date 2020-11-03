@@ -54,7 +54,7 @@ class Project(models.Model):
 class Project_income(models.Model):
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
     amount = models.IntegerField(default=0)
-    recieved_date = models.DateField()
+    received_date = models.DateField()
     comment = models.CharField(max_length=1000, null = True,blank=True)
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)

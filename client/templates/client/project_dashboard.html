@@ -74,7 +74,7 @@
                             <th>Project Name</th>
                             <th>Project Type</th>
                             <th>Project Files</th>
-                            <th>Amount Recived</th>
+                            <th>Amount Received</th>
                             <th>End Date </th>
                             <th>Edit</th>
                             <th>Completed</th>
@@ -150,6 +150,7 @@
                                 <th>Project Name</th>
                                 <th>Comment</th>
                                 <th>Amounts</th>
+                                <th>Received Date</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                                 
@@ -167,6 +168,7 @@
                                 <td>{{ income.project_name }}</td>
                                 <td>{{ income.comment }}</td>
                                 <td>{{ income.amount }}</td>
+                                <td>{{ income.received_date }}</td>
                                 <td><a href="/update_project/{{ income.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
                                 <td><a href="/delete_project/{{ income.id }}"><i class="fa fa-trash-o"></i></a></td>
                                 
@@ -208,7 +210,7 @@
                               <th>Client Name</th>
                               <th>Project Name</th>
                               <th>End Date</th>
-                              <th>Total Amount Recieved</th>
+                              <th>Total Amount Received</th>
                               
                           </tr>
                           </thead>
@@ -232,6 +234,59 @@
                           </tbody>
                       </table>
                     </div><!-- /.box-body -->
+                </div>
+                <div class="box box-primary">
+                  <div class="box-header">
+                    <i class="ion ion-clipboard"></i>
+                    <h3 class="box-title">Assign Project</h3>
+                    <div class="box-tools pull-right">
+                      <ul class="pagination pagination-sm inline">
+                        {% if feedback_obj.has_previous %}
+                        <li><a href="?page={{ feedback_obj.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li><a href="#">Page {{ feedback_obj.number }} of {{ feedback_obj.paginator.num_pages }}.</a></li>
+                        {% if feedback_obj.has_next %}
+                        <li><a href="?page={{ feedback_obj.next_page_number }}">next</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                     
+                        <table class="table table-striped">
+                          <thead>
+                          <tr>
+                              <th>#</th>
+                              <th>Client Name</th>
+                              <th>Project Name</th>
+                              <th>End Date</th>
+                              <th>Total Amount Received</th>
+                              
+                          </tr>
+                          </thead>
+                          <tbody>
+                            {% for f in project_completed %}
+                            <tr>
+                              <td>
+                                <span class="handle">
+                                  <i class="fa fa-ellipsis-v"></i>
+                                  <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                              </td>
+                              <td>{{ f.client_name }}</td>
+                              <td>{{ f.project_name }}</td>
+                              <td>{{ f.end_date}}</td>
+                              <td> {{ f.amount }}</td>
+                              <td><a href="/uncomplete_project/{{ f.id }}" class="btn-warning"><i class="fa fa-close"></i></a></td>
+                              <td><a onclick="return confirm('Delete this record?')" href="/delete_followup/{{ f.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                    </div>
+                    <div class="box-footer clearfix no-border">
+                      <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href=""> Assign Project </a></button>
+                    </div>
                 </div>
               </section>
             

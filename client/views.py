@@ -125,7 +125,7 @@ def delete_Followup(request, id):
 def info_client(request):
     return render(request, 'client/info_client.html')
 
-
+@login_required(login_url='/')
 def proj_dashboard(request):
     project = Project.objects.filter(status='1' , completed='0').order_by('-created')
     project_completed = Project.objects.filter(status='1', completed='1').order_by('-modified')
