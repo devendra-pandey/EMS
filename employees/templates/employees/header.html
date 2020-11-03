@@ -100,47 +100,8 @@
                    <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="active treeview">
-              <a href="/employee_admin">
-                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-              </a>
-            </li>
-            <li>
-              <a href="/create">
-                <i class="fa fa-th"></i> <span>New Employee</span> <small class="label pull-right bg-green">new</small>
-              </a>
-            </li>
-            <li>
-              <a href="/create_client">
-                <i class="fa fa-th"></i> <span>New Client</span> <small class="label pull-right bg-green">new</small>
-              </a>
-            </li>
-            <li>
-              <a href="/add_enquiry">
-                <i class="fa fa-th"></i> <span>Add Enquiry</span>
-              </a>
-            </li>
-            <li>
-              <a href="/increase_Sal">
-                <i class="fa fa-th"></i> <span>Add Increment sallary</span> <small class="label pull-right bg-green">new</small>
-              </a>
-            </li>
-            <li>
-              <a href="/month_Sal">
-                <i class="fa fa-th"></i> <span>Add Monthly sallary</span>
-              </a>
-            </li>
-            <li>
-              <a href="/follow_up_create">
-                <i class="fa fa-th"></i> <span>Daily FollowUp</span>
-              </a>
-            </li>
-            <!-- <li>
-              <a href="/notification">
-                <i class="fa fa-th"></i> <span>Notification</span>
-              </a>
-            </li> -->
-            
+           {% block side_nav %}
+           {% endblock %}
             
           </ul>
         </section>

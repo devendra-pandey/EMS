@@ -1,15 +1,57 @@
 {% extends "employees/header.html" %}
 {% load static %}
-
 {%block title %} Admin|Dashboard {% endblock title %}
 {% block control %} control Panel {% endblock %}
 {% block page %} Dashboard {% endblock %}
-{% block content1 %}
-  
-      <!-- Left side column. contains the logo and sidebar -->
-      
 
-        <!-- Main content -->
+{% block side_nav %}
+
+<li class="active treeview">
+  <a href="/employee_admin">
+    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+  </a>
+</li>
+<li class="active treeview">
+  <a href="/proj_dashboard">
+    <i class="fa fa-dashboard"></i> <span>Project Dashboard</span>
+  </a>
+</li>
+<li>
+  <a href="/create">
+    <i class="fa fa-th"></i> <span>New Employee</span> <small class="label pull-right bg-green">new</small>
+  </a>
+</li>
+<li>
+  <a href="/create_client">
+    <i class="fa fa-th"></i> <span>New Client</span> <small class="label pull-right bg-green">new</small>
+  </a>
+</li>
+<li>
+  <a href="/add_enquiry">
+    <i class="fa fa-th"></i> <span>Add Enquiry</span>
+  </a>
+</li>
+<li>
+  <a href="/increase_Sal">
+    <i class="fa fa-th"></i> <span>Add Increment sallary</span> <small class="label pull-right bg-green">new</small>
+  </a>
+</li>
+<li>
+  <a href="/month_Sal">
+    <i class="fa fa-th"></i> <span>Add Monthly sallary</span>
+  </a>
+</li>
+<li>
+  <a href="/follow_up_create">
+    <i class="fa fa-th"></i> <span>Daily FollowUp</span>
+  </a>
+</li>
+
+{% endblock %}
+
+
+{% block content1 %}
+
         <section class="content">
           <!-- Small boxes (Stat box) -->
           <div class="row">
@@ -122,7 +164,7 @@
                       <div class="tools">
                         <a href="view_emp/{{ e.id }}"><i class="fa fa-eye"></i></a>
                         <a href="update_emp/{{ e.id }}" class="btn-warning"><i class="fa fa-edit"></i></a>
-                        <a href="delete_emp/{{ e.id }}"><i class="fa fa-trash-o"></i></a>
+                        <a onclick="return confirm('Delete this record?')" href="delete_emp/{{ e.id }}"><i class="fa fa-trash-o"></i></a>
                       </div>
                     </li>
                     {% endfor %}
@@ -171,7 +213,7 @@
                       <!-- General tools such as edit or delete-->
                       <div class="tools">
                         <a href="update_client/{{ c.id }}"><i class="fa fa-edit"></i></a>
-                        <a href="delete_client/{{ c.id }}"><i class="fa fa-trash-o"></i></a>
+                        <a onclick="return confirm('Delete this record?')" href="delete_client/{{ c.id }}"><i class="fa fa-trash-o"></i></a>
                       </div>
                       {% else %}
                       <span class="text">No clients Yet</span>
@@ -245,7 +287,7 @@
                             <td>{{ ms.paid_leaves }}</td>
                             <td>{{ ms.total_salary }}</td>
                             <td><a href="update_month_Sal/{{ ms.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="delete_monthly_sal/{{ ms.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            <td><a onclick="return confirm('Delete this record?')" href="delete_monthly_sal/{{ ms.id }}"><i class="fa fa-trash-o"></i></a></td>
                             
                          </tr>
                          {% endfor %}
@@ -298,7 +340,7 @@
                       <!-- General tools such as edit or delete-->
                       <div class="tools">
                         <a href="update_enquiry/{{  e.id }}"><i class="fa fa-edit"></i></a>
-                        <a href="delete_enquiry/{{e.id }}"><i class="fa fa-trash-o"></i></a>
+                        <a onclick="return confirm('Delete this record?')" href="delete_enquiry/{{e.id }}"><i class="fa fa-trash-o"></i></a>
                       </div>
                     </li>
                     {% endfor %}
@@ -352,7 +394,7 @@
                             <td>{{ i.description }}</td>
                             <td>{{ i.Increment_date }}</td>
                             <td><a href="update_inc_sal/{{ i.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="delete_emp/{{ i.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            <td><a onclick="return confirm('Delete this record?')" href="delete_emp/{{ i.id }}"><i class="fa fa-trash-o"></i></a></td>
                           
                          </tr>
                          {% endfor %}
@@ -404,7 +446,7 @@
                             <td>{{ f.Comment }}</td>
                             <td> {{ f.created }}</td>
                             <td><a href="update_followup/{{ f.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
-                            <td><a href="delete_followup/{{ f.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            <td><a onclick="return confirm('Delete this record?')" href="delete_followup/{{ f.id }}"><i class="fa fa-trash-o"></i></a></td>
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -421,4 +463,14 @@
 
           
     {% include 'employees/footer.html' %}
+    <script>
+      $('a.delete').on('click', function() {
+      var choice = confirm('Do you really want to delete this record?');
+      if(choice === true) {
+        return true;
+      }
+      return false;
+      });
+      
+    </script>
     {% endblock %}

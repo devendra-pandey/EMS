@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from client.models import Client
 from django.contrib.auth.decorators import login_required
-from .forms import ClientForm , EnquiryForm ,FollowupForm
-from .models import Enquiry ,Followup
+from .forms import ClientForm , EnquiryForm ,FollowupForm , ProjectForm , Project_incomeForm
+from .models import Enquiry ,Followup , Project, Project_income
 
 @login_required(login_url='/')
 def client_create(request):
@@ -124,3 +124,116 @@ def delete_Followup(request, id):
 @login_required(login_url='/')
 def info_client(request):
     return render(request, 'client/info_client.html')
+
+
+def proj_dashboard(request):
+    project = Project.objects.filter(status='1' , completed='0').order_by('-created')
+    project_completed = Project.objects.filter(status='1', completed='1').order_by('-modified')
+    proj_inc = Project_income.objects.all()
+
+    context = {
+               'project': project,
+               'project_completed':project_completed,
+               'proj_inc':proj_inc,
+            }
+    return render(request, 'client/project_dashboard.html', context)
+
+
+@login_required(login_url='/')
+def create_project(request):
+    form = ProjectForm()
+    if request.method == 'POST':
+        form = ProjectForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('proj_dashboard')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'proj_dashboard'}}">reload</a>""")
+    else:      
+        return render(request, 'client/create_project.html', {'upload_form':form})
+
+
+@login_required(login_url='/')
+def update_project(request, id):
+    proj_id = int(id)
+    try:
+        proj_get = Project.objects.get(id = proj_id)
+    except Project.DoesNotExist:
+        return redirect('proj_dashboard')
+    form = ProjectForm(request.POST or None, instance = proj_get)
+    if form.is_valid():
+       form.save()
+       return redirect('proj_dashboard')
+    return render(request, 'client/create_project.html', {'upload_form':form})
+
+
+@login_required(login_url='/')
+def delete_project(request, id):
+    proj_id = int(id)
+    try:
+        proj_data = Project.objects.get(id = proj_id)
+    except Project.DoesNotExist:
+        return redirect('proj_dashboard')
+    proj_data.status = '0'
+    proj_data.save()
+    return redirect('proj_dashboard')
+
+
+@login_required(login_url='/')
+def complete_project(request, id):
+    proj_id = int(id)
+    try:
+        proj_data = Project.objects.get(id = proj_id)
+    except Project.DoesNotExist:
+        return redirect('proj_dashboard')
+    proj_data.completed = 1
+    proj_data.save()
+    return redirect('proj_dashboard')
+
+@login_required(login_url='/')
+def uncomplete_project(request, id):
+    proj_id = int(id)
+    try:
+        proj_data = Project.objects.get(id = proj_id)
+    except Project.DoesNotExist:
+        return redirect('proj_dashboard')
+    proj_data.completed = 0
+    proj_data.save()
+    return redirect('proj_dashboard')
+
+
+@login_required(login_url='/')
+def project_income(request):
+    form = Project_incomeForm()
+    if request.method == 'POST':
+        form = Project_incomeForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save()
+            id = obj.project_name.id
+            print(id)
+            proj_amount = obj.amount
+            ab = Project.objects.filter(id=id)
+            for amt in ab:
+                total_amt = amt.amount
+                print(total_amt)
+            to_update = Project.objects.filter(id=id).update(amount=total_amt + proj_amount)
+            return redirect('proj_dashboard')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'proj_dashboard'}}">reload</a>""")
+    else:      
+        return render(request, 'client/project_income.html', {'upload_form':form})
+
+
+
+@login_required(login_url='/')
+def update_project(request, id):
+    proj_income_id = int(id)
+    try:
+        proj_income_get = Project_income.objects.get(id = proj_income_id)
+    except Project_income.DoesNotExist:
+        return redirect('proj_dashboard')
+    form = Project_incomeForm(request.POST or None, instance = proj_get)
+    if form.is_valid():
+       form.save()
+       return redirect('proj_dashboard')
+    return render(request, 'client/create_project.html', {'upload_form':form})

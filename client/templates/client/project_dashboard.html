@@ -1,0 +1,257 @@
+{% extends "employees/header.html" %}
+{% load static %}
+
+{%block title %} Admin|Dashboard {% endblock title %}
+{% block control %} control Panel {% endblock %}
+{% block page %} Dashboard {% endblock %}
+
+{% block side_nav %}
+<li class="active treeview">
+  <a href="/employee_admin">
+    <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+  </a>
+</li>
+<li class="active treeview">
+  <a href="/proj_dashboard">
+    <i class="fa fa-dashboard"></i> <span>Project Dashboard</span>
+  </a>
+</li>
+<li>
+  <a href="/create_project">
+    <i class="fa fa-th"></i> <span>Add Project</span> <small class="label pull-right bg-green">new</small>
+  </a>
+</li>
+<li>
+  <a href="/add_project_income">
+    <i class="fa fa-th"></i> <span>Add Project Income</span> <small class="label pull-right bg-green">new</small>
+  </a>
+</li>
+{% endblock %}
+
+{% block content1 %}
+        <!-- Main content -->
+        <section class="content">
+          
+            <div class="row">
+            <section class="col-lg-7 connectedSortable">
+              <div class="box box-primary">
+                <div class="box-header">
+                  <i class="ion ion-clipboard"></i>
+                  <h3 class="box-title">Project Details </h3>
+                  <div class="box-tools pull-right">
+                      {% if mon_sal_obj.has_other_pages %}
+                      <ul class="pagination pagination-sm inline">
+                          {% if mon_sal_obj.has_previous %}
+                            <li><a href="?page={{ mon_sal_obj.previous_page_number }}">&laquo;</a></li>
+                          {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                          {% endif %}
+                          {% for i in mon_sal_obj.paginator.page_range %}
+                            {% if mon_sal_obj.number == i %}
+                              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                              <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                          {% endfor %}
+                          {% if mon_sal_obj.has_next %}
+                            <li><a href="?page={{ mon_sal_obj.next_page_number }}">&raquo;</a></li>
+                          {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                          {% endif %}
+                        </ul>
+                      {% endif %}
+                  </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <ul class="todo-list">
+                    
+                    <li>
+                      <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Client Name</th>
+                            <th>Project Name</th>
+                            <th>Project Type</th>
+                            <th>Project Files</th>
+                            <th>Amount Recived</th>
+                            <th>End Date </th>
+                            <th>Edit</th>
+                            <th>Completed</th>
+                            <th>Delete</th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                          {% for proj in project %}
+                          <tr>
+                            <td>
+                              <span class="handle">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                              </span>
+                            </td>
+                            <td>{{ proj.client_name }}</td>
+                            <td>{{ proj.project_name }}</td>
+                            <td>{{ proj.project_type }}</td>
+                            <td>{{ proj.project_files }}</td>
+                            <td>{{ proj.amount }}</td>
+                            <td>{{ proj.end_date }}</td>
+                            <td><a href="/update_project/{{ proj.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                            <td><a href="/complete_project/{{ proj.id }}"><i class="fa fa-check"></i></a></td>
+                            <td><a onclick="return confirm('Delete this record?')" href="/delete_project/{{ proj.id }}" ><i class="fa fa-trash-o"></i></a></td>
+                            
+                         </tr>
+                         {% endfor %}
+                        </tbody>
+                    </table>
+                     </li>
+                  </ul>
+                </div><!-- /.box-body -->
+                <div class="box-footer clearfix no-border">
+                  <button  class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a href="/create_project">Add Project Details</a></button>
+                </div>
+                <div class="box box-primary">
+                    <div class="box-header">
+                      <i class="ion ion-clipboard"></i>
+                      <h3 class="box-title">Project Income </h3>
+                      <div class="box-tools pull-right">
+                          {% if mon_sal_obj.has_other_pages %}
+                          <ul class="pagination pagination-sm inline">
+                              {% if mon_sal_obj.has_previous %}
+                                <li><a href="?page={{ mon_sal_obj.previous_page_number }}">&laquo;</a></li>
+                              {% else %}
+                                <li class="disabled"><span>&laquo;</span></li>
+                              {% endif %}
+                              {% for i in mon_sal_obj.paginator.page_range %}
+                                {% if mon_sal_obj.number == i %}
+                                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                                {% else %}
+                                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                              {% endfor %}
+                              {% if mon_sal_obj.has_next %}
+                                <li><a href="?page={{ mon_sal_obj.next_page_number }}">&raquo;</a></li>
+                              {% else %}
+                                <li class="disabled"><span>&raquo;</span></li>
+                              {% endif %}
+                            </ul>
+                          {% endif %}
+                      </div>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                      <ul class="todo-list">
+                        
+                        <li>
+                          <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Project Name</th>
+                                <th>Comment</th>
+                                <th>Amounts</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                
+                            </tr>
+                            </thead>
+                            <tbody>
+                              {% for income in proj_inc %}
+                              <tr>
+                                <td>
+                                  <span class="handle">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                  </span>
+                                </td>
+                                <td>{{ income.project_name }}</td>
+                                <td>{{ income.comment }}</td>
+                                <td>{{ income.amount }}</td>
+                                <td><a href="/update_project/{{ income.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                                <td><a href="/delete_project/{{ income.id }}"><i class="fa fa-trash-o"></i></a></td>
+                                
+                             </tr>
+                             {% endfor %}
+                            </tbody>
+                        </table>
+                         </li>
+                      </ul>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer clearfix no-border">
+                      <button  class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a href="/add_project_income">Add Project Income</a></button>
+                    </div>
+              </div>
+            </section>
+            <section class="col-lg-5 connectedSortable">
+                <div class="box box-primary">
+                  <div class="box-header">
+                    <i class="ion ion-clipboard"></i>
+                    <h3 class="box-title">Completed Project</h3>
+                    <div class="box-tools pull-right">
+                      <ul class="pagination pagination-sm inline">
+                        {% if feedback_obj.has_previous %}
+                        <li><a href="?page={{ feedback_obj.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li><a href="#">Page {{ feedback_obj.number }} of {{ feedback_obj.paginator.num_pages }}.</a></li>
+                        {% if feedback_obj.has_next %}
+                        <li><a href="?page={{ feedback_obj.next_page_number }}">next</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                     
+                        <table class="table table-striped">
+                          <thead>
+                          <tr>
+                              <th>#</th>
+                              <th>Client Name</th>
+                              <th>Project Name</th>
+                              <th>End Date</th>
+                              <th>Total Amount Recieved</th>
+                              
+                          </tr>
+                          </thead>
+                          <tbody>
+                            {% for f in project_completed %}
+                            <tr>
+                              <td>
+                                <span class="handle">
+                                  <i class="fa fa-ellipsis-v"></i>
+                                  <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                              </td>
+                              <td>{{ f.client_name }}</td>
+                              <td>{{ f.project_name }}</td>
+                              <td>{{ f.end_date}}</td>
+                              <td> {{ f.amount }}</td>
+                              <td><a href="/uncomplete_project/{{ f.id }}" class="btn-warning"><i class="fa fa-close"></i></a></td>
+                              <td><a onclick="return confirm('Delete this record?')" href="/delete_followup/{{ f.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                    </div><!-- /.box-body -->
+                </div>
+              </section>
+            
+          </div>
+        </div>
+
+
+          
+    {% include 'employees/footer.html' %}
+    <script>
+      $('a.delete').on('click', function() {
+      var choice = confirm('Do you really want to delete this record?');
+      if(choice === true) {
+        return true;
+      }
+      return false;
+      });
+      
+    </script>
+
+
+    
+    {% endblock %}

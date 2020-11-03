@@ -16,4 +16,12 @@ urlpatterns = [
     path('update_followup/<int:id>', views.update_followup, name='update_followup'),
     path('delete_followup/<int:id>', views.delete_Followup, name='delete_followup'),
     path('client/<int:id>', views.info_client, name='info_client'),
+    path('proj_dashboard/', views.proj_dashboard, name='proj_dashboard'),
+    path('create_project/', views.create_project, name='create_project'),
+    path('update_project/<int:id>', views.update_project, name='update_project'),
+    path('delete_project/<int:id>', views.delete_project, name='delete_project'),
+    path('complete_project/<int:id>', views.complete_project, name='complete_project'),
+    path('uncomplete_project/<int:id>', views.uncomplete_project, name='uncomplete_project'),
+    path('add_project_income/', views.project_income, name='project_income'),
+
 ]
