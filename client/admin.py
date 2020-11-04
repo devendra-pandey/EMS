@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Project,Client,Contacts,Enquiry,Followup
+from .models import Project,Client,Enquiry,Followup
 
 
 @admin.register(Client)
@@ -19,6 +19,5 @@ class EnquiryAdmin(admin.ModelAdmin):
     ordering = ('created',)
 
 
-admin.site.register(Contacts)
 admin.site.register(Project)
 admin.site.register(Followup)

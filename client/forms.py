@@ -2,11 +2,23 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import RadioSelect
-from .models import Client, Project ,Enquiry , Followup , Project_income
+from .models import Client, Project ,Enquiry , Followup , Project_income , Project_Assign
 
 
 class DateInput(forms.DateInput):
     input_type = 'date'
+
+
+class Project_AssignForm(forms.ModelForm):
+    class Meta:
+        model = Project_Assign
+        fields = '__all__'
+        exclude = ['status', 'completed']
+        widgets = {
+            'start_date' : DateInput,
+            'end_date' : DateInput,
+            'actual_end_date' : DateInput,
+        }
 
 class Project_incomeForm(forms.ModelForm):
     class Meta:
@@ -14,7 +26,7 @@ class Project_incomeForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['status']
         widgets = {
-            'recieved_date':DateInput,
+            'received_date':DateInput,
         }
 
 
@@ -22,7 +34,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
-        exclude = ['status','completed']
+        exclude = ['status','completed','received_amount']
         widgets = {
                'end_date': DateInput,               
            }

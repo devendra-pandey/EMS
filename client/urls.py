@@ -23,5 +23,13 @@ urlpatterns = [
     path('complete_project/<int:id>', views.complete_project, name='complete_project'),
     path('uncomplete_project/<int:id>', views.uncomplete_project, name='uncomplete_project'),
     path('add_project_income/', views.project_income, name='project_income'),
+    path('update_project_income/<int:id>', views.update_project_income, name='update_project_income'),
+    path('delete_project_income/<int:id>', views.delete_project_income, name='delete_project_income'),
+    path('assign_project/', views.assign_project, name='assign_project'),
+    path('update_assign_project/<int:id>', views.update_assign_project, name='update_assign_project'),
+    path('delete_project_assign/<int:id>', views.delete_project_assign, name='delete_project_assign'),
+    path('complete_assign_project/<int:id>', views.complete_assign_project, name='complete_project'),
+    path('uncomplete_assign_project/<int:id>', views.uncomplete_assign_project, name='uncomplete_assign_project'),
+    path('invoice/<int:id>', views.invoice, name='invoice'),
 
 ]

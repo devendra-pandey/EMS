@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from client.models import Client
 from django.contrib.auth.decorators import login_required
-from .forms import ClientForm , EnquiryForm ,FollowupForm , ProjectForm , Project_incomeForm
-from .models import Enquiry ,Followup , Project, Project_income
+from .forms import ClientForm , EnquiryForm ,FollowupForm , ProjectForm , Project_incomeForm , Project_AssignForm
+from .models import Enquiry ,Followup , Project, Project_income , Project_Assign
+from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 
 @login_required(login_url='/')
 def client_create(request):
@@ -129,12 +130,43 @@ def info_client(request):
 def proj_dashboard(request):
     project = Project.objects.filter(status='1' , completed='0').order_by('-created')
     project_completed = Project.objects.filter(status='1', completed='1').order_by('-modified')
-    proj_inc = Project_income.objects.all()
+    proj_assign = Project_Assign.objects.filter(status='1', completed='0').order_by('-created')
+    proj_assign_completed = Project_Assign.objects.filter(status='1', completed='1').order_by('-created')
+    proj_inc = Project_income.objects.filter(status='1').order_by('-created')
+
+##pagination of project
+    paginator = Paginator(project, 2)
+    page_number = request.GET.get('page')
+    proj_page = paginator.get_page(page_number)
+
+##Paginator of Project Income
+    paginator = Paginator(proj_inc, 2)
+    page_number = request.GET.get('page')
+    proj_inc_page = paginator.get_page(page_number)
+
+##Complete Project
+    paginator = Paginator(project_completed, 2)
+    page_number = request.GET.get('page')
+    proj_compplete_page = paginator.get_page(page_number)
+
+## Pagination completed Assigned Project
+    paginator = Paginator(proj_assign_completed, 2)
+    page_number = request.GET.get('page')
+    proj_assign_completed_page = paginator.get_page(page_number)
+
+##PAgination for Assign Project
+    paginator = Paginator(proj_assign, 2)
+    page_number = request.GET.get('page')
+    proj_assign_page = paginator.get_page(page_number)
+
+
 
     context = {
-               'project': project,
-               'project_completed':project_completed,
-               'proj_inc':proj_inc,
+               'proj_page':proj_page,
+               'proj_compplete_page':proj_compplete_page,
+               'proj_inc_page':proj_inc_page,
+               'proj_assign_page':proj_assign_page,
+               'proj_assign_completed_page':proj_assign_completed_page,
             }
     return render(request, 'client/project_dashboard.html', context)
 
@@ -214,9 +246,9 @@ def project_income(request):
             proj_amount = obj.amount
             ab = Project.objects.filter(id=id)
             for amt in ab:
-                total_amt = amt.amount
+                total_amt = amt.received_amount
                 print(total_amt)
-            to_update = Project.objects.filter(id=id).update(amount=total_amt + proj_amount)
+            to_update = Project.objects.filter(id=id).update(received_amount=total_amt + proj_amount )
             return redirect('proj_dashboard')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'proj_dashboard'}}">reload</a>""")
@@ -224,16 +256,99 @@ def project_income(request):
         return render(request, 'client/project_income.html', {'upload_form':form})
 
 
-
 @login_required(login_url='/')
-def update_project(request, id):
+def update_project_income(request, id):
     proj_income_id = int(id)
     try:
         proj_income_get = Project_income.objects.get(id = proj_income_id)
     except Project_income.DoesNotExist:
         return redirect('proj_dashboard')
-    form = Project_incomeForm(request.POST or None, instance = proj_get)
+    form = Project_incomeForm(request.POST or None, instance = proj_income_get)
     if form.is_valid():
        form.save()
        return redirect('proj_dashboard')
-    return render(request, 'client/create_project.html', {'upload_form':form})
+    return render(request, 'client/project_income.html', {'upload_form':form})
+
+@login_required(login_url='/')
+def delete_project_income(request, id):
+    proj_income_id = int(id)
+    try:
+        proj_income_data = Project_income.objects.get(id = proj_income_id)
+    except Project_income.DoesNotExist:
+        return redirect('proj_dashboard')
+    proj_income_data.status = '0'
+    proj_income_data.save()
+    return redirect('proj_dashboard')
+
+@login_required(login_url='/')
+def assign_project(request):
+    form = Project_AssignForm()
+    if request.method == 'POST':
+        form = Project_AssignForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save()
+            # id = obj.project_name.id
+            # print(id)
+            # proj_amount = obj.amount
+            # ab = Project.objects.filter(id=id)
+            # for amt in ab:
+            #     total_amt = amt.amount
+            #     print(total_amt)
+            # to_update = Project.objects.filter(id=id).update(amount=total_amt + proj_amount)
+            return redirect('proj_dashboard')
+        else:
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'proj_dashboard'}}">reload</a>""")
+    else:      
+        return render(request, 'client/assign_project.html', {'upload_form':form})
+
+
+@login_required(login_url='/')
+def update_assign_project(request, id):
+    proj_income_id = int(id)
+    try:
+        proj_income_get = Project_Assign.objects.get(id = proj_income_id)
+    except Project_Assign.DoesNotExist:
+        return redirect('proj_dashboard')
+    form = Project_AssignForm(request.POST or None, instance = proj_income_get)
+    if form.is_valid():
+       form.save()
+       return redirect('proj_dashboard')
+    return render(request, 'client/assign_project.html', {'upload_form':form})
+
+
+@login_required(login_url='/')
+def delete_project_assign(request, id):
+    proj_assign_id = int(id)
+    try:
+        proj_assign_data = Project_Assign.objects.get(id = proj_assign_id)
+    except Project_Assign.DoesNotExist:
+        return redirect('proj_dashboard')
+    proj_assign_data.status = '0'
+    proj_assign_data.save()
+    return redirect('proj_dashboard')
+
+@login_required(login_url='/')
+def complete_assign_project(request, id):
+    proj_assign_id = int(id)
+    try:
+        proj_assign_data = Project_Assign.objects.get(id = proj_assign_id)
+    except Project_Assign.DoesNotExist:
+        return redirect('proj_dashboard')
+    proj_assign_data.completed = 1
+    proj_assign_data.save()
+    return redirect('proj_dashboard')
+
+@login_required(login_url='/')
+def uncomplete_assign_project(request, id):
+    proj_assign_id = int(id)
+    try:
+        proj_assign_data = Project_Assign.objects.get(id = proj_assign_id)
+    except Project_Assign.DoesNotExist:
+        return redirect('proj_dashboard')
+    proj_assign_data.completed = 0
+    proj_assign_data.save()
+    return redirect('proj_dashboard')
+
+
+def invoice(request, id):
+    return render(request, 'client/invoice.html')

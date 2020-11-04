@@ -30,19 +30,15 @@ class Client(models.Model):
     class Meta:
       get_latest_by = 'created'
     
-class Contacts(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    contact_type = models.CharField(max_length=10, default="number")
-    contact = models.CharField(max_length=15, null=False)
-    
-
 class Project(models.Model):
     client_name = models.ForeignKey(Client, on_delete=models.CASCADE)
     project_name = models.CharField(max_length=100 , unique=True)
     project_type = models.CharField(max_length=50, choices=TYPE_PROJECT)
     project_files = models.FileField(upload_to='static/Uploads/projects/', null=True)
-    amount = models.IntegerField(default=0)
-    end_date = models.DateField()
+    advance_amount = models.IntegerField(default=0, blank=True, null=True)
+    received_amount = models.IntegerField(default=0, blank=True, null=True)
+    total_amount = models.IntegerField(default=0, blank=True , null=True)
+    end_date = models.DateField(null=True, blank=True)
     completed = models.BooleanField(default='0')
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
@@ -50,6 +46,15 @@ class Project(models.Model):
 
     def __str__(self):
         return self.project_name
+
+    def calculate_amt(self):
+        total_amt = self.advance_amount
+        self.received_amount = total_amt 
+        return self.received_amount 
+
+    def save(self,*args,**kwargs):
+        self.received_amount = str(self.calculate_amt())
+        super().save(*args, **kwargs)
 
 class Project_income(models.Model):
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -59,7 +64,6 @@ class Project_income(models.Model):
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-
 
 
 class Enquiry(models.Model):
@@ -86,7 +90,7 @@ class Project_Assign(models.Model):
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
     employe_name = models.ForeignKey(Employee, on_delete=models.CASCADE)
     start_date = models.DateField()
-    end_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
     actual_end_date = models.DateField()
     completed = models.BooleanField(default='0')
     status = models.BooleanField(default="1")
@@ -95,3 +99,16 @@ class Project_Assign(models.Model):
 
     def __int__(self):
         return self.pk
+
+class Invoice(models.Model):
+    client_name = models.ForeignKey(Client, on_delete=models.CASCADE)
+    project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
+    payment_method = models.CharField(max_length=50, blank=True, null=True) 
+    status = models.BooleanField(default="1")
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+
+class Tax(models.Model):
+    Tax_name = models.CharField(max_length=10)
+    Tax_value = models.IntegerField()
