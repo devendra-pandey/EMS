@@ -117,6 +117,7 @@
                 <div class="box-footer clearfix no-border">
                   <button  class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a href="/create_project">Add Project Details</a></button>
                 </div>
+              </div>
                 <div class="box box-primary">
                     <div class="box-header">
                       <i class="ion ion-clipboard"></i>
@@ -158,7 +159,7 @@
                                 <th>Amounts</th>
                                 <th>Received Date</th>
                                 <th>Edit</th>
-                                <th>Create Invoice</th>
+                                <th>Show Invoice</th>
                                 <th>Delete</th>
                                 
                             </tr>
@@ -190,6 +191,84 @@
                     <div class="box-footer clearfix no-border">
                       <button  class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a href="/add_project_income">Add Project Income</a></button>
                     </div>
+              </div>
+              <div class="box box-primary">
+                <div class="box-header">
+                  <i class="ion ion-clipboard"></i>
+                  <h3 class="box-title">Company Profile </h3>
+                  <div class="box-tools pull-right">
+                      {% if page_company.has_other_pages %}
+                      <ul class="pagination pagination-sm inline">
+                          {% if page_company.has_previous %}
+                            <li><a href="?page={{ page_company.previous_page_number }}">&laquo;</a></li>
+                          {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                          {% endif %}
+                          {% for i in page_company.paginator.page_range %}
+                            {% if page_company.number == i %}
+                              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                              <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                          {% endfor %}
+                          {% if page_company.has_next %}
+                            <li><a href="?page={{ page_company.next_page_number }}">&raquo;</a></li>
+                          {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                          {% endif %}
+                        </ul>
+                      {% endif %}
+                  </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <ul class="todo-list">
+                    
+                    <li>
+                      <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Company Name</th>
+                            <th>Contact</th>
+                            <th>Address</th>
+                            <th>Postal Code</th>
+                            <th>District</th>
+                            <th>State </th>
+                            <th>Country</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                          {% for proj in page_company %}
+                          <tr>
+                            <td>
+                              <span class="handle">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                              </span>
+                            </td>
+                            <td>{{ proj.company_name }}</td>
+                            <td>{{ proj.contact_number }}</td>
+                            <td>{{ proj.Address }}</td>
+                            <td>{{ proj.postal_code }}</td>
+                            <td>{{ proj.district }}</td>
+                            <td>{{ proj.state }}</td>
+                            <td>{{ proj.country }}</td>
+                            <td><a href="/update_company/{{ proj.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                            <td><a onclick="return confirm('Delete this record?')" href="/delete_company/{{ proj.id }}" ><i class="fa fa-trash-o"></i></a></td>
+                            
+                         </tr>
+                         {% endfor %}
+                        </tbody>
+                    </table>
+                     </li>
+                  </ul>
+                </div><!-- /.box-body -->
+                <div class="box-footer clearfix no-border">
+                  <button  class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a href="/create_company">Add Company Details</a></button>
+                </div>
               </div>
             </section>
             <section class="col-lg-5 connectedSortable">
@@ -354,6 +433,119 @@
                       <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/assign_project/"> Assign Project </a></button>
                     </div>
                 </div>
+
+                <div class="box box-primary">
+                  <div class="box-header">
+                    <i class="ion ion-clipboard"></i>
+                    <h3 class="box-title">Extra Expenses</h3>
+                    <div class="box-tools pull-right">
+                      <ul class="pagination pagination-sm inline">
+                        {% if page_expenses.has_previous %}
+                        <li><a href="?page={{ page_expenses.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li><a href="#">Page {{ page_expenses.number }} of {{ page_expenses.paginator.num_pages }}.</a></li>
+                        {% if page_expenses.has_next %}
+                        <li><a href="?page={{ page_expenses.next_page_number }}">next</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                     
+                        <table class="table table-striped">
+                          <thead>
+                          <tr>
+                              <th>#</th>
+                              <th>Employee Name</th>
+                              <th>Client Name</th>
+                              <th>Other</th>
+                              <th>Expense Amount</th>
+                              <th>Date </th>
+                              <th>Edit</th>
+                              <th>Delete</th>
+                              
+                          </tr>
+                          </thead>
+                          <tbody>
+                            {% for exp in page_expenses %}
+                            <tr>
+                              <td>
+                                <span class="handle">
+                                  <i class="fa fa-ellipsis-v"></i>
+                                  <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                              </td>
+                              <td>{{ exp.Employee_name }}</td>
+                              <td>{{ exp.client_name }}</td>
+                              <td>{{ exp.other}}</td>
+                              <td>{{ exp.expense_amount }}</td>
+                              <td> {{ exp.date }}</td>
+                             
+                              <td><a href="/update_expenses/{{ exp.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                              <td><a onclick="return confirm('Delete this record?')" href="/delete_expenses/{{ exp.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                    </div>
+                    <div class="box-footer clearfix no-border">
+                      <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/create_expenses/"> Add Extra Expenses</a></button>
+                    </div>
+                </div>
+                <div class="box box-primary">
+                  <div class="box-header">
+                    <i class="ion ion-clipboard"></i>
+                    <h3 class="box-title">Tax</h3>
+                    <div class="box-tools pull-right">
+                      <ul class="pagination pagination-sm inline">
+                        {% if page_tax.has_previous %}
+                        <li><a href="?page={{ page_tax.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li><a href="#">Page {{ page_tax.number }} of {{ page_tax.paginator.num_pages }}.</a></li>
+                        {% if page_tax.has_next %}
+                        <li><a href="?page={{ page_tax.next_page_number }}">next</a></li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="box-body">
+                     
+                        <table class="table table-striped">
+                          <thead>
+                          <tr>
+                              <th>#</th>
+                              <th>Tax Name</th>
+                              <th>Tax Rate</th>
+                              <th>Edit</th>
+                              <th>Delete</th>
+                              
+                          </tr>
+                          </thead>
+                          <tbody>
+                            {% for t in page_tax %}
+                            <tr>
+                              <td>
+                                <span class="handle">
+                                  <i class="fa fa-ellipsis-v"></i>
+                                  <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                              </td>
+                              <td>{{ t.tax_name }}</td>
+                              <td>{{ t.tax_value }}</td>
+                              <td><a href="/update_tax/{{ t.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                              <td><a onclick="return confirm('Delete this record?')" href="/delete_tax/{{ t.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                    </div>
+                    <div class="box-footer clearfix no-border">
+                      <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/create_tax/"> Add Tax</a></button>
+                    </div>
+                </div>
+
+
+
               </section>
             
           </div>

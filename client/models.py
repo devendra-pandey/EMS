@@ -12,6 +12,12 @@ TYPE_PROJECT = (
         ('Desktop_App','Desktop_App')
     )
 
+TYPE_PAYMENT = (
+        ('Cash', 'Cash'),
+        ('Bank Transfer', 'Bank Transfer'),
+        
+    )
+
 class Client(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -34,10 +40,10 @@ class Project(models.Model):
     client_name = models.ForeignKey(Client, on_delete=models.CASCADE)
     project_name = models.CharField(max_length=100 , unique=True)
     project_type = models.CharField(max_length=50, choices=TYPE_PROJECT)
-    project_files = models.FileField(upload_to='static/Uploads/projects/', null=True)
-    advance_amount = models.IntegerField(default=0, blank=True, null=True)
-    received_amount = models.IntegerField(default=0, blank=True, null=True)
-    total_amount = models.IntegerField(default=0, blank=True , null=True)
+    project_files = models.FileField(upload_to='static/Uploads/projects/', null=True , blank=True)
+    advance_amount = models.IntegerField(default=0)
+    received_amount = models.IntegerField(default=0)
+    total_amount = models.IntegerField(default=0)
     end_date = models.DateField(null=True, blank=True)
     completed = models.BooleanField(default='0')
     status = models.BooleanField(default="1")
@@ -100,15 +106,47 @@ class Project_Assign(models.Model):
     def __int__(self):
         return self.pk
 
-class Invoice(models.Model):
-    client_name = models.ForeignKey(Client, on_delete=models.CASCADE)
-    project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
-    payment_method = models.CharField(max_length=50, blank=True, null=True) 
+class Tax(models.Model):
+    tax_name = models.CharField(max_length=10)
+    tax_value = models.IntegerField()
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
 
-class Tax(models.Model):
-    Tax_name = models.CharField(max_length=10)
-    Tax_value = models.IntegerField()
+class Extra_Expenses(models.Model):
+    Employee_name = models.ForeignKey(Employee, on_delete=models.CASCADE, null=True, blank=True)
+    client_name = models.ForeignKey(Client , on_delete=models.CASCADE, null=True , blank=True )
+    other = models.CharField(max_length=100, null=True, blank=True)
+    expense_amount = models.IntegerField(default=0)
+    date = models.DateField()
+    status = models.BooleanField(default="1")
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+class Company_Profile(models.Model):
+    company_name = models.CharField(max_length=100, null=True, blank=True)
+    contact_number = models.CharField(max_length=100, null=True, blank=True)
+    Address  = models.CharField(max_length=100, null=True, blank=True)
+    postal_code = models.CharField(max_length=10, null=True, blank=True)
+    district = models.CharField(max_length=100, null=True, blank=True)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    status = models.BooleanField(default="1")
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.company_name
+
+
+class Invoice(models.Model):
+    client_name = models.ForeignKey(Client, on_delete=models.CASCADE , blank=True , null=True)
+    project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
+    by_company_name = models.ForeignKey(Company_Profile, on_delete=models.CASCADE, blank=True , null=True)
+    payment_method = models.CharField(max_length=50,default='Cash', choices=TYPE_PAYMENT)
+    amount_received = models.IntegerField(default='0') 
+    date = models.DateField()
+    status = models.BooleanField(default="1")
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)

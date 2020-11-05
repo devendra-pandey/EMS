@@ -2,12 +2,39 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import RadioSelect
-from .models import Client, Project ,Enquiry , Followup , Project_income , Project_Assign
+from .models import Client, Project ,Enquiry , Followup , Project_income , Project_Assign , Company_Profile, Tax, Extra_Expenses , Invoice
 
 
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+class InvoiceForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        fields = '__all__'
+        exclude = ['status']
+
+
+class Company_ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Company_Profile
+        fields = '__all__'
+        exclude = ['status']
+
+class Extra_ExpensesForm(forms.ModelForm):
+    class Meta:
+        model = Extra_Expenses
+        fields = '__all__'
+        exclude = ['status']
+        widgets = {
+            'date' : DateInput
+        }
+
+class TaxForm(forms.ModelForm):
+    class Meta:
+        model = Tax
+        fields = '__all__'
+        exclude = ['status']
 
 class Project_AssignForm(forms.ModelForm):
     class Meta:
