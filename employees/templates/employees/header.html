@@ -2,129 +2,131 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>{%block title %}{% endblock title %}</title>
-    <link rel = "icon" href ="{% static 'img/d21.png' %}" type = "image/x-icon"> 
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.4 -->
-    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- FontAwesome 4.3.0 -->
-    <link href = "{% static 'css/invoice.css' %}" rel="stylesheet" type="text/css" />
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Ionicons 2.0.0 -->
-    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
-    <!-- Theme style -->
-    <link href="{% static 'css/AdminLTE.min.css' %}" rel="stylesheet" type="text/css" />
-    
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
+
+<head>
+  <meta charset="UTF-8">
+  <title>{%block title %}{% endblock title %}</title>
+  <link rel="icon" href="{% static 'img/d21.png' %}" type="image/x-icon">
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.4 -->
+  <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css" />
+  <!-- FontAwesome 4.3.0 -->
+  <link href="{% static 'css/invoice.css' %}" rel="stylesheet" type="text/css" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet"
+    type="text/css" />
+  <!-- Ionicons 2.0.0 -->
+  <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+  <!-- Theme style -->
+  <link href="{% static 'css/AdminLTE.min.css' %}" rel="stylesheet" type="text/css" />
+
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
-    <link href="{% static 'css/skins/_all-skins.min.css' %}" rel="stylesheet" type="text/css" />
-    <!-- iCheck -->
-    <link href="{% static 'plugins/iCheck/flat/blue.css' %}" rel="stylesheet" type="text/css" />
-    <!-- Morris chart -->
-    <link href="{% static 'plugins/morris/morris.css' %}" rel="stylesheet" type="text/css" />
-    <!-- jvectormap -->
-    <link href="{% static 'plugins/jvectormap/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet" type="text/css" />
-    <!-- Date Picker -->
-    <link href="{% static 'plugins/datepicker/datepicker3.css' %}" rel="stylesheet" type="text/css" />
-    <!-- Daterange picker -->
-    <link href="{% static 'plugins/daterangepicker/daterangepicker-bs3.css' %}" rel="stylesheet" type="text/css" />
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link href="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}" rel="stylesheet" type="text/css" />
+  <link href="{% static 'css/skins/_all-skins.min.css' %}" rel="stylesheet" type="text/css" />
+  <!-- iCheck -->
+  <link href="{% static 'plugins/iCheck/flat/blue.css' %}" rel="stylesheet" type="text/css" />
+  <!-- Morris chart -->
+  <link href="{% static 'plugins/morris/morris.css' %}" rel="stylesheet" type="text/css" />
+  <!-- jvectormap -->
+  <link href="{% static 'plugins/jvectormap/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet" type="text/css" />
+  <!-- Date Picker -->
+  <link href="{% static 'plugins/datepicker/datepicker3.css' %}" rel="stylesheet" type="text/css" />
+  <!-- Daterange picker -->
+  <link href="{% static 'plugins/daterangepicker/daterangepicker-bs3.css' %}" rel="stylesheet" type="text/css" />
+  <!-- bootstrap wysihtml5 - text editor -->
+  <link href="{% static 'plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css' %}" rel="stylesheet"
+    type="text/css" />
 
-    
-  </head>
-  <body class="skin-blue sidebar-mini">
-    <div class="wrapper">
 
-      <header class="main-header">
-        <!-- Logo -->
-        <a href="\employee_admin" class="logo">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>D</b>2</span>
-          <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg"><b>D2</b>WEBTECH</span>
+</head>
+
+<body class="skin-blue sidebar-mini">
+  <div class="wrapper">
+
+    <header class="main-header">
+      <!-- Logo -->
+      <a href="\employee_admin" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>D</b>2</span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>D2</b>WEBTECH</span>
+      </a>
+      <!-- Header Navbar: style can be found in header.less -->
+      <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <span class="sr-only">Toggle navigation</span>
         </a>
-        <!-- Header Navbar: style can be found in header.less -->
-        <nav class="navbar navbar-static-top" role="navigation">
-          <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-          </a>
-          <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-              <!-- Messages: style can be found in dropdown.less-->
-              <li class="dropdown messages-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="fa fa-envelope-o"></i>
-                  <span class="label label-success">1</span>
-                </a>
-                <ul class="dropdown-menu">
-                  <li class="header">You have 1 messages</li>
-                  
-                  <li class="footer"><a href="#">See All Messages</a></li>
-                </ul>
-              </li>
-              <!-- Notifications: style can be found in dropdown.less -->
-              
-              <!-- User Account: style can be found in dropdown.less -->
-              <li class="dropdown user user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  <img src="" class="user-image" alt="User Image" />
-                  <span class="hidden-xs">{{ request.user }}</span>
-                </a>
-                
-              </li>
-              <!-- Control Sidebar Toggle Button -->
-              <li>
-                <a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i></a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <!-- Messages: style can be found in dropdown.less-->
+            <li class="dropdown messages-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-envelope-o"></i>
+                <span class="label label-success">1</span>
+              </a>
+              <ul class="dropdown-menu">
+                <li class="header">You have 1 messages</li>
 
-      <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-          <!-- Sidebar user panel -->
-          <div class="user-panel">
-            <div class="pull-left image">
-              <img src="" class="img-circle" alt="User Image" />
-            </div>
-            <div class="pull-left info">
-              <p>{{ request.user }}</p>
-              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-            </div>
-          </div>
-                   <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
-           {% block side_nav %}
-           {% endblock %}
-            
+                <li class="footer"><a href="#">See All Messages</a></li>
+              </ul>
+            </li>
+            <!-- Notifications: style can be found in dropdown.less -->
+
+            <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="" class="user-image" alt="User Image" />
+                <span class="hidden-xs">{{ request.user }}</span>
+              </a>
+
+            </li>
+            <!-- Control Sidebar Toggle Button -->
+            <li>
+              <a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i></a>
+            </li>
           </ul>
-        </section>
-        <!-- /.sidebar -->
-      </aside>
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-          <h1>
-            Dashboard
-            <small>{% block control %} {% endblock %}</small>
-          </h1>
-          <ol class="breadcrumb">
-            <li><a href="/employee_admin"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">{% block page %} {% endblock %}</li>
-          </ol>
-        </section>
-  {% block content1 %}
+        </div>
+      </nav>
+    </header>
+
+    <aside class="main-sidebar">
+      <!-- sidebar: style can be found in sidebar.less -->
+      <section class="sidebar">
+        <!-- Sidebar user panel -->
+        <div class="user-panel">
+          <div class="pull-left image">
+            <img src="" class="img-circle" alt="User Image" />
+          </div>
+          <div class="pull-left info">
+            <p>{{ request.user }}</p>
+            <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+          </div>
+        </div>
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        <ul class="sidebar-menu">
+          <li class="header">MAIN NAVIGATION</li>
+          {% block side_nav %}
+          {% endblock %}
+
+        </ul>
+      </section>
+      <!-- /.sidebar -->
+    </aside>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          Dashboard
+          <small>{% block control %} {% endblock %}</small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="/employee_admin"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li class="active">{% block page %} {% endblock %}</li>
+        </ol>
+      </section>
+      {% block content1 %}
 
 
-  {% endblock %}
-
-  
+      {% endblock %}

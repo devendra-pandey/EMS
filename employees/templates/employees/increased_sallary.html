@@ -3,31 +3,31 @@
 {%block title %} Admin|Increas Sallary {% endblock title %}
 {% block control %} Increas Sallary {% endblock %}
 {% block page %} Increas Sallary {% endblock %}
-{% block content1 %} 
+{% block content1 %}
 
 <section class="content">
-    <form method = 'POST' enctype="multipart/form-data">
-        {% csrf_token %}
-        <table class = 'w-50 table table-light' style="border-radius:10px;background-color:gray;">
-          {% for field in upload_form %}
-          <tr>
-            <th>{{ field.label }}</th>
-            <th> {{ field }}</th>
-          </tr>
-          {% endfor %}
-          {% for field in upload_form1 %}
-          <tr>
-            <th>{{ field.label }}</th>
-            <th> {{ field }}</th>
-          </tr>
-          {% endfor %}
-          
-        </table>
-        <button type="submit" class="btn btn-lg btn-warning">Submit</button>
-        
-    </form>
-  </section>
-  </div>
-  {% include 'employees/footer.html' %}
+  <form method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    <table class='w-50 table table-light' style="border-radius:10px;background-color:gray;">
+      {% for field in upload_form %}
+      <tr>
+        <th>{{ field.label }}</th>
+        <th> {{ field }}</th>
+      </tr>
+      {% endfor %}
+      {% for field in upload_form1 %}
+      <tr>
+        <th>{{ field.label }}</th>
+        <th> {{ field }}</th>
+      </tr>
+      {% endfor %}
+
+    </table>
+    <button type="submit" class="btn btn-lg btn-warning">Submit</button>
+
+  </form>
+</section>
+</div>
+{% include 'employees/footer.html' %}
 
 {% endblock %}

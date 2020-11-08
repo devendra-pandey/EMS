@@ -1,43 +1,43 @@
 {% extends "employees/header.html" %}
 {% load static %}
 {%block title %} Admin|employee {% endblock title %}
-{% block control %} View Employee   {% endblock %}
+{% block control %} View Employee {% endblock %}
 {% block page %} Employee Detail {% endblock %}
-{% block content1 %} 
-    <section class="content">
-        <div class="container">
+{% block content1 %}
+<section class="content">
+    <div class="container">
         <h2>Employee Information</h2>
-                    
+
         <table class="table table-striped">
             <thead>
-            <tr>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Gender</th>
-                <th>Start Date</th>
-                <th>Mobile number</th>
-                <th>Residence Address</th>
-                <th>Sallary</th>
-                <th>Profile Image</th>
-            </tr>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Gender</th>
+                    <th>Start Date</th>
+                    <th>Mobile number</th>
+                    <th>Residence Address</th>
+                    <th>Sallary</th>
+                    <th>Profile Image</th>
+                </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>{{ emp_info.first_name }}</td>
-                <td>{{ emp_info.last_name }}</td>
-                <td>{{ emp_info.gender }}</td>
-                <td>{{ emp_info.start_date }}</td>
-                <td>{{ emp_info.mobile_number }}</td>
-                <td>{{ emp_info.residence_address }}</td>
-                <td>{{ sallary_info.finall_sallary }}</td>
-                <td><img src="{{ emp_info.profile_image.url }}" width="40px" , height="40px" ></img></td>
-                
-            </tr>
-            
+                <tr>
+                    <td>{{ emp_info.first_name }}</td>
+                    <td>{{ emp_info.last_name }}</td>
+                    <td>{{ emp_info.gender }}</td>
+                    <td>{{ emp_info.start_date }}</td>
+                    <td>{{ emp_info.mobile_number }}</td>
+                    <td>{{ emp_info.residence_address }}</td>
+                    <td>{{ sallary_info.finall_sallary }}</td>
+                    <td><img src="{{ emp_info.profile_image.url }}" width="40px" , height="40px"></img></td>
+
+                </tr>
+
             </tbody>
         </table>
-        </div>
-    </section>
+    </div>
+</section>
 </div>
 {% include 'employees/footer.html' %}
 {% endblock %}

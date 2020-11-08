@@ -2,27 +2,27 @@
 {% load static %}
 
 {%block title %} Admin|Assign Project {% endblock title %}
-{% block control %} New Assign Project  {% endblock %}
+{% block control %} New Assign Project {% endblock %}
 {% block page %} Assign Project {% endblock %}
-{% block content1 %}    
+{% block content1 %}
 
-  <section class="content">
-    <form method = 'POST' enctype="multipart/form-data">
-        {% csrf_token %}
-        <table class = 'w-50 table table-light' style="border-radius:10px;background-color:gray;">
-          {% for field in upload_form %}
-          <tr>
-            <th>{{ field.label }}</th>
-            <th> {{ field }}</th>
-          </tr>
-          {% endfor %}
-        </table>
-        <button type="submit" class="btn btn-lg btn-warning">Submit</button>
-        
-    </form>
-  </section>
+<section class="content">
+  <form method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    <table class='w-50 table table-light' style="border-radius:10px;background-color:gray;">
+      {% for field in upload_form %}
+      <tr>
+        <th>{{ field.label }}</th>
+        <th> {{ field }}</th>
+      </tr>
+      {% endfor %}
+    </table>
+    <button type="submit" class="btn btn-lg btn-warning">Submit</button>
+
+  </form>
+</section>
 </div>
-  
+
 {% include 'employees/footer.html' %}
-       
+
 {% endblock %}

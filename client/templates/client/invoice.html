@@ -2,9 +2,9 @@
 {% load static %}
 
 {%block title %} Admin|Invoice {% endblock title %}
-{% block control %} Invoice  {% endblock %}
+{% block control %} Invoice {% endblock %}
 {% block page %} Invoice {% endblock %}
-{% block content1 %}    
+{% block content1 %}
 
 <section class="invoice">
   <!-- title row -->
@@ -24,7 +24,7 @@
         <strong>{{ invoice_info.by_company_name }}</strong><br>
         795 Folsom Ave, Suite 600<br>
         San Francisco, CA 94107<br>
-        Phone: (804) 123-5432<br/>
+        Phone: (804) 123-5432<br />
         Email: info@almasaeedstudio.com
       </address>
     </div><!-- /.col -->
@@ -34,15 +34,15 @@
         <strong>{{ invoice_info.client_name }}</strong><br>
         795 Folsom Ave, Suite 600<br>
         San Francisco, CA 94107<br>
-        Phone: (555) 539-1037<br/>
+        Phone: (555) 539-1037<br />
         Email: john.doe@example.com
       </address>
     </div><!-- /.col -->
     <div class="col-sm-4 invoice-col">
-      <b>Invoice {{ invoice_info.id }}</b><br/>
-      <br/>
-      <b>Order ID:</b> 4F3S8J<br/>
-      <b>Payment Due:</b> 2/22/2014<br/>
+      <b>Invoice {{ invoice_info.id }}</b><br />
+      <br />
+      <b>Order ID:</b> 4F3S8J<br />
+      <b>Payment Due:</b> 2/22/2014<br />
       <b>Account:</b> 968-34567
     </div><!-- /.col -->
   </div><!-- /.row -->
@@ -62,9 +62,9 @@
           <tr>
             <td>1</td>
             <td>{{ invoice_info.project_name}}</td>
-            <td><i class="fa fa-inr" ></i>{{ invoice_info.amount_received }}</td>
+            <td><i class="fa fa-inr"></i>{{ invoice_info.amount_received }}</td>
           </tr>
-          
+
         </tbody>
       </table>
     </div><!-- /.col -->
@@ -83,24 +83,24 @@
       </p> -->
     </div>
     <div class="col-xs-6">
-      <p class="lead">Amount Paid on  {{ invoice_info.date }}</p>
+      <p class="lead">Amount Paid on {{ invoice_info.date }}</p>
       <div class="table-responsive">
         <table class="table">
           <tr>
             <th style="width:50%">Subtotal:</th>
-            <td><i class="fa fa-inr" ></i>{{ invoice_info.amount_received }}</td>
+            <td><i class="fa fa-inr"></i>{{ invoice_info.amount_received }}</td>
           </tr>
           <tr>
             <th>Tax (18%)</th>
-            <td><i class="fa fa-inr" ></i> {{ invoice_info.tax }}</td>
+            <td><i class="fa fa-inr"></i> {{ invoice_info.tax }}</td>
           </tr>
           <tr>
             <th>Discount(10%):</th>
-            <td><i class="fa fa-inr" ></i> {{ invoice_info.discount }}</td>
+            <td><i class="fa fa-inr"></i> {{ invoice_info.discount }}</td>
           </tr>
           <tr>
             <th>Total:</th>
-            <td><i class="fa fa-inr" ></i> {{ invoice_info.total_amount }}</td>
+            <td><i class="fa fa-inr"></i> {{ invoice_info.total_amount }}</td>
           </tr>
         </table>
       </div>
@@ -111,7 +111,8 @@
   <div class="row no-print">
     <div class="col-xs-12">
       <!-- <a href="/print_pdf/{{ invoice_info.project_income_id }}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
-      <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</button>
+      <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate
+        PDF</button>
     </div>
   </div>
 </section>

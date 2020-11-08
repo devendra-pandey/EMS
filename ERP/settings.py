@@ -46,11 +46,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'employees',
+    'projects_info',
     'client',
     'user',
     'bootstrap_modal_forms',
     'phonenumber_field',
-    'project_info',
+    
 
 
 ]
