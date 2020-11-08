@@ -23,6 +23,7 @@ urlpatterns = [
     path('', include('employees.urls')),
     path('', include('client.urls')),
     path('',include("user.urls")),
+    path('',include("projects_info.urls")),
 ] 
 if settings.DEBUG:
         urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

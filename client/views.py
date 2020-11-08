@@ -3,6 +3,11 @@ from django.contrib.auth.decorators import login_required
 from .forms import ClientForm , EnquiryForm ,FollowupForm , ProjectForm , Project_incomeForm , Project_AssignForm , Company_ProfileForm , Extra_ExpensesForm , TaxForm , InvoiceForm
 from .models import Enquiry ,Followup , Project, Project_income , Project_Assign , Client , Company_Profile , Extra_Expenses , Tax , Invoice
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
+import datetime
+from django.core.files.storage import FileSystemStorage
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 @login_required(login_url='/')
 def client_create(request):
@@ -260,24 +265,37 @@ def project_income(request):
     form1 = InvoiceForm()
     if request.method == 'POST':
         form = Project_incomeForm(request.POST, request.FILES)
-        if form.is_valid() and form1.is_valid():
+        if form.is_valid():
             obj = form.save()
+            proj_id = obj.id
             proj_name = obj.project_name
-            print(proj_name)
+            proj_client_name = obj.project_name.client_name
+            proj_company_rec = obj.company_received_name
+            proj_date = obj.received_date
+            proj_amount = obj.amount
+            proj_payment_type = obj.payment_method
+            print("******")
+            print(proj_id)
+            total_t = proj_amount * 18/100
+            total_dis = proj_amount * 10/100
+            proj_tot_amt = total_t + proj_amount - total_dis
+            print("*****^^^^***")
+            print(proj_tot_amt)
+            # to_create = Invoice.objects.create(project_income=proj_id)
             choice = form1.save(commit=False)
-            proj = Project.objects.filter(project_name = proj_name)
-            for ab in proj:
-                client = ab.client_name
-                project1_name = ab.project_name
-                print(client)
-            choice.client_name = client
-            choice.project_name = project1_name
-            choice.amount_received = obj.amount
-            choice.date = obj.received_date
+            choice.client_name = proj_client_name
+            choice.project_name = proj_name
+            choice.by_company_name = proj_company_rec
+            choice.amount_received = proj_amount
+            choice.date = proj_date
+            choice.payment_method = proj_payment_type
+            choice.project_income_id = proj_id
+            choice.tax = total_t
+            choice.discount = total_dis
+            choice.total_amount = proj_tot_amt
             choice.save()
             id = obj.project_name.id
             print(id)
-            proj_amount = obj.amount
             ab = Project.objects.filter(id=id)
             for amt in ab:
                 total_amt = amt.received_amount
@@ -502,9 +520,37 @@ def delete_tax(request, id):
     return redirect('proj_dashboard')
 
 
-
-
+@login_required(login_url='/')
 def invoice(request, id):
-    return render(request, 'client/invoice.html')
+    invoice_info = get_object_or_404(Invoice, project_income_id=id)
+    print("**++**")
+    print(invoice_info)
+
+    context = {
+        'invoice_info':invoice_info,
+    }
+    return render(request, 'client/invoice.html', context)
 
 
+
+# @login_required(login_url='/')
+# def html_to_pdf_view(request, id):
+#     invoice_info = get_object_or_404(Invoice, project_income_id=id)
+#     print("**++**")
+#     print(invoice_info)
+
+#     context = {
+#         'invoice_info':invoice_info,
+#     }
+#     html_string = render_to_string('client/invoice.html', context)
+
+#     html = HTML(string=html_string)
+#     html.write_pdf(target='/tmp/mypdf.pdf');
+
+#     fs = FileSystemStorage('/tmp')
+#     with fs.open('mypdf.pdf') as pdf:
+#         response = HttpResponse(pdf, content_type='application/pdf')
+#         response['Content-Disposition'] = 'attachment; filename="mypdf.pdf"'
+#         return response
+
+#     return response

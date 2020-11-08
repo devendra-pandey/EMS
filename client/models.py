@@ -62,16 +62,6 @@ class Project(models.Model):
         self.received_amount = str(self.calculate_amt())
         super().save(*args, **kwargs)
 
-class Project_income(models.Model):
-    project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
-    amount = models.IntegerField(default=0)
-    received_date = models.DateField()
-    comment = models.CharField(max_length=1000, null = True,blank=True)
-    status = models.BooleanField(default="1")
-    created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)
-
-
 class Enquiry(models.Model):
     client_name = models.ForeignKey(Client, on_delete=models.CASCADE)
     enquiry_date = models.DateField()
@@ -139,13 +129,30 @@ class Company_Profile(models.Model):
     def __str__(self):
         return self.company_name
 
+class Project_income(models.Model):
+    project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
+    company_received_name = models.ForeignKey(Company_Profile, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=0)
+    received_date = models.DateField()
+    payment_method = models.CharField(max_length=50, choices=TYPE_PAYMENT)
+    comment = models.CharField(max_length=1000, null = True,blank=True)
+    status = models.BooleanField(default="1")
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    def __int__(self):
+        return self.pk
 
 class Invoice(models.Model):
-    client_name = models.ForeignKey(Client, on_delete=models.CASCADE , blank=True , null=True)
+    client_name = models.ForeignKey(Client, on_delete=models.CASCADE)
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
-    by_company_name = models.ForeignKey(Company_Profile, on_delete=models.CASCADE, blank=True , null=True)
-    payment_method = models.CharField(max_length=50,default='Cash', choices=TYPE_PAYMENT)
-    amount_received = models.IntegerField(default='0') 
+    by_company_name = models.ForeignKey(Company_Profile, on_delete=models.CASCADE)
+    project_income_id = models.IntegerField(unique=True)
+    payment_method = models.CharField(max_length=50)
+    amount_received = models.IntegerField(default='0')
+    tax = models.IntegerField(default='18')
+    discount = models.FloatField(default='10.0')
+    total_amount = models.IntegerField(default='0')
     date = models.DateField()
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)

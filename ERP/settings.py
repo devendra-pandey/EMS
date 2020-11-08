@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'user',
     'bootstrap_modal_forms',
     'phonenumber_field',
+    'project_info',
 
 
 ]

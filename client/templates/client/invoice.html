@@ -6,123 +6,114 @@
 {% block page %} Invoice {% endblock %}
 {% block content1 %}    
 
-<section class="content">
-    <div class="container bootstrap snippets bootdeys">
-        <div class="row">
-          <div class="col-sm-12">
-                  <div class="panel panel-default invoice" id="invoice">
-                  <div class="panel-body">
-                    <div class="invoice-ribbon"><div class="ribbon-inner">PAID</div></div>
-                    <div class="row">
-        
-                        <div class="col-sm-6 top-left">
-                            <img src="{% static 'Uploads/profile/img_post1.jpg' %}">
-                        </div>
-        
-                        <div class="col-sm-6 top-right">
-                                <h3 class="marginright">INVOICE-1234578</h3>
-                                <span class="marginright">14 April 2014</span>
-                        </div>
-        
-                    </div>
-                    <hr>
-                    <div class="row">
-        
-                        <div class="col-xs-4 from">
-                            <p class="lead marginbottom">From : Dynofy</p>
-                            <p>350 Rhode Island Street</p>
-                            <p>Suite 240, San Francisco</p>
-                            <p>California, 94103</p>
-                            <p>Phone: 415-767-3600</p>
-                            <p>Email: contact@dynofy.com</p>
-                        </div>
-        
-                        <div class="col-xs-4 to">
-                            <p class="lead marginbottom">To : John Doe</p>
-                            <p>425 Market Street</p>
-                            <p>Suite 2200, San Francisco</p>
-                            <p>California, 94105</p>
-                            <p>Phone: 415-676-3600</p>
-                            <p>Email: john@doe.com</p>
-        
-                        </div>
-        
-                        <div class="col-xs-4 text-right payment-details">
-                            <p class="lead marginbottom payment-info">Payment details</p>
-                            <p>Date: 14 April 2014</p>
-                            <p>VAT: DK888-777 </p>
-                            <p>Total Amount: $1019</p>
-                            <p>Account Name: Flatter</p>
-                        </div>
-        
-                    </div>
-        
-                    <div class="row table-row">
-                        <table class="table table-striped">
-                          <thead>
-                            <tr>
-                              <th class="text-center" style="width:5%">#</th>
-                              <th style="width:50%">Item</th>
-                              <th class="text-right" style="width:15%">Quantity</th>
-                              <th class="text-right" style="width:15%">Unit Price</th>
-                              <th class="text-right" style="width:15%">Total Price</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td class="text-center">1</td>
-                              <td>Flatter Theme</td>
-                              <td class="text-right">10</td>
-                              <td class="text-right">$18</td>
-                              <td class="text-right">$180</td>
-                            </tr>
-                            <tr>
-                              <td class="text-center">2</td>
-                              <td>Flat Icons</td>
-                              <td class="text-right">6</td>
-                              <td class="text-right">$59</td>
-                              <td class="text-right">$254</td>
-                            </tr>
-                            <tr>
-                              <td class="text-center">3</td>
-                              <td>Wordpress version</td>
-                              <td class="text-right">4</td>
-                              <td class="text-right">$95</td>
-                              <td class="text-right">$285</td>
-                            </tr>
-                             <tr class="last-row">
-                              <td class="text-center">4</td>
-                              <td>Server Deployment</td>
-                              <td class="text-right">1</td>
-                              <td class="text-right">$300</td>
-                              <td class="text-right">$300</td>
-                            </tr>
-                           </tbody>
-                        </table>
-        
-                    </div>
-        
-                    <div class="row">
-                    <div class="col-xs-6 margintop">
-                        <p class="lead marginbottom">THANK YOU!</p>
-        
-                        <button class="btn btn-success" id="invoice-print"><i class="fa fa-print"></i> Print Invoice</button>
-                        <button class="btn btn-danger"><i class="fa fa-envelope-o"></i> Mail Invoice</button>
-                    </div>
-                    <div class="col-xs-6 text-right pull-right invoice-total">
-                              <p>Subtotal : $1019</p>
-                              <p>Discount (10%) : $101 </p>
-                              <p>VAT (8%) : $73 </p>
-                              <p>Total : $991 </p>
-                    </div>
-                    </div>
-        
-                  </div>
-                </div>
-            </div>
-        </div>
-        </div>
-        
+<section class="invoice">
+  <!-- title row -->
+  <div class="row">
+    <div class="col-xs-12">
+      <h2 class="page-header">
+        <i class="fa fa-globe"></i> {{ invoice_info.company_name }}
+        <small class="pull-right"> {{ invoice_info.date }}</small>
+      </h2>
+    </div><!-- /.col -->
+  </div>
+  <!-- info row -->
+  <div class="row invoice-info">
+    <div class="col-sm-4 invoice-col">
+      From
+      <address>
+        <strong>{{ invoice_info.by_company_name }}</strong><br>
+        795 Folsom Ave, Suite 600<br>
+        San Francisco, CA 94107<br>
+        Phone: (804) 123-5432<br/>
+        Email: info@almasaeedstudio.com
+      </address>
+    </div><!-- /.col -->
+    <div class="col-sm-4 invoice-col">
+      To
+      <address>
+        <strong>{{ invoice_info.client_name }}</strong><br>
+        795 Folsom Ave, Suite 600<br>
+        San Francisco, CA 94107<br>
+        Phone: (555) 539-1037<br/>
+        Email: john.doe@example.com
+      </address>
+    </div><!-- /.col -->
+    <div class="col-sm-4 invoice-col">
+      <b>Invoice {{ invoice_info.id }}</b><br/>
+      <br/>
+      <b>Order ID:</b> 4F3S8J<br/>
+      <b>Payment Due:</b> 2/22/2014<br/>
+      <b>Account:</b> 968-34567
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+
+  <!-- Table row -->
+  <div class="row">
+    <div class="col-xs-12 table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Serial #</th>
+            <th>Project Name</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>{{ invoice_info.project_name}}</td>
+            <td><i class="fa fa-inr" ></i>{{ invoice_info.amount_received }}</td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+
+  <div class="row">
+    <!-- accepted payments column -->
+    <div class="col-xs-6">
+      <!-- <p class="lead">Payment Methods:</p>
+      <img src="../../dist/img/credit/visa.png" alt="Visa"/>
+      <img src="../../dist/img/credit/mastercard.png" alt="Mastercard"/>
+      <img src="../../dist/img/credit/american-express.png" alt="American Express"/>
+      <img src="../../dist/img/credit/paypal2.png" alt="Paypal"/>
+      <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+      </p> -->
+    </div>
+    <div class="col-xs-6">
+      <p class="lead">Amount Paid on  {{ invoice_info.date }}</p>
+      <div class="table-responsive">
+        <table class="table">
+          <tr>
+            <th style="width:50%">Subtotal:</th>
+            <td><i class="fa fa-inr" ></i>{{ invoice_info.amount_received }}</td>
+          </tr>
+          <tr>
+            <th>Tax (18%)</th>
+            <td><i class="fa fa-inr" ></i> {{ invoice_info.tax }}</td>
+          </tr>
+          <tr>
+            <th>Discount(10%):</th>
+            <td><i class="fa fa-inr" ></i> {{ invoice_info.discount }}</td>
+          </tr>
+          <tr>
+            <th>Total:</th>
+            <td><i class="fa fa-inr" ></i> {{ invoice_info.total_amount }}</td>
+          </tr>
+        </table>
+      </div>
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+
+  <!-- this row will not appear when printing -->
+  <div class="row no-print">
+    <div class="col-xs-12">
+      <!-- <a href="/print_pdf/{{ invoice_info.project_income_id }}" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
+      <button class="btn btn-primary pull-right" style="margin-right: 5px;"><i class="fa fa-download"></i> Generate PDF</button>
+    </div>
+  </div>
 </section>
 </div>
 {% include 'employees/footer.html' %}

@@ -61,7 +61,7 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
-        exclude = ['status','completed','received_amount']
+        exclude = ['status','completed','received_amount','total_amount']
         widgets = {
                'end_date': DateInput,               
            }

@@ -40,5 +40,6 @@ urlpatterns = [
     path('update_tax/<int:id>', views.update_tax, name='update_tax'),
     path('delete_tax/<int:id>', views.delete_tax, name='delete_tax'),
     path('invoice/<int:id>', views.invoice, name='invoice'),
+    # path('print_pdf/<int:id>', views.html_to_pdf_view, name='pdf')
 
 ]
