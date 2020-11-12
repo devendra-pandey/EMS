@@ -6,4 +6,10 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-    path('timeline/', views.timeline, name='timeline'),]
+    path('timeline/', views.timeline, name='timeline'),
+    path('employee_data/', views.employee_data, name='employee_data'),
+    path('data_projects/', views.data_projects, name='data_projects'),
+    
+    
+    
+    ]

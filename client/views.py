@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.contrib.auth.decorators import login_required
-from .forms import ClientForm , EnquiryForm ,FollowupForm , ProjectForm , Project_incomeForm , Project_AssignForm , Company_ProfileForm , Extra_ExpensesForm , TaxForm , InvoiceForm
+from .forms import ClientForm , EnquiryForm ,FollowupForm , ProjectForm , Project_incomeForm, Project_AssignForm , Company_ProfileForm , Extra_ExpensesForm , TaxForm , InvoiceForm
 from .models import Enquiry ,Followup , Project, Project_income , Project_Assign , Client , Company_Profile , Extra_Expenses , Tax , Invoice
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 import datetime
@@ -140,6 +140,9 @@ def proj_dashboard(request):
     company_pro = Company_Profile.objects.filter(status='1').order_by('-created')
     expenses_pro = Extra_Expenses.objects.filter(status ='1').order_by('-created')
     tax_pro = Tax.objects.filter(status='1').order_by('-created') 
+    tot_proj = Project.objects.all().count()
+    comp_proj = Project.objects.filter(status='1', completed='1').count()
+    going_proj = Project.objects.filter(status='1', completed='0').count()
 
 ##pagination of project
     paginator = Paginator(project, 2)
@@ -192,6 +195,9 @@ def proj_dashboard(request):
                'page_company':page_company,
                'page_expenses':page_expenses,
                'page_tax':page_tax,
+               'tot_proj':tot_proj,
+               'comp_proj':comp_proj,
+               'going_proj':going_proj,
             }
     return render(request, 'client/project_dashboard.html', context)
 
@@ -313,11 +319,21 @@ def update_project_income(request, id):
     proj_income_id = int(id)
     try:
         proj_income_get = Project_income.objects.get(id = proj_income_id)
+        ab1 = proj_income_get.amount
+        print(ab1)
     except Project_income.DoesNotExist:
         return redirect('proj_dashboard')
     form = Project_incomeForm(request.POST or None, instance = proj_income_get)
     if form.is_valid():
-       form.save()
+       obj = form.save()
+       proj_amount = obj.amount
+       id = obj.project_name.id
+       print(id)
+       ab = Project.objects.filter(id=id)
+       for amt in ab:
+           total_amt = amt.received_amount
+           print(total_amt)
+       to_update = Project.objects.filter(id=id).update(received_amount=total_amt + proj_amount - ab1 )
        return redirect('proj_dashboard')
     return render(request, 'client/project_income.html', {'upload_form':form})
 
@@ -328,8 +344,15 @@ def delete_project_income(request, id):
         proj_income_data = Project_income.objects.get(id = proj_income_id)
     except Project_income.DoesNotExist:
         return redirect('proj_dashboard')
+    
+    id = proj_income_data.project_name.id
+    ab = Project.objects.filter(id=id)
+    for amt in ab:
+        total_amt = amt.received_amount
+        print(total_amt)
     proj_income_data.status = '0'
     proj_income_data.save()
+    to_update = Project.objects.filter(id=id).update(received_amount=total_amt - proj_income_data.amount )
     return redirect('proj_dashboard')
 
 @login_required(login_url='/')

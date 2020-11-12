@@ -158,22 +158,9 @@ class BankDetail(models.Model):
         return "{} {}".format(self.name_of_bank, self.bank_account_number, self.ifsc_code)
 
 
-class Allowance(models.Model):
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    name = models.CharField(max_length=50)
-    amount = models.IntegerField()
-
-    def __str__(self):
-        return "{}".format(self.name)
-
-
-class Supervision(models.Model):
-    supervisor = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="supervisees")
-    supervisee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="supervisors")
-
 class Monthly_Salary(models.Model):
     employee_name = models.ForeignKey('Employee', on_delete=models.CASCADE)
-    leaves = models.IntegerField()
+    leaves = models.FloatField()
     paid_leaves = models.IntegerField(default=1)
     total_working_days = models.IntegerField(default=1)
     deduction_per = models.FloatField(default=0.0)
@@ -232,6 +219,7 @@ class Sallary_increament(models.Model):
     hike_sallary = models.IntegerField()
     description = models.CharField(max_length=300)
     Increment_date = models.DateTimeField()
+    status = models.BooleanField(default='1')
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

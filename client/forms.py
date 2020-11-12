@@ -57,6 +57,7 @@ class Project_incomeForm(forms.ModelForm):
         }
 
 
+
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project

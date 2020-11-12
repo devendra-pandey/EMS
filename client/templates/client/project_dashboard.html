@@ -36,6 +36,16 @@
     <i class="fa fa-th"></i> <span>Timeline</span>
   </a>
 </li>
+<li>
+  <a href="/employee_data/">
+    <i class="fa fa-th"></i> <span>All Employees</span>
+  </a>
+</li>
+<li>
+  <a href="/data_projects/">
+    <i class="fa fa-th"></i> <span>All projects</span>
+  </a>
+</li>
 
 {% endblock %}
 
@@ -43,6 +53,47 @@
 <!-- Main content -->
 <section class="content">
 
+  <div class="row">
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>{{ tot_proj }}</h3>
+          <p>Total Projects</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-bag"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div><!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{ comp_proj }}</h3>
+          <p>Completed Projects</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{ going_proj }}</h3>
+          <p>Going On projects</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-person-add"></i>
+        </div>
+        <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <section class="col-lg-7 connectedSortable">
       <div class="box box-primary">
@@ -325,7 +376,7 @@
                 <td>{{ proj_c.client_name }}</td>
                 <td>{{ proj_c.project_name }}</td>
                 <td>{{ proj_c.end_date}}</td>
-                <td> {{ proj_c.amount }}</td>
+                <td> {{ proj_c.received_amount }}</td>
                 <td><a href="/uncomplete_project/{{ proj_c.id }}" class="btn-warning"><i class="fa fa-close"></i></a>
                 </td>
                 <td><a onclick="return confirm('Delete this record?')" href="/delete_followup/{{ proj_c.id }}"><i

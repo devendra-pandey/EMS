@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Employee, HomeAddress, Certification, EmergencyContact, Beneficiary, Spouse, Deduction, \
-    BankDetail, Allowance, StatutoryDeduction,Salary,Sallary_increament,Monthly_Salary
+    BankDetail, StatutoryDeduction,Salary,Sallary_increament,Monthly_Salary
 
 admin.site.site_header = "D2 EMS Admin"
 
@@ -13,7 +13,6 @@ admin.site.register(Beneficiary)
 admin.site.register(Spouse)
 admin.site.register(Deduction)
 admin.site.register(BankDetail)
-admin.site.register(Allowance)
 admin.site.register(StatutoryDeduction)
 admin.site.register(Sallary_increament)
 

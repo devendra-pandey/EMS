@@ -56,6 +56,7 @@ class Increment_sallaryForm(forms.ModelForm):
     class Meta:
         model = Sallary_increament
         fields = '__all__'
+        exclude = ['status']
         widgets = {
                'Increment_date': DateInput,
         }

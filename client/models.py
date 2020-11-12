@@ -43,7 +43,6 @@ class Project(models.Model):
     project_files = models.FileField(upload_to='static/Uploads/projects/', null=True , blank=True)
     advance_amount = models.IntegerField(default=0)
     received_amount = models.IntegerField(default=0)
-    total_amount = models.IntegerField(default=0)
     end_date = models.DateField(null=True, blank=True)
     completed = models.BooleanField(default='0')
     status = models.BooleanField(default="1")

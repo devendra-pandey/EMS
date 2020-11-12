@@ -21,7 +21,7 @@ def employee_admin(request):
     enq = Enquiry.objects.all().filter(status = '1').order_by('-created')
     emp = Employee.objects.filter(status = '1').order_by('-created')
     client = Client.objects.all().filter(status = '1').order_by('-created')
-    inc_sal = Sallary_increament.objects.filter(employe_name__status='1').order_by('-created')
+    inc_sal = Sallary_increament.objects.filter(employe_name__status='1',status ='1').order_by('-created')
     mon_sal = Monthly_Salary.objects.filter(employee_name__status='1', status='1').order_by('-created')
     feedback = Followup.objects.filter(status='1').order_by('-created')
     
@@ -173,6 +173,8 @@ def update_inc_sal(request, id):
     inc_sal_id = int(id)
     try:
         inc_sal_get = Sallary_increament.objects.get(id = inc_sal_id)
+        ab = inc_sal_get.hike_sallary
+        print(ab)
     except Sallary_increament.DoesNotExist:
         return redirect('dashboard')
     form = Increment_sallaryForm(request.POST or None, instance = inc_sal_get)
@@ -180,13 +182,34 @@ def update_inc_sal(request, id):
         obj = form.save()
         id = obj.employe_name
         emp_increased_sal = obj.hike_sallary
+        sal_update = Salary.objects.filter(employe_name=id)
+        for sal_inc in sal_update:
+            f_sal = sal_inc.finall_sallary
+            print(f_sal)
         print("*** hey")
         print(id)
-        to_update = Salary.objects.filter(employe_name=id).update(incresed_sallary=emp_increased_sal)
+        to_update = Salary.objects.filter(employe_name=id).update(incresed_sallary=emp_increased_sal,finall_sallary=f_sal + emp_increased_sal - ab)
         print("done")
         return redirect('dashboard')
     return render(request, 'employees/increased_sallary.html', {'upload_form':form})
 
+
+def delete_inc_sal(request, id):
+    sal_inc = int(id)
+    try:
+        sal_inc_data = Sallary_increament.objects.get(id = sal_inc)
+        main_id = sal_inc_data.employe_name
+        ab = sal_inc_data.hike_sallary
+    except Sallary_increament.DoesNotExist:
+        return redirect('dashboard')
+    sal_update = Salary.objects.filter(employe_name=main_id)
+    for sal_inc in sal_update:
+        f_sal = sal_inc.finall_sallary
+        print(f_sal)
+    to_update = Salary.objects.filter(employe_name=main_id).update(finall_sallary=f_sal - ab)
+    sal_inc_data.status = '0'
+    sal_inc_data.save()
+    return redirect('dashboard')
 
 
 @login_required(login_url='/')

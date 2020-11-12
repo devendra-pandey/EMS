@@ -1,0 +1,88 @@
+{% extends "employees/header.html" %}
+{% load static %}
+
+{%block title %} Admin|Project Information {% endblock title %}
+{% block control %} Project Information {% endblock %}
+{% block page %} Project Information {% endblock %}
+
+
+
+{% block content1 %}
+
+<!-- Main content -->
+<section class="content">
+  
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Projects</h3>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="dataTables_filter">
+                <form action="" method="POST">
+                  {% csrf_token %}
+                <label>FROM:
+                  <input type="date" name="datefp" class="form-control input-sm">
+                </label>
+                <label>TO:
+                  <input type="date" name="datetp" class="form-control input-sm">
+                </label>
+                <input type="submit"></input>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Project Name </th>
+                <th>Client Name</th>
+                <th>Received Amount</th>
+                <th>End Date</th>
+                <th>Completed</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for proj in proj_info %}
+              <tr>
+                <td>{{ proj.project_name }}</td>
+                <td>{{ proj.client_name }}</td>
+                <td>{{ proj.received_amount }}</td>
+                <td>{{ proj.end_date }}</td>
+                <td>{{proj.completed  }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div><!-- /.box-body -->
+      </div><!-- /.box -->
+    </div><!-- /.col -->
+  </div><!-- /.row -->
+  <div class="row">
+    <div class="col-sm-5">
+    
+    </div>
+  </div>
+  <div class="col-sm-7">
+    <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+      <ul class="pagination pagination-sm inline">
+        {% if proj_info.has_previous %}
+        <li><a href="?page={{ proj_info.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li><a href="#">Page {{ proj_info.number }} of {{ proj_info.paginator.num_pages }}.</a></li>
+        {% if proj_info.has_next %}
+        <li><a href="?page={{ proj_info.next_page_number }}">next</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  </div>
+</section>
+</div>
+
+{% include 'employees/footer.html' %}
+
+{% endblock %}

@@ -46,6 +46,17 @@
     <i class="fa fa-th"></i> <span>Daily FollowUp</span>
   </a>
 </li>
+<li>
+  <a href="/employee_data/">
+    <i class="fa fa-th"></i> <span>All Employees</span>
+  </a>
+</li>
+<li>
+  <a href="/data_projects/">
+    <i class="fa fa-th"></i> <span>All projects</span>
+  </a>
+</li>
+
 
 {% endblock %}
 
@@ -402,7 +413,7 @@
                 <td>{{ i.description }}</td>
                 <td>{{ i.Increment_date }}</td>
                 <td><a href="update_inc_sal/{{ i.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
-                <td><a onclick="return confirm('Delete this record?')" href="delete_emp/{{ i.id }}"><i
+                <td><a onclick="return confirm('Delete this record?')" href="delete_inc_sal/{{ i.id }}"><i
                       class="fa fa-trash-o"></i></a></td>
 
               </tr>
