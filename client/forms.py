@@ -64,7 +64,8 @@ class ProjectForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['status','completed','received_amount','total_amount']
         widgets = {
-               'end_date': DateInput,               
+            'start_date':DateInput,
+            'end_date': DateInput,               
            }
 
 class ClientForm(forms.ModelForm):

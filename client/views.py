@@ -4,6 +4,7 @@ from .forms import ClientForm , EnquiryForm ,FollowupForm , ProjectForm , Projec
 from .models import Enquiry ,Followup , Project, Project_income , Project_Assign , Client , Company_Profile , Extra_Expenses , Tax , Invoice
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 import datetime
+from django.template.defaulttags import register
 from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -130,6 +131,12 @@ def delete_Followup(request, id):
 def info_client(request):
     return render(request, 'client/info_client.html')
 
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
+
+
 @login_required(login_url='/')
 def proj_dashboard(request):
     project = Project.objects.filter(status='1' , completed='0').order_by('-created')
@@ -143,6 +150,30 @@ def proj_dashboard(request):
     tot_proj = Project.objects.all().count()
     comp_proj = Project.objects.filter(status='1', completed='1').count()
     going_proj = Project.objects.filter(status='1', completed='0').count()
+    
+    years = Extra_Expenses.objects.dates('date','year')
+    expenses = Extra_Expenses.objects.all().filter(status='1').values()
+    amounts = {}
+
+    for expense in expenses:
+        year = expense['date'].year
+        if year in amounts:
+            amounts[year] = amounts[year] + expense['expense_amount']
+        else:
+            amounts[year] = expense['expense_amount']
+
+    months = Extra_Expenses.objects.dates('date','month')
+    expenses1 = Extra_Expenses.objects.all().filter(status='1').values()
+    amount = {}
+    for expense in expenses1:
+        month = expense['date'].month
+        print(month)
+        if month in amount:
+            amount[month] = amount[month] + expense['expense_amount']
+        else:
+            amount[month] = expense['expense_amount']
+
+
 
 ##pagination of project
     paginator = Paginator(project, 2)
@@ -187,6 +218,10 @@ def proj_dashboard(request):
 
 
     context = {
+               'years': years, 
+               'amounts': amounts,
+               'months': months, 
+               'amount': amount,
                'proj_page':proj_page,
                'proj_compplete_page':proj_compplete_page,
                'proj_inc_page':proj_inc_page,
@@ -495,8 +530,8 @@ def update_expenses(request, id):
 def delete_expenses(request, id):
     expenses_id = int(id)
     try:
-        expenses_data = expenses_Profile.objects.get(id = expenses_id)
-    except expenses_Profile.DoesNotExist:
+        expenses_data = Extra_Expenses.objects.get(id = expenses_id)
+    except Extra_Expenses.DoesNotExist:
         return redirect('proj_dashboard')
     expenses_data.status = '0'
     expenses_data.save()

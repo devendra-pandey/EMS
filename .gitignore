@@ -1,8 +1,1 @@
-/client/__pycache__/
-/client/migrations/
-/employees/__pycache__/
-/employees/migrations/
-/media/static/Uploads/id/
-/media/static/Uploads/profile/
-/media/static/Uploads/projects/
-/media/static/Uploads/proposals/
+*.pyc

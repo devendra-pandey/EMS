@@ -43,6 +43,7 @@ class Project(models.Model):
     project_files = models.FileField(upload_to='static/Uploads/projects/', null=True , blank=True)
     advance_amount = models.IntegerField(default=0)
     received_amount = models.IntegerField(default=0)
+    start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     completed = models.BooleanField(default='0')
     status = models.BooleanField(default="1")
@@ -156,3 +157,57 @@ class Invoice(models.Model):
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
+    
+class Total_expense(models.Model):
+    month_date = models.DateField(auto_now_add=True)
+    amount = models.FloatField()
+    total = models.FloatField()
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+    status = models.BooleanField(default=1)
+
+
+# class ExpenseManager(models.Manager):
+#     def all(self, *args, **kwargs):
+#         return super(ExpenseManager, self)
+
+#     def this_year(self, year=None, *args, **kwargs):
+#         if year:
+#             y = year
+#         else:
+#             y = date.today().year
+#         qs = super(ExpenseManager, self).filter(timestamp__year=y)
+#         return qs
+
+#     def this_month(self,  year=None, month=None, *args, **kwargs):
+#         if month:
+#             m = month
+#         else:
+#             m = date.today().month
+#         qs = Extra_Expenses.objects.this_year(year=year).filter(date__month=m)
+#         return qs
+
+#     def last_month(self,  *args, **kwargs):
+#         qs = Extra_Expenses.objects.this_year(user=user).filter(date__month=date.today().month-1)
+#         return qs
+
+#     def this_day(self,  year=None, month=None, day=None, *args, **kwargs):
+#         if day:
+#             d = day
+#         else:
+#             d = date.today().day
+#         qs = Extra_Expenses.objects.this_month(year=year, month=month).filter(date__day=d)
+#         return qs
+
+
+#     def amount_sum(self,  year=None, month=None, day=None, *args, **kwargs):
+#         total = {}
+#         qs = Extra_Expenses.objects
+#         total['all'] = qs.aggregate(Sum('amount'))['amount__sum'] or 0
+#         total['year'] = qs.this_year.aggregate(Sum('amount'))['amount__sum'] or 0
+#         total['month'] = qs.this_month.aggregate(Sum('amount'))['amount__sum'] or 0
+#         total['last_month'] = qs.last_month.aggregate(Sum('amount'))['amount__sum'] or 0
+#         total['day'] = qs.this_day.aggregate(Sum('amount'))['amount__sum'] or 0
+
+#         return total

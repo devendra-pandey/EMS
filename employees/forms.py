@@ -66,3 +66,6 @@ class Monthly_SalaryForm(forms.ModelForm):
         model = Monthly_Salary
         fields = '__all__'
         exclude = ['total_salary']
+        widgets = {
+               'date': DateInput,
+        }

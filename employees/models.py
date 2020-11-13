@@ -165,6 +165,7 @@ class Monthly_Salary(models.Model):
     total_working_days = models.IntegerField(default=1)
     deduction_per = models.FloatField(default=0.0)
     total_salary = models.CharField(max_length=20, default='0')
+    date = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=1)
@@ -223,4 +224,3 @@ class Sallary_increament(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
-    
