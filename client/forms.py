@@ -8,6 +8,7 @@ from .models import Client, Project ,Enquiry , Followup , Project_income , Proje
 class DateInput(forms.DateInput):
     input_type = 'date'
 
+
 class InvoiceForm(forms.ModelForm):
     class Meta:
         model = Invoice

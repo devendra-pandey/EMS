@@ -1,7 +1,14 @@
 from django.db import models
 from employees.models import Employee
-import datetime
 from django.utils.html import format_html
+import datetime
+
+
+
+YEAR_CHOICES = []
+for r in range(1980, (datetime.datetime.now().year+1)):
+    YEAR_CHOICES.append((r,r))
+
 # Create your models here.
 TYPE_PROJECT = (
         ('Android', 'Android'),
@@ -99,6 +106,7 @@ class Project_Assign(models.Model):
 class Tax(models.Model):
     tax_name = models.CharField(max_length=10)
     tax_value = models.IntegerField()
+    year = models.IntegerField(('year'), choices=YEAR_CHOICES, default=datetime.datetime.now().year)
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

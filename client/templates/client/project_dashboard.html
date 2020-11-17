@@ -683,6 +683,7 @@
                 <th>#</th>
                 <th>Tax Name</th>
                 <th>Tax Rate</th>
+                <th>Tax Year</th>
                 <th>Edit</th>
                 <th>Delete</th>
 
@@ -699,6 +700,7 @@
                 </td>
                 <td>{{ t.tax_name }}</td>
                 <td>{{ t.tax_value }}</td>
+                <td>{{ t.year }}</td>
                 <td><a href="/update_tax/{{ t.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
                 <td><a onclick="return confirm('Delete this record?')" href="/delete_tax/{{ t.id }}"><i
                       class="fa fa-trash-o"></i></a></td>
