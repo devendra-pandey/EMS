@@ -9,6 +9,7 @@ urlpatterns = [
     path('create_client/', views.client_create, name='create_client'),
     path('update_client/<int:id>', views.update_client, name='update_client'),
     path('delete_client/<int:id>', views.delete_client, name='delete_client'),
+    path('enquiry_dashboard', views.enquiry_admin, name='enquiry_admin'),
     path('add_enquiry/', views.create_enquiry, name='create_enquiry'),
     path('update_enquiry/<int:id>', views.update_enquiry, name='update_enquiry'),
     path('delete_enquiry/<int:id>', views.delete_enquiry, name='delete_enquiry'),

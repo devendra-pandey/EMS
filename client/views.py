@@ -9,6 +9,14 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from weasyprint import HTML
+from django.contrib import messages
+
+# register = template.library()
+
+# @register.filter()
+# def addDays(days):
+#    newDate = datetime.date.today() + datetime.timedelta(days=days)
+#    return newDate
 
 @login_required(login_url='/')
 def client_create(request):
@@ -49,12 +57,45 @@ def delete_client(request, id):
 
 
 @login_required(login_url='/')
+def enquiry_admin(request):
+    enq = Enquiry.objects.all().filter(status = '1').order_by('-created')
+    feedback = Followup.objects.filter(status='1').order_by('-created')
+
+##FeedBack Pagination
+    paginator = Paginator(feedback, 2)
+    page_number = request.GET.get('page')
+    feedback_obj = paginator.get_page(page_number)
+
+##Enquiry Pagination
+    paginator = Paginator(enq, 2) 
+    page = request.GET.get('page')
+    try:
+        enq_all = paginator.page(page)
+    except PageNotAnInteger:
+        enq_all = paginator.page(1)
+    except EmptyPage:
+        enq_all = paginator.page(paginator.num_pages)
+    
+    context = {
+                'enq_all':enq_all,
+                'feedback_obj':feedback_obj,
+                'enq':enq,
+                'feedback':feedback,
+                'datetime':datetime,
+                
+            }
+    return render(request, 'employees/enquiry_dashboard.html',context)
+
+
+
+@login_required(login_url='/')
 def create_enquiry(request):
     form = EnquiryForm()
     if request.method == 'POST':
         form = EnquiryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Successfully saved')
             return redirect('enquiry_admin')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
@@ -595,6 +636,7 @@ def invoice(request, id):
         'invoice_info':invoice_info,
     }
     return render(request, 'client/invoice.html', context)
+
 
 
 

@@ -81,7 +81,7 @@ class EnquiryForm(forms.ModelForm):
     class Meta:
         model = Enquiry
         fields = '__all__'
-        exclude = ['status','completed_status']
+        exclude = ['status','completed_status','enquiry_follow_date']
         widgets = {
                'enquiry_date': DateInput,
                'comment': Textarea(attrs={'cols': 80, 'rows': 20}),             
@@ -91,7 +91,7 @@ class FollowupForm(forms.ModelForm):
     class Meta:
         model= Followup
         fields = '__all__'
-        exclude = ['status']
+        exclude = ['status','enquiry_follow_date']
         widgets = {
                'followup_date': DateInput,
                'Comment': Textarea(attrs={'cols': 80, 'rows': 20}),             

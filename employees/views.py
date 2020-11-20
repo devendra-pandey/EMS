@@ -65,35 +65,6 @@ def employee_admin(request):
     return render(request, 'employees/dashboard.html',context)
 
 
-@login_required(login_url='/')
-def enquiry_admin(request):
-    now = datetime.datetime.now()
-    enq = Enquiry.objects.all().filter(status = '1').order_by('-created')
-    feedback = Followup.objects.filter(status='1').order_by('-created')
-
-##FeedBack Pagination
-    paginator = Paginator(feedback, 2)
-    page_number = request.GET.get('page')
-    feedback_obj = paginator.get_page(page_number)
-
-##Enquiry Pagination
-    paginator = Paginator(enq, 2) 
-    page = request.GET.get('page')
-    try:
-        enq_all = paginator.page(page)
-    except PageNotAnInteger:
-        enq_all = paginator.page(1)
-    except EmptyPage:
-        enq_all = paginator.page(paginator.num_pages)
-    
-    context = {
-                'enq_all':enq_all,
-                'feedback_obj':feedback_obj,
-                
-            }
-    return render(request, 'employees/enquiry_dashboard.html',context)
-
-
 
 @login_required(login_url='/')
 def employee_create(request):  

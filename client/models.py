@@ -4,7 +4,6 @@ from django.utils.html import format_html
 import datetime
 
 
-
 YEAR_CHOICES = []
 for r in range(1980, (datetime.datetime.now().year+1)):
     YEAR_CHOICES.append((r,r))
@@ -76,7 +75,8 @@ class Project(models.Model):
 class Enquiry(models.Model):
     client_name = models.ForeignKey(Client, on_delete=models.CASCADE)
     enquiry_name = models.CharField(max_length=100, null = True,blank=True)
-    enquiry_date = models.DateField(auto_now=True)
+    enquiry_date = models.DateField()
+    enquiry_follow_date = models.DateField(null= True, blank=True)
     proposal_file = models.FileField(upload_to='static/Uploads/proposals/', null= True, blank=True)
     comment = models.CharField(max_length=10000, null = True,blank=True)
     completed_status = models.BooleanField(default="0")
@@ -87,13 +87,35 @@ class Enquiry(models.Model):
     def __str__(self):
         return self.enquiry_name
 
+    def calculate_date(self):
+        date = self.enquiry_date
+        seventh_day = date + datetime.timedelta(7)
+        self.enquiry_follow_date = seventh_day 
+        return self.enquiry_follow_date 
+
+    def save(self,*args,**kwargs):
+        self.enquiry_follow_date = str(self.calculate_date())
+        super().save(*args, **kwargs)
+
+
 class Followup(models.Model):
     enquiry_name = models.ForeignKey(Enquiry, on_delete=models.CASCADE)
     Comment = models.CharField(max_length=10000, null=True, blank=True)
     followup_date = models.DateField()
+    enquiry_follow_date = models.DateField(null= True, blank=True)
     status = models.BooleanField(default="1")
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+    
+    def calculate_date(self):
+        date = self.followup_date
+        seventh_day = date + datetime.timedelta(7)
+        self.enquiry_follow_date = seventh_day 
+        return self.enquiry_follow_date 
+
+    def save(self,*args,**kwargs):
+        self.enquiry_follow_date = str(self.calculate_date())
+        super().save(*args, **kwargs)
 
 
 class Project_Assign(models.Model):
