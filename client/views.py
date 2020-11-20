@@ -55,7 +55,7 @@ def create_enquiry(request):
         form = EnquiryForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('dashboard')
+            return redirect('enquiry_admin')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
     else:      
@@ -67,11 +67,11 @@ def update_enquiry(request, id):
     try:
         enq_get = Enquiry.objects.get(id = enquiry_id)
     except Enquiry.DoesNotExist:
-        return redirect('dashboard')
+        return redirect('enquiry_admin')
     form = EnquiryForm(request.POST or None, instance = enq_get)
     if form.is_valid():
        form.save()
-       return redirect('dashboard')
+       return redirect('enquiry_admin')
     return render(request, 'client/enquiry.html', {'upload_form':form})
 
 @login_required(login_url='/')
@@ -80,10 +80,10 @@ def delete_enquiry(request, id):
     try:
         enq_data = Enquiry.objects.get(id = enq_id)
     except Enquiry.DoesNotExist:
-        return redirect('dashboard')
+        return redirect('enquiry_admin')
     enq_data.status = '0'
     enq_data.save()
-    return redirect('dashboard')
+    return redirect('enquiry_admin')
 
 
 @login_required(login_url='/')
@@ -93,7 +93,7 @@ def create_followup(request):
         form = FollowupForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('dashboard')
+            return redirect('enquiry_admin')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
     else:      
@@ -106,11 +106,11 @@ def update_followup(request, id):
     try:
         fol_get = Followup.objects.get(id = followup_id)
     except Followup.DoesNotExist:
-        return redirect('dashboard')
+        return redirect('enquiry_admin')
     form = FollowupForm(request.POST or None, instance = fol_get)
     if form.is_valid():
        form.save()
-       return redirect('dashboard')
+       return redirect('enquiry_admin')
     return render(request, 'client/follow_up.html', {'upload_form':form})
 
 
@@ -120,10 +120,10 @@ def delete_Followup(request, id):
     try:
         fol_data = Followup.objects.get(id = fol_id)
     except Followup.DoesNotExist:
-        return redirect('dashboard')
+        return redirect('enquiry_admin')
     fol_data.status = '0'
     fol_data.save()
-    return redirect('dashboard')
+    return redirect('enquiry_admin')
 
 
 
@@ -240,10 +240,12 @@ def proj_dashboard(request):
 @login_required(login_url='/')
 def create_project(request):
     form = ProjectForm()
+    form1 = InvoiceForm()
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            
             return redirect('proj_dashboard')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'proj_dashboard'}}">reload</a>""")

@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm, Textarea
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.widgets import RadioSelect
@@ -63,8 +64,9 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
-        exclude = ['status','completed','received_amount','total_amount']
+        exclude = ['status','completed','received_amount','total_amount','final_recieved_date']
         widgets = {
+            'received_date':DateInput,
             'start_date':DateInput,
             'end_date': DateInput,               
            }
@@ -79,12 +81,18 @@ class EnquiryForm(forms.ModelForm):
     class Meta:
         model = Enquiry
         fields = '__all__'
-        exclude = ['status']
+        exclude = ['status','completed_status']
         widgets = {
-               'enquiry_date': DateInput,               
+               'enquiry_date': DateInput,
+               'comment': Textarea(attrs={'cols': 80, 'rows': 20}),             
            }
 
 class FollowupForm(forms.ModelForm):
     class Meta:
         model= Followup
         fields = '__all__'
+        exclude = ['status']
+        widgets = {
+               'followup_date': DateInput,
+               'Comment': Textarea(attrs={'cols': 80, 'rows': 20}),             
+           }

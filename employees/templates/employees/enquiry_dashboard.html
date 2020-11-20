@@ -1,0 +1,223 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|Enquiry Dashboard {% endblock title %}
+{% block control %} control Panel {% endblock %}
+{% block page %} Enquiry Dashboard {% endblock %}
+
+{% block side_nav %}
+
+<li class="active treeview">
+    <a href="/employee_admin">
+        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+    </a>
+</li>
+<li class="active treeview">
+    <a href="/proj_dashboard">
+        <i class="fa fa-dashboard"></i> <span>Project Dashboard</span>
+    </a>
+</li>
+<li class="active treeview">
+    <a href="/enquiry_dashboard">
+        <i class="fa fa-dashboard"></i> <span>Enquiry Dashboard</span>
+    </a>
+</li>
+<li>
+    <a href="/create">
+        <i class="fa fa-th"></i> <span>New Employee</span> <small class="label pull-right bg-green">new</small>
+    </a>
+</li>
+<li>
+    <a href="/create_client">
+        <i class="fa fa-th"></i> <span>New Client</span> <small class="label pull-right bg-green">new</small>
+    </a>
+</li>
+<li>
+    <a href="/increase_Sal">
+        <i class="fa fa-th"></i> <span>Add Increment sallary</span> <small class="label pull-right bg-green">new</small>
+    </a>
+</li>
+<li>
+    <a href="/month_Sal">
+        <i class="fa fa-th"></i> <span>Add Monthly sallary</span>
+    </a>
+</li>
+<li>
+    <a href="/follow_up_create">
+        <i class="fa fa-th"></i> <span>Daily FollowUp</span>
+    </a>
+</li>
+<li>
+    <a href="/employee_data/">
+        <i class="fa fa-th"></i> <span>All Employees</span>
+    </a>
+</li>
+<li>
+    <a href="/data_projects/">
+        <i class="fa fa-th"></i> <span>All projects</span>
+    </a>
+</li>
+
+
+{% endblock %}
+
+
+{% block content1 %}
+
+<section class="content">
+    <!-- Small boxes (Stat box) -->
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ emp_count }}</h3>
+                    <p>Employees</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ enq_count }}</h3>
+                    <p>Enquiry</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+
+    </div><!-- /.row -->
+    <!-- Main row -->
+    <div class="row">
+        <!-- Left col -->
+        <section class="col-lg-7 connectedSortable">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <i class="ion ion-clipboard"></i>
+                    <h3 class="box-title">Enquiry</h3>
+                    <div class="box-tools pull-right">
+                        <ul class="pagination pagination-sm inline">
+                            {% if enq_all.has_previous %}
+                            <li><a href="?page={{ enq_all.previous_page_number }}">Previous</a></li>
+                            {% endif %}
+                            <li><a href="#">Page {{ enq_all.number }} of {{ enq_all.paginator.num_pages }}.</a></li>
+                            {% if enq_all.has_next %}
+                            <li><a href="?page={{ enq_all.next_page_number }}">next</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="todo-list">
+                        {% for e in enq_all %}
+                        <li>
+                            <span class="handle">
+                                <i class="fa fa-ellipsis-v"></i>
+                                <i class="fa fa-ellipsis-v"></i>
+                            </span>
+                            <!-- checkbox -->
+                            <input type="checkbox" value="" name="" />
+                            <!-- todo text -->
+                            <span class="text">{{ e.enquiry_name }}</span>
+                            <!-- Emphasis label -->
+                            <small class="label label-danger"><i class="fa fa-clock-o"></i> {{ e.created }}</small>
+                            <!-- General tools such as edit or delete-->
+                            <div class="tools">
+                                <a href="update_enquiry/{{  e.id }}"><i class="fa fa-edit"></i></a>
+                                <a onclick="return confirm('Delete this record?')" href="delete_enquiry/{{e.id }}"><i
+                                        class="fa fa-trash-o"></i></a>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div><!-- /.box-body -->
+                <div class="box-footer clearfix no-border">
+                    <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/add_enquiry"> Add
+                            Enquiry
+                        </a></button>
+                </div>
+            </div>
+        </section>
+        <section class="col-lg-5 connectedSortable">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <i class="ion ion-clipboard"></i>
+                    <h3 class="box-title">Feedback here</h3>
+                    <div class="box-tools pull-right">
+                        <ul class="pagination pagination-sm inline">
+                            {% if feedback_obj.has_previous %}
+                            <li><a href="?page={{ feedback_obj.previous_page_number }}">Previous</a></li>
+                            {% endif %}
+                            <li><a href="#">Page {{ feedback_obj.number }} of
+                                    {{ feedback_obj.paginator.num_pages }}.</a></li>
+                            {% if feedback_obj.has_next %}
+                            <li><a href="?page={{ feedback_obj.next_page_number }}">next</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="box-body">
+
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Client Name</th>
+                                <th>Comment</th>
+                                <th>Follow Date</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for f in feedback_obj %}
+                            <tr>
+                                <td>
+                                    <span class="handle">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </span>
+                                </td>
+                                <td>{{ f.enquiry_name }}</td>
+                                <td>{{ f.Comment }}</td>
+                                <td> {{ f.followup_date }}</td>
+                                <td><a href="update_followup/{{ f.id }}" class="btn-warning"><i
+                                            class="fa fa-edit"></i></a></td>
+                                <td><a onclick="return confirm('Delete this record?')"
+                                        href="delete_followup/{{ f.id }}"><i class="fa fa-trash-o"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+                <div class="box-footer clearfix no-border">
+                    <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/follow_up_create">
+                            Daily Follow
+                            Up </a></button>
+                </div>
+            </div>
+
+        </section>
+    </div>
+    </div>
+
+
+
+    {% include 'employees/footer.html' %}
+    <script>
+        $('a.delete').on('click', function () {
+            var choice = confirm('Do you really want to delete this record?');
+            if (choice === true) {
+                return true;
+            }
+            return false;
+        });
+
+    </script>
+    {% endblock %}

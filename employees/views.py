@@ -40,11 +40,6 @@ def employee_admin(request):
     page_number = request.GET.get('page')
     inc_Sallary_page = paginator.get_page(page_number)
 
-##FeedBack Pagination
-    paginator = Paginator(feedback, 2)
-    page_number = request.GET.get('page')
-    feedback_obj = paginator.get_page(page_number)
-
 ##client pagination
     paginator = Paginator(client, 2) 
     page = request.GET.get('page')
@@ -54,6 +49,32 @@ def employee_admin(request):
         client_all = paginator.page(1)
     except EmptyPage:
         client_all = paginator.page(paginator.num_pages)
+
+    context = {
+                'emp_count': emp_count,
+                'enq_count':enq_count,
+                'page_obj':page_obj,
+                'inc_Sallary_page':inc_Sallary_page,
+                'client_all':client_all,
+                'client_count':client_count,
+                'user_count':user_count,
+                'client':client,
+                'mon_sal_obj':mon_sal_obj,
+                
+            }
+    return render(request, 'employees/dashboard.html',context)
+
+
+@login_required(login_url='/')
+def enquiry_admin(request):
+    now = datetime.datetime.now()
+    enq = Enquiry.objects.all().filter(status = '1').order_by('-created')
+    feedback = Followup.objects.filter(status='1').order_by('-created')
+
+##FeedBack Pagination
+    paginator = Paginator(feedback, 2)
+    page_number = request.GET.get('page')
+    feedback_obj = paginator.get_page(page_number)
 
 ##Enquiry Pagination
     paginator = Paginator(enq, 2) 
@@ -66,20 +87,12 @@ def employee_admin(request):
         enq_all = paginator.page(paginator.num_pages)
     
     context = {
-                'emp_count': emp_count,
-                'enq_count':enq_count,
-                'page_obj':page_obj,
-                'inc_Sallary_page':inc_Sallary_page,
-                'client_all':client_all,
                 'enq_all':enq_all,
-                'client_count':client_count,
-                'user_count':user_count,
-                'client':client,
-                'mon_sal_obj':mon_sal_obj,
                 'feedback_obj':feedback_obj,
                 
             }
-    return render(request, 'employees/dashboard.html',context)
+    return render(request, 'employees/enquiry_dashboard.html',context)
+
 
 
 @login_required(login_url='/')

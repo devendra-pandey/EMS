@@ -156,7 +156,7 @@
                     <td>{{ proj.client_name }}</td>
                     <td>{{ proj.project_name }}</td>
                     <td>{{ proj.project_type }}</td>
-                    <td>{{ proj.project_files }}</td>
+                    <td><img src ="{% static '{{ proj.project_files }}'% }"></img></td>
                     <td>{{ proj.received_amount }}</td>
                     <td>{{ proj.end_date }}</td>
                     <td><a href="/update_project/{{ proj.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
