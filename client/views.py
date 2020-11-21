@@ -359,18 +359,12 @@ def project_income(request):
             proj_amount = obj.amount
             proj_payment_type = obj.payment_method
             print("******")
-            print(proj_date.year)
-            # if proj_date.year >=2012
-            tax_value = Tax.objects.filter(year__gte = proj_date.year)
-            for tax in tax_value:
-                tax_value_value = tax.tax_value
-                print(tax_value_value)
-                total_t = proj_amount * tax_value_value/100
+            print(proj_id)
+            total_t = proj_amount * 18/100
             total_dis = proj_amount * 10/100
             proj_tot_amt = total_t + proj_amount - total_dis
             print("*****^^^^***")
             print(proj_tot_amt)
-            # to_create = Invoice.objects.create(project_income=proj_id)
             choice = form1.save(commit=False)
             choice.client_name = proj_client_name
             choice.project_name = proj_name
