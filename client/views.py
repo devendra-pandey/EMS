@@ -215,7 +215,6 @@ def proj_dashboard(request):
             amount[month] = expense['expense_amount']
 
 
-
 ##pagination of project
     paginator = Paginator(project, 2)
     page_number = request.GET.get('page')

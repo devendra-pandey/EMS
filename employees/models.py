@@ -164,7 +164,7 @@ class Monthly_Salary(models.Model):
     paid_leaves = models.IntegerField(default=1)
     total_working_days = models.IntegerField(default=1)
     deduction_per = models.FloatField(default=0.0)
-    total_salary = models.CharField(max_length=20, default='0')
+    total_salary = models.FloatField(default='0')
     date = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)

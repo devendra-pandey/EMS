@@ -311,16 +311,10 @@
         <div class="box-footer clearfix no-border">
           <button class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a
               href="/month_Sal">Calculate Sallary</a></button>
-
         </div>
       </div>
-
-
-
-
     </section>
     <section class="col-lg-5 connectedSortable">
-
       <div class="box box-primary">
         <div class="box-header">
           <i class="ion ion-clipboard"></i>
@@ -372,18 +366,107 @@
               {% endfor %}
             </tbody>
           </table>
-        </div><!-- /.box-body -->
+        </div>
         <div class="box-footer clearfix no-border">
           <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/increase_Sal"> Increment
               sallary </a></button>
+        </div>
+      </div>
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="ion ion-clipboard"></i>
+          <h3 class="box-title">yearly Total Sallary Expenses</h3>
+          <div class="box-tools pull-right">
+            <ul class="pagination pagination-sm inline">
+              {% if feedback_obj.has_previous %}
+              <li><a href="?page={{ feedback_obj.previous_page_number }}">Previous</a></li>
+              {% endif %}
+              <li><a href="#">Page {{ feedback_obj.number }} of {{ feedback_obj.paginator.num_pages }}.</a></li>
+              {% if feedback_obj.has_next %}
+              <li><a href="?page={{ feedback_obj.next_page_number }}">next</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        <div class="box-body">
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Year</th>
+                <th>Total Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for year in years %}
+              <tr>
+                <td>
+                  <span class="handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                  </span>
+                </td>
+                <td>{{ year.year }}</td>
+                {% if year.year in amounts %}
+                <td>{{ amounts|get_item:year.year }}</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="box box-primary">
+        <div class="box-header">
+          <i class="ion ion-clipboard"></i>
+          <h3 class="box-title">Monthly Total Sallary Expenses</h3>
+          <div class="box-tools pull-right">
+            <ul class="pagination pagination-sm inline">
+              {% if monthly.has_previous %}
+              <li><a href="?page={{ monthly.previous_page_number }}">Previous</a></li>
+              {% endif %}
+              <li><a href="#">Page {{ monthly.number }} of {{ monthly.paginator.num_pages }}.</a></li>
+              {% if monthly.has_next %}
+              <li><a href="?page={{ monthly.next_page_number }}">next</a></li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        <div class="box-body">
+
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Month</th>
+                <th>Total Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for month in monthly %}
+              <tr>
+                <td>
+                  <span class="handle">
+                    <i class="fa fa-ellipsis-v"></i>
+                    <i class="fa fa-ellipsis-v"></i>
+                  </span>
+                </td>
+                <td>{{ month.month}}/{{month.year}}</td>
+                {% if month.month in amount %}
+                <td>{{ amount|get_item:month.month }}</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
         </div>
       </div>
 
     </section>
   </div>
   </div>
-
-
 
   {% include 'employees/footer.html' %}
   <script>
