@@ -16,42 +16,88 @@
     <i class="fa fa-dashboard"></i> <span>Project Dashboard</span>
   </a>
 </li>
-<li class="active treeview">
-  <a href="/enquiry_dashboard">
-      <i class="fa fa-dashboard"></i> <span>Enquiry Dashboard</span>
+
+<li class="treeview">
+  <a href="#">
+    <i class="fa fa-pie-chart"></i>
+    <span>Employees</span>
+    <i class="fa fa-angle-left pull-right"></i>
   </a>
+  <ul class="treeview-menu">
+    <li><a href="/all_emp"><i class="fa fa-circle-o"></i> All Employee</a></li>
+    <li><a href="/create"><i class="fa fa-circle-o"></i> Add New Employee</a></li>
+    
+  </ul>
 </li>
-<li>
-  <a href="/create">
-    <i class="fa fa-th"></i> <span>New Employee</span> <small class="label pull-right bg-green">new</small>
+<li class="treeview">
+  <a href="#">
+    <i class="fa fa-pie-chart"></i>
+    <span>client</span>
+    <i class="fa fa-angle-left pull-right"></i>
   </a>
+  <ul class="treeview-menu">
+    <li><a href="/clients"><i class="fa fa-circle-o"></i> All client</a></li>
+    <li><a href="/create_client"><i class="fa fa-circle-o"></i> Add New Client</a></li>
+    
+  </ul>
 </li>
-<li>
-  <a href="/create_client">
-    <i class="fa fa-th"></i> <span>New Client</span> <small class="label pull-right bg-green">new</small>
+
+<li class="treeview">
+  <a href="#">
+    <i class="fa fa-pie-chart"></i>
+    <span>Projects</span>
+    <i class="fa fa-angle-left pull-right"></i>
   </a>
+  <ul class="treeview-menu">
+    <li><a href="/data_projects/"><i class="fa fa-circle-o"></i> All Projects</a></li>
+    <li><a href="/create_project"><i class="fa fa-circle-o"></i> Add New Projects</a></li>
+    <li><a href="/project_income_detail"><i class="fa fa-circle-o"></i> Projects Income</a></li>
+    <li><a href="/add_project_income"><i class="fa fa-circle-o"></i> Add Projects Income</a></li>
+    <li><a href="/proj_assign_details"><i class="fa fa-circle-o"></i> Assigned Projects</a></li>
+    <li><a href="/assign_project"><i class="fa fa-circle-o"></i> Assign The Projects to Employee</a></li>
+    
+  </ul>
 </li>
-<li>
-  <a href="/increase_Sal">
-    <i class="fa fa-th"></i> <span>Add Increment sallary</span> <small class="label pull-right bg-green">new</small>
+
+<li class="treeview">
+  <a href="#">
+    <i class="fa fa-pie-chart"></i>
+    <span>PAYROLL</span>
+    <i class="fa fa-angle-left pull-right"></i>
   </a>
+  <ul class="treeview-menu">
+    <li><a href="/all_sal"><i class="fa fa-circle-o"></i> All Sallary</a></li>
+    <li><a href="/all_inc"><i class="fa fa-circle-o"></i> All Increment Sallary</a></li>
+    <li><a href="/month_Sal"><i class="fa fa-circle-o"></i> Calculate Month Sallary</a></li>
+    <li><a href="/increase_Sal"><i class="fa fa-circle-o"></i> Increase sallary</a></li>
+    <li><a href="/all_monthly_sallary"><i class="fa fa-circle-o"></i> Monthly Total Sallary</a></li>
+    
+  </ul>
 </li>
-<li>
-  <a href="/month_Sal">
-    <i class="fa fa-th"></i> <span>Add Monthly sallary</span>
+
+<li class="treeview">
+  <a href="#">
+    <i class="fa fa-pie-chart"></i>
+    <span>ENQUIRY</span>
+    <i class="fa fa-angle-left pull-right"></i>
   </a>
+  <ul class="treeview-menu">
+    <li><a href="/all_enq"><i class="fa fa-circle-o"></i> All Enquiry</a></li>
+    <li><a href="/all_followup"><i class="fa fa-circle-o"></i> All Enquiry Followup</a></li>
+    <li><a href="/alert"><i class="fa fa-circle-o"></i> Alert</a></li>
+    <li><a href="/month_Sal"><i class="fa fa-circle-o"></i> Add new Enquiry</a></li>
+    <li><a href="/increase_Sal"><i class="fa fa-circle-o"></i> Add Followup</a></li>
+    
+  </ul>
 </li>
+
 
 <li>
   <a href="/employee_data/">
     <i class="fa fa-th"></i> <span>All Employees</span>
   </a>
 </li>
-<li>
-  <a href="/data_projects/">
-    <i class="fa fa-th"></i> <span>All projects</span>
-  </a>
-</li>
+
 
 
 {% endblock %}
@@ -118,365 +164,9 @@
   </div><!-- /.row -->
   <!-- Main row -->
   <div class="row">
-    <!-- Left col -->
-    <section class="col-lg-7 connectedSortable">
-
-
-
-      <!-- TO DO List -->
-      <div class="box box-primary">
-        <div class="box-header">
-          <i class="ion ion-clipboard"></i>
-          <h3 class="box-title">Employees</h3>
-          <div class="box-tools pull-right">
-            {% if page_obj.has_other_pages %}
-            <ul class="pagination pagination-sm inline">
-              {% if page_obj.has_previous %}
-              <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-              {% else %}
-              <li class="disabled"><span>&laquo;</span></li>
-              {% endif %}
-              {% for i in page_obj.paginator.page_range %}
-              {% if page_obj.number == i %}
-              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-              {% else %}
-              <li><a href="?page={{ i }}">{{ i }}</a></li>
-              {% endif %}
-              {% endfor %}
-              {% if page_obj.has_next %}
-              <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-              {% else %}
-              <li class="disabled"><span>&raquo;</span></li>
-              {% endif %}
-            </ul>
-            {% endif %}
-          </div>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          <ul class="todo-list">
-            {% for e in page_obj %}
-            <li>
-              <!-- drag handle -->
-              <span class="handle">
-                <i class="fa fa-ellipsis-v"></i>
-                <i class="fa fa-ellipsis-v"></i>
-              </span>
-              <!-- checkbox -->
-              <input type="checkbox" value="" name="" />
-              <!-- todo text -->
-              <span class="text">{{ e.first_name }}</span>
-              <!-- Emphasis label -->
-              <small class="label label-danger"><i class="fa fa-clock-o"></i> {{ e.created }}mins</small>
-              <!-- General tools such as edit or delete-->
-              <div class="tools">
-                <a href="view_emp/{{ e.id }}"><i class="fa fa-eye"></i></a>
-                <a href="update_emp/{{ e.id }}" class="btn-warning"><i class="fa fa-edit"></i></a>
-                <a onclick="return confirm('Delete this record?')" href="delete_emp/{{ e.id }}"><i
-                    class="fa fa-trash-o"></i></a>
-              </div>
-            </li>
-            {% endfor %}
-          </ul>
-        </div><!-- /.box-body -->
-        <div class="box-footer clearfix no-border">
-          <button class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a
-              href="/create">Add Employee</a></button>
-
-        </div>
-      </div>
-      <!-- TO DO List -->
-      <div class="box box-primary">
-        <div class="box-header">
-          <i class="ion ion-clipboard"></i>
-          <h3 class="box-title">Clients</h3>
-          <div class="box-tools pull-right">
-            <ul class="pagination pagination-sm inline">
-              {% if client_all.has_previous %}
-              <li><a href="?page={{ client_all.previous_page_number }}">Previous</a></li>
-              {% endif %}
-              <li><a href="#">Page {{ client_all.number }} of {{ client_all.paginator.num_pages }}.</a></li>
-              {% if client_all.has_next %}
-              <li><a href="?page={{ client_all.next_page_number }}">next</a></li>
-              {% endif %}
-            </ul>
-          </div>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          <ul class="todo-list">
-            {% for c in client_all %}
-            <li>
-              <!-- drag handle -->
-              {% if c %}
-              <span class="handle">
-                <i class="fa fa-ellipsis-v"></i>
-                <i class="fa fa-ellipsis-v"></i>
-              </span>
-              <!-- checkbox -->
-              <input type="checkbox" value="" name="" />
-              <!-- todo text -->
-
-              <span class="text">{{ c.first_name }}</span>
-
-              <!-- Emphasis label -->
-              <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-              <!-- General tools such as edit or delete-->
-              <div class="tools">
-                <a href="update_client/{{ c.id }}"><i class="fa fa-edit"></i></a>
-                <a onclick="return confirm('Delete this record?')" href="delete_client/{{ c.id }}"><i
-                    class="fa fa-trash-o"></i></a>
-              </div>
-              {% else %}
-              <span class="text">No clients Yet</span>
-              {% endif %}
-            </li>
-            {% endfor %}
-          </ul>
-        </div><!-- /.box-body -->
-        <div class="box-footer clearfix no-border">
-          <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="create_client/"> Add Client
-            </a></button>
-        </div>
-      </div>
-      <div class="box box-primary">
-        <div class="box-header">
-          <i class="ion ion-clipboard"></i>
-          <h3 class="box-title">Employees Monthly sallary </h3>
-          <div class="box-tools pull-right">
-            {% if mon_sal_obj.has_other_pages %}
-            <ul class="pagination pagination-sm inline">
-              {% if mon_sal_obj.has_previous %}
-              <li><a href="?page={{ mon_sal_obj.previous_page_number }}">&laquo;</a></li>
-              {% else %}
-              <li class="disabled"><span>&laquo;</span></li>
-              {% endif %}
-              {% for i in mon_sal_obj.paginator.page_range %}
-              {% if mon_sal_obj.number == i %}
-              <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-              {% else %}
-              <li><a href="?page={{ i }}">{{ i }}</a></li>
-              {% endif %}
-              {% endfor %}
-              {% if mon_sal_obj.has_next %}
-              <li><a href="?page={{ mon_sal_obj.next_page_number }}">&raquo;</a></li>
-              {% else %}
-              <li class="disabled"><span>&raquo;</span></li>
-              {% endif %}
-            </ul>
-            {% endif %}
-          </div>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          <ul class="todo-list">
-
-            <li>
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Employee Name</th>
-                    <th>Total Working Days</th>
-                    <th>Leaves</th>
-                    <th>Paid Leaves</th>
-                    <th>Total Sallary</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for ms in mon_sal_obj %}
-                  <tr>
-                    <td>
-                      <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                    </td>
-                    <td>{{ ms.employee_name }}</td>
-                    <td>{{ ms.total_working_days }}</td>
-                    <td>{{ ms.leaves }}</td>
-                    <td>{{ ms.paid_leaves }}</td>
-                    <td>{{ ms.total_salary }}</td>
-                    <td><a href="update_month_Sal/{{ ms.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
-                    <td><a onclick="return confirm('Delete this record?')" href="delete_monthly_sal/{{ ms.id }}"><i
-                          class="fa fa-trash-o"></i></a></td>
-
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </li>
-          </ul>
-        </div><!-- /.box-body -->
-        <div class="box-footer clearfix no-border">
-          <button class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a
-              href="/month_Sal">Calculate Sallary</a></button>
-        </div>
-      </div>
-    </section>
-    <section class="col-lg-5 connectedSortable">
-      <div class="box box-primary">
-        <div class="box-header">
-          <i class="ion ion-clipboard"></i>
-          <h3 class="box-title">Sallary Increment here</h3>
-          <div class="box-tools pull-right">
-            <ul class="pagination pagination-sm inline">
-              {% if inc_Sallary_page.has_previous %}
-              <li><a href="?page={{ inc_Sallary_page.previous_page_number }}">Previous</a></li>
-              {% endif %}
-              <li><a href="#">Page {{ inc_Sallary_page.number }} of {{ inc_Sallary_page.paginator.num_pages }}.</a></li>
-              {% if inc_Sallary_page.has_next %}
-              <li><a href="?page={{ inc_Sallary_page.next_page_number }}">next</a></li>
-              {% endif %}
-            </ul>
-          </div>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Employee Name</th>
-                <th>Hike Sallary</th>
-                <th>Description</th>
-                <th>Increment Date</th>
-                <th>Edit</th>
-                <th>Delete</th>
-
-              </tr>
-            </thead>
-            <tbody>
-              {% for i in inc_Sallary_page %}
-              <tr>
-                <td>
-                  <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                  </span>
-                </td>
-                <td>{{ i.employe_name }}</td>
-                <td>{{ i.hike_sallary }}</td>
-                <td>{{ i.description }}</td>
-                <td>{{ i.Increment_date }}</td>
-                <td><a href="update_inc_sal/{{ i.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
-                <td><a onclick="return confirm('Delete this record?')" href="delete_inc_sal/{{ i.id }}"><i
-                      class="fa fa-trash-o"></i></a></td>
-
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-        <div class="box-footer clearfix no-border">
-          <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/increase_Sal"> Increment
-              sallary </a></button>
-        </div>
-      </div>
-      <div class="box box-primary">
-        <div class="box-header">
-          <i class="ion ion-clipboard"></i>
-          <h3 class="box-title">yearly Total Sallary Expenses</h3>
-          <div class="box-tools pull-right">
-            <ul class="pagination pagination-sm inline">
-              {% if feedback_obj.has_previous %}
-              <li><a href="?page={{ feedback_obj.previous_page_number }}">Previous</a></li>
-              {% endif %}
-              <li><a href="#">Page {{ feedback_obj.number }} of {{ feedback_obj.paginator.num_pages }}.</a></li>
-              {% if feedback_obj.has_next %}
-              <li><a href="?page={{ feedback_obj.next_page_number }}">next</a></li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-        <div class="box-body">
-
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Year</th>
-                <th>Total Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for year in years %}
-              <tr>
-                <td>
-                  <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                  </span>
-                </td>
-                <td>{{ year.year }}</td>
-                {% if year.year in amounts %}
-                <td>{{ amounts|get_item:year.year }}</td>
-                {% endif %}
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="box box-primary">
-        <div class="box-header">
-          <i class="ion ion-clipboard"></i>
-          <h3 class="box-title">Monthly Total Sallary Expenses</h3>
-          <div class="box-tools pull-right">
-            <ul class="pagination pagination-sm inline">
-              {% if monthly.has_previous %}
-              <li><a href="?page={{ monthly.previous_page_number }}">Previous</a></li>
-              {% endif %}
-              <li><a href="#">Page {{ monthly.number }} of {{ monthly.paginator.num_pages }}.</a></li>
-              {% if monthly.has_next %}
-              <li><a href="?page={{ monthly.next_page_number }}">next</a></li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-        <div class="box-body">
-
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Month</th>
-                <th>Total Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for month in monthly %}
-              <tr>
-                <td>
-                  <span class="handle">
-                    <i class="fa fa-ellipsis-v"></i>
-                    <i class="fa fa-ellipsis-v"></i>
-                  </span>
-                </td>
-                <td>{{ month.month}}/{{month.year}}</td>
-                {% if month.month in amount %}
-                <td>{{ amount|get_item:month.month }}</td>
-                {% endif %}
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </section>
   </div>
   </div>
 
   {% include 'employees/footer.html' %}
-  <script>
-    $('a.delete').on('click', function () {
-      var choice = confirm('Do you really want to delete this record?');
-      if (choice === true) {
-        return true;
-      }
-      return false;
-    });
-
-  </script>
+  
   {% endblock %}

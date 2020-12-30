@@ -57,38 +57,6 @@ def delete_client(request, id):
 
 
 @login_required(login_url='/')
-def enquiry_admin(request):
-    enq = Enquiry.objects.all().filter(status = '1').order_by('-created')
-    feedback = Followup.objects.filter(status='1').order_by('-created')
-
-##FeedBack Pagination
-    paginator = Paginator(feedback, 2)
-    page_number = request.GET.get('page')
-    feedback_obj = paginator.get_page(page_number)
-
-##Enquiry Pagination
-    paginator = Paginator(enq, 2) 
-    page = request.GET.get('page')
-    try:
-        enq_all = paginator.page(page)
-    except PageNotAnInteger:
-        enq_all = paginator.page(1)
-    except EmptyPage:
-        enq_all = paginator.page(paginator.num_pages)
-    
-    context = {
-                'enq_all':enq_all,
-                'feedback_obj':feedback_obj,
-                'enq':enq,
-                'feedback':feedback,
-                'datetime':datetime,
-                
-            }
-    return render(request, 'employees/enquiry_dashboard.html',context)
-
-
-
-@login_required(login_url='/')
 def create_enquiry(request):
     form = EnquiryForm()
     if request.method == 'POST':
@@ -96,9 +64,9 @@ def create_enquiry(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Successfully saved')
-            return redirect('enquiry_admin')
+            return redirect('all_enq')
         else:
-            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'all_enq'}}">reload</a>""")
     else:      
         return render(request, 'client/enquiry.html', {'upload_form':form})
 
@@ -108,11 +76,11 @@ def update_enquiry(request, id):
     try:
         enq_get = Enquiry.objects.get(id = enquiry_id)
     except Enquiry.DoesNotExist:
-        return redirect('enquiry_admin')
+        return redirect('all_enq')
     form = EnquiryForm(request.POST or None, instance = enq_get)
     if form.is_valid():
        form.save()
-       return redirect('enquiry_admin')
+       return redirect('all_enq')
     return render(request, 'client/enquiry.html', {'upload_form':form})
 
 @login_required(login_url='/')
@@ -121,10 +89,10 @@ def delete_enquiry(request, id):
     try:
         enq_data = Enquiry.objects.get(id = enq_id)
     except Enquiry.DoesNotExist:
-        return redirect('enquiry_admin')
+        return redirect('all_enq')
     enq_data.status = '0'
     enq_data.save()
-    return redirect('enquiry_admin')
+    return redirect('all_enq')
 
 
 @login_required(login_url='/')
@@ -134,7 +102,7 @@ def create_followup(request):
         form = FollowupForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('enquiry_admin')
+            return redirect('all_followup')
         else:
             return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
     else:      
@@ -147,11 +115,11 @@ def update_followup(request, id):
     try:
         fol_get = Followup.objects.get(id = followup_id)
     except Followup.DoesNotExist:
-        return redirect('enquiry_admin')
+        return redirect('all_followup')
     form = FollowupForm(request.POST or None, instance = fol_get)
     if form.is_valid():
        form.save()
-       return redirect('enquiry_admin')
+       return redirect('all_followup')
     return render(request, 'client/follow_up.html', {'upload_form':form})
 
 
@@ -161,21 +129,95 @@ def delete_Followup(request, id):
     try:
         fol_data = Followup.objects.get(id = fol_id)
     except Followup.DoesNotExist:
-        return redirect('enquiry_admin')
+        return redirect('all_followup')
     fol_data.status = '0'
     fol_data.save()
-    return redirect('enquiry_admin')
-
+    return redirect('all_followup')
 
 
 @login_required(login_url='/')
-def info_client(request):
-    return render(request, 'client/info_client.html')
+def client(request):
+    client = Client.objects.all().filter(status = '1').order_by('-created')
+    ##client pagination
+    paginator = Paginator(client, 2) 
+    page = request.GET.get('page')
+    try:
+        client_all = paginator.page(page)
+    except PageNotAnInteger:
+        client_all = paginator.page(1)
+    except EmptyPage:
+        client_all = paginator.page(paginator.num_pages)
+
+    context = {
+                'client_all':client_all,
+            }
+    return render(request, 'client/clients.html',context)
+
+@login_required(login_url='/')
+def info_client(request, id):
+    client_info = get_object_or_404(Client, id=id)
+    context = {
+        'client_info':client_info
+    }
+    return render(request, 'client/info_client.html', context)
 
 
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+@login_required(login_url='/')
+def all_enquiry(request):
+    enq = Enquiry.objects.all().filter(status = '1').order_by('-created')
+
+    ##Enquiry Pagination
+    paginator = Paginator(enq, 2) 
+    page = request.GET.get('page')
+    try:
+        enq_all = paginator.page(page)
+    except PageNotAnInteger:
+        enq_all = paginator.page(1)
+    except EmptyPage:
+        enq_all = paginator.page(paginator.num_pages)
+    
+    context = {
+                'enq_all':enq_all,
+    }
+
+
+    return render(request, 'client/all_enquiry.html', context)
+
+@login_required(login_url='/')
+def all_followup(request):
+    feedback = Followup.objects.filter(status='1').order_by('-created')
+
+##FeedBack Pagination
+    paginator = Paginator(feedback, 2)
+    page_number = request.GET.get('page')
+    feedback_obj = paginator.get_page(page_number)
+
+    context = {
+        'feedback_obj':feedback_obj,
+
+    }
+    return render(request, 'client/all_followup.html', context)
+
+
+
+@login_required(login_url='/')
+def alert(request):
+    enq = Enquiry.objects.all().filter(status = '1').order_by('-created')
+    feedback = Followup.objects.filter(status='1').order_by('-created')
+
+
+    context = {
+        'enq':enq,
+        'feedback':feedback,
+        'datetime':datetime,
+
+    }
+    return render(request, 'client/alert.html', context)
+
 
 
 @login_required(login_url='/')
@@ -299,11 +341,11 @@ def update_project(request, id):
     try:
         proj_get = Project.objects.get(id = proj_id)
     except Project.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     form = ProjectForm(request.POST or None, instance = proj_get)
     if form.is_valid():
        form.save()
-       return redirect('proj_dashboard')
+       return redirect('data_projects')
     return render(request, 'client/create_project.html', {'upload_form':form})
 
 
@@ -313,10 +355,10 @@ def delete_project(request, id):
     try:
         proj_data = Project.objects.get(id = proj_id)
     except Project.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     proj_data.status = '0'
     proj_data.save()
-    return redirect('proj_dashboard')
+    return redirect('data_projects')
 
 
 @login_required(login_url='/')
@@ -325,10 +367,10 @@ def complete_project(request, id):
     try:
         proj_data = Project.objects.get(id = proj_id)
     except Project.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     proj_data.completed = 1
     proj_data.save()
-    return redirect('proj_dashboard')
+    return redirect('data_projects')
 
 @login_required(login_url='/')
 def uncomplete_project(request, id):
@@ -336,10 +378,10 @@ def uncomplete_project(request, id):
     try:
         proj_data = Project.objects.get(id = proj_id)
     except Project.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     proj_data.completed = 0
     proj_data.save()
-    return redirect('proj_dashboard')
+    return redirect('data_projects')
 
 
 @login_required(login_url='/')

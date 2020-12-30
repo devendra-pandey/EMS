@@ -11,7 +11,7 @@
 
 <!-- Main content -->
 <section class="content">
-  
+
   <div class="row">
     <div class="col-xs-12">
       <div class="box">
@@ -22,13 +22,13 @@
               <div class="dataTables_filter">
                 <form action="" method="POST">
                   {% csrf_token %}
-                <label>FROM:
-                  <input type="date" name="datefp" class="form-control input-sm">
-                </label>
-                <label>TO:
-                  <input type="date" name="datetp" class="form-control input-sm">
-                </label>
-                <input type="submit"></input>
+                  <label>FROM:
+                    <input type="date" name="datefp" class="form-control input-sm">
+                  </label>
+                  <label>TO:
+                    <input type="date" name="datetp" class="form-control input-sm">
+                  </label>
+                  <input type="submit"></input>
                 </form>
               </div>
             </div>
@@ -40,19 +40,34 @@
               <tr>
                 <th>Project Name </th>
                 <th>Client Name</th>
-                <th>Received Amount</th>
-                <th>End Date</th>
-                <th>Completed</th>
+                <th>Start Date</th>
+                <th>Status</th>
+                <th>Complete or Remaining</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
               {% for proj in proj_info %}
               <tr>
-                <td>{{ proj.project_name }}</td>
+                <td><a href="/view_proj/{{ proj.id }}">{{ proj.project_name }}</a></td>
                 <td>{{ proj.client_name }}</td>
-                <td>{{ proj.received_amount }}</td>
-                <td>{{ proj.end_date }}</td>
-                <td>{{proj.completed  }}</td>
+                <td>{{ proj.start_date}}</td>
+                {% if proj.completed == 1 %}
+                <td>completed</td>
+                {% else %}
+                <td>Work on Progress</td>
+                {% endif %}
+
+                {% if proj.completed == 0 %}
+                <td><a href="/complete_project/{{ proj.id }}"><i class="fa fa-check"></i></a></td>
+                {% else %}
+                <td><a href="/uncomplete_project/{{ proj.id }}" class="btn-warning"><i class="fa fa-close"></i></a>
+                </td>
+                {% endif %}
+
+                <td><a href="/update_project/{{ proj.id }}">Edit</a></td>
+                <td><a href="/delete_project/{{ proj.id }}">Delete</a></td>
               </tr>
               {% endfor %}
             </tbody>
@@ -63,7 +78,7 @@
   </div><!-- /.row -->
   <div class="row">
     <div class="col-sm-5">
-    
+
     </div>
   </div>
   <div class="col-sm-7">

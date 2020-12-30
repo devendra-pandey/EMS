@@ -1,0 +1,59 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|All Sallary Increment  {% endblock title %}
+{% block control %} View All Sallary Increment  {% endblock %}
+{% block page %} All Sallary Increment  Detail {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>All Increment Sallary  Information</h2>
+        <div class="box box-primary">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Monthly Total Sallary Expenses</h3>
+              <div class="box-tools pull-right">
+                <ul class="pagination pagination-sm inline">
+                  {% if monthly.has_previous %}
+                  <li><a href="?page={{ monthly.previous_page_number }}">Previous</a></li>
+                  {% endif %}
+                  <li><a href="#">Page {{ monthly.number }} of {{ monthly.paginator.num_pages }}.</a></li>
+                  {% if monthly.has_next %}
+                  <li><a href="?page={{ monthly.next_page_number }}">next</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+            <div class="box-body">
+    
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Month</th>
+                    <th>Total Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for month in monthly %}
+                  <tr>
+                    <td>
+                      <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                    </td>
+                    <td>{{ month.month}}/{{month.year}}</td>
+                    {% if month.month in amount %}
+                    <td>{{ amount|get_item:month.month }}</td>
+                    {% endif %}
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+    </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|Projects Assign Details {% endblock title %}
+{% block control %} Projects Assign Details {% endblock %}
+{% block page %} Projects Assign Details {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>Projects Assign Information</h2>
+
+        <div class="box box-primary">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Assign Project</h3>
+              <div class="box-tools pull-right">
+                <ul class="pagination pagination-sm inline">
+                  {% if proj_assign_page.has_previous %}
+                  <li><a href="?page={{ proj_assign_page.previous_page_number }}">Previous</a></li>
+                  {% endif %}
+                  <li><a href="#">Page {{ proj_assign_page.number }} of {{ proj_assign_page.paginator.num_pages }}.</a></li>
+                  {% if proj_assign_page.has_next %}
+                  <li><a href="?page={{ proj_assign_page.next_page_number }}">next</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+            <div class="box-body">
+    
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Project Name</th>
+                    <th>Employee Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Aactual End Date </th>
+                    <th>Complete</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+    
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for f in proj_assign_page %}
+                  <tr>
+                    <td>
+                      <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                    </td>
+                    <td>{{ f.project_name }}</td>
+                    <td>{{ f.employe_name }}</td>
+                    <td>{{ f.start_date}}</td>
+                    <td>{{ f.end_date }}</td>
+                    <td> {{ f.actual_end_date }}</td>
+    
+                    <td><a href="/complete_assign_project/{{ f.id }}"><i class="fa fa-check"></i></a></td>
+    
+                    <td><a href="/update_assign_project/{{ f.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                    <td><a onclick="return confirm('Delete this record?')" href="/delete_project_assign/{{ f.id }}"><i
+                          class="fa fa-trash-o"></i></a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="box-footer clearfix no-border">
+              <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/assign_project/"> Assign
+                  Project </a></button>
+            </div>
+          </div>
+
+
+
+    </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+<script>
+  $('a.delete').on('click', function () {
+    var choice = confirm('Do you really want to delete this record?');
+    if (choice === true) {
+      return true;
+    }
+    return false;
+  });
+
+</script>
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|Projects Income Details {% endblock title %}
+{% block control %} Projects Income Details {% endblock %}
+{% block page %} Projects Income Details {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>Projects Income Information</h2>
+
+
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">Project Income </h3>
+                <div class="box-tools pull-right">
+                    {% if proj_inc_page.has_other_pages %}
+                    <ul class="pagination pagination-sm inline">
+                        {% if proj_inc_page.has_previous %}
+                        <li><a href="?page={{ proj_inc_page.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                        {% endif %}
+                        {% for i in proj_inc_page.paginator.page_range %}
+                        {% if proj_inc_page.number == i %}
+                        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if proj_inc_page.has_next %}
+                        <li><a href="?page={{ proj_inc_page.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                        {% endif %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <ul class="todo-list">
+
+                    <li>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Project Name</th>
+                                    <th>Comment</th>
+                                    <th>Amounts</th>
+                                    <th>Received Date</th>
+                                    <th>Edit</th>
+                                    <th>Show Invoice</th>
+                                    <th>Delete</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for income in proj_inc_page %}
+                                <tr>
+                                    <td>
+                                        <span class="handle">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </span>
+                                    </td>
+                                    <td>{{ income.project_name }}</td>
+                                    <td>{{ income.comment }}</td>
+                                    <td>{{ income.amount }}</td>
+                                    <td>{{ income.received_date }}</td>
+                                    <td><a href="/update_project_income/{{ income.id }}" class="btn-warning"><i
+                                                class="fa fa-edit"></i></a></td>
+                                    <td><a href="/invoice/{{income.id}}"><i class="fa fa-file"></i></a></td>
+                                    <td><a href="/delete_project_income/{{ income.id }}"><i
+                                                class="fa fa-trash-o"></i></a></td>
+
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </li>
+                </ul>
+            </div><!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+                <button class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a
+                        href="/add_project_income">Add Project Income</a></button>
+            </div>
+        </div>
+    </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+<script>
+    $('a.delete').on('click', function () {
+      var choice = confirm('Do you really want to delete this record?');
+      if (choice === true) {
+        return true;
+      }
+      return false;
+    });
+
+  </script>
+{% endblock %}

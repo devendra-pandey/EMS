@@ -1,0 +1,68 @@
+{% extends "employees/header.html" %}
+{% load static %}
+
+{%block title %} Admin|employee {% endblock title %}
+{% block control %} Employees {% endblock %}
+{% block page %} Employees{% endblock %}
+{% block content1 %}
+
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header">
+            <i class="ion ion-clipboard"></i>
+            <h3 class="box-title">All Employees </h3>
+            <div class="box-tools pull-right">
+                {% if page_obj.has_other_pages %}
+                <ul class="pagination pagination-sm inline">
+                    {% if page_obj.has_previous %}
+                    <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in page_obj.paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+            <ul class="todo-list">
+
+                <li>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Start Date</th>
+                                <th>Mobile number</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for es in page_obj %}
+                            <tr>
+                                <td><a href="/view_emp/{{ es.id }}">{{ es.first_name}} {{ es.last_name }}</a></td>
+                                <td>{{ es.start_date}}</td>
+                                <td>{{ es.mobile_number}}</td>
+                                <td><a href="/update_emp/{{ es.id }}">Edit</a></td>
+                                <td><a href="/delete_emp/{{ es.id }}">Delete</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+
+{% endblock %}

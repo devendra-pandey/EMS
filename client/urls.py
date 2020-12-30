@@ -6,17 +6,20 @@ from django.conf.urls import url
 
 
 urlpatterns = [
+    path('clients/', views.client, name='client'),
     path('create_client/', views.client_create, name='create_client'),
     path('update_client/<int:id>', views.update_client, name='update_client'),
     path('delete_client/<int:id>', views.delete_client, name='delete_client'),
-    path('enquiry_dashboard', views.enquiry_admin, name='enquiry_admin'),
+    path('all_enq/', views.all_enquiry, name='all_enq'),
     path('add_enquiry/', views.create_enquiry, name='create_enquiry'),
     path('update_enquiry/<int:id>', views.update_enquiry, name='update_enquiry'),
     path('delete_enquiry/<int:id>', views.delete_enquiry, name='delete_enquiry'),
+    path('all_followup', views.all_followup, name='all_followup'),
     path('follow_up_create/', views.create_followup, name='create_followup'),
     path('update_followup/<int:id>', views.update_followup, name='update_followup'),
     path('delete_followup/<int:id>', views.delete_Followup, name='delete_followup'),
-    path('client/<int:id>', views.info_client, name='info_client'),
+    path('alert/', views.alert),
+    path('view_client/<int:id>', views.info_client, name='info_client'),
     path('proj_dashboard/', views.proj_dashboard, name='proj_dashboard'),
     path('create_project/', views.create_project, name='create_project'),
     path('update_project/<int:id>', views.update_project, name='update_project'),

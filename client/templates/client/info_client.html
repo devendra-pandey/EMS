@@ -11,31 +11,22 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                    <th>Gender</th>
-                    <th>Start Date</th>
+                    <th>Name</th>
+                    <th>Company Name</th>
+                    <th>Linkedln Profile</th>
                     <th>Mobile number</th>
-                    <th>Residence Address</th>
-                    <th>Sallary</th>
-                    <th>Profile Image</th>
+                    <th>whats App</th>
+                    <th>Nationality</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ emp_info.first_name }}</td>
-                    <td>{{ emp_info.last_name }}</td>
-                    <td>{{ emp_info.gender }}</td>
-                    <td>{{ emp_info.start_date }}</td>
-                    <td>{{ emp_info.mobile_number }}</td>
-                    <td>{{ emp_info.residence_address }}</td>
-                    <td>{{ sallary_info.emp_salary }}</td>
-                    <td><img src="{{ emp_info.profile_image.url }}" width="40px" , height="40px"></img></td>
-                    <td>{{ emp_info. }}</td>
-                    <td>{{ emp_info. }}</td>
-                    <td>{{ emp_info. }}</td>
-                    <td>{{ emp_info. }}</td>
-                    <td>{{ emp_info. }}</td>
+                    <td>{{ client_info.first_name }} {{ client_info.last_name }}</td>
+                    <td>{{ client_info.company_name }}</td>
+                    <td>{{ client_info.linkedln_profile }}</td>
+                    <td>{{ client_info.mobile_no }}</td>
+                    <td>{{ client_info.whatsapp_number }}</td>
+                    <td>{{ client_info.nationality }}</td>
                 </tr>
 
             </tbody>

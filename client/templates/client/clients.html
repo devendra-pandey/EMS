@@ -1,0 +1,75 @@
+{% extends "employees/header.html" %}
+{% load static %}
+
+{%block title %} Admin|Clients {% endblock title %}
+{% block control %} Clients {% endblock %}
+{% block page %} Clients{% endblock %}
+{% block content1 %}
+
+<section class="content">
+    <div class="box box-primary">
+        <div class="box-header">
+            <i class="ion ion-clipboard"></i>
+            <h3 class="box-title">All Clients </h3>
+            <div class="box-tools pull-right">
+                {% if client_all.has_other_pages %}
+                <ul class="pagination pagination-sm inline">
+                    {% if client_all.has_previous %}
+                    <li><a href="?page={{ client_all.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&laquo;</span></li>
+                    {% endif %}
+                    {% for i in client_all.paginator.page_range %}
+                    {% if client_all.number == i %}
+                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    {% if client_all.has_next %}
+                    <li><a href="?page={{ client_all.next_page_number }}">&raquo;</a></li>
+                    {% else %}
+                    <li class="disabled"><span>&raquo;</span></li>
+                    {% endif %}
+                </ul>
+                {% endif %}
+            </div>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+            <ul class="todo-list">
+
+                <li>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cl in client_all %}
+                            <tr>
+                                <td><a href="/view_client/{{ cl.id }}">{{ cl.first_name}} {{ cl.last_name }}</a></td>
+                                <td><a href="/update_client/{{ cl.id }}">Edit</a></td>
+                                <td><a href="/delete_client/{{ cl.id }}">Delete</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+
+<script>
+    $('a.delete').on('click', function () {
+      var choice = confirm('Do you really want to delete this record?');
+      if (choice === true) {
+        return true;
+      }
+      return false;
+    });
+
+  </script>
+
+{% endblock %}

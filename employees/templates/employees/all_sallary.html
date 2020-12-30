@@ -1,0 +1,100 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|All Sallary  {% endblock title %}
+{% block control %} View All Sallary  {% endblock %}
+{% block page %} All Sallary  Detail {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>All Sallary  Information</h2>
+        <div class="box box-primary">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Employees </h3>
+              <div class="box-tools pull-right">
+                {% if mon_sal_obj.has_other_pages %}
+                <ul class="pagination pagination-sm inline">
+                  {% if mon_sal_obj.has_previous %}
+                  <li><a href="?page={{ mon_sal_obj.previous_page_number }}">&laquo;</a></li>
+                  {% else %}
+                  <li class="disabled"><span>&laquo;</span></li>
+                  {% endif %}
+                  {% for i in mon_sal_obj.paginator.page_range %}
+                  {% if mon_sal_obj.number == i %}
+                  <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                  {% else %}
+                  <li><a href="?page={{ i }}">{{ i }}</a></li>
+                  {% endif %}
+                  {% endfor %}
+                  {% if mon_sal_obj.has_next %}
+                  <li><a href="?page={{ mon_sal_obj.next_page_number }}">&raquo;</a></li>
+                  {% else %}
+                  <li class="disabled"><span>&raquo;</span></li>
+                  {% endif %}
+                </ul>
+                {% endif %}
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <ul class="todo-list">
+    
+                <li>
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Employee Name</th>
+                        <th>Total Working Days</th>
+                        <th>Leaves</th>
+                        <th>Paid Leaves</th>
+                        <th>Total Sallary</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+    
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for ms in mon_sal_obj %}
+                      <tr>
+                        <td>
+                          <span class="handle">
+                            <i class="fa fa-ellipsis-v"></i>
+                            <i class="fa fa-ellipsis-v"></i>
+                          </span>
+                        </td>
+                        <td>{{ ms.employee_name }}</td>
+                        <td>{{ ms.total_working_days }}</td>
+                        <td>{{ ms.leaves }}</td>
+                        <td>{{ ms.paid_leaves }}</td>
+                        <td>{{ ms.total_salary }}</td>
+                        <td><a href="update_month_Sal/{{ ms.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                        <td><a onclick="return confirm('Delete this record?')" href="delete_monthly_sal/{{ ms.id }}"><i
+                              class="fa fa-trash-o"></i></a></td>
+    
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </li>
+              </ul>
+            </div><!-- /.box-body -->
+            <div class="box-footer clearfix no-border">
+              <button class="btn btn-default pull-right" type="button" name="button"><i class="fa fa-plus"></i><a
+                  href="/month_Sal">Calculate Sallary</a></button>
+            </div>
+
+    </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+<script>
+    $('a.delete').on('click', function () {
+      var choice = confirm('Do you really want to delete this record?');
+      if (choice === true) {
+        return true;
+      }
+      return false;
+    });
+
+  </script>
+{% endblock %}

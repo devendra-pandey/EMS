@@ -1,0 +1,82 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|All Sallary Increment  {% endblock title %}
+{% block control %} View All Sallary Increment  {% endblock %}
+{% block page %} All Sallary Increment  Detail {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>All Increment Sallary  Information</h2>
+        <div class="box box-primary">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Sallary Increment here</h3>
+              <div class="box-tools pull-right">
+                <ul class="pagination pagination-sm inline">
+                  {% if inc_Sallary_page.has_previous %}
+                  <li><a href="?page={{ inc_Sallary_page.previous_page_number }}">Previous</a></li>
+                  {% endif %}
+                  <li><a href="#">Page {{ inc_Sallary_page.number }} of {{ inc_Sallary_page.paginator.num_pages }}.</a></li>
+                  {% if inc_Sallary_page.has_next %}
+                  <li><a href="?page={{ inc_Sallary_page.next_page_number }}">next</a></li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Employee Name</th>
+                    <th>Hike Sallary</th>
+                    <th>Description</th>
+                    <th>Increment Date</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+    
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for i in inc_Sallary_page %}
+                  <tr>
+                    <td>
+                      <span class="handle">
+                        <i class="fa fa-ellipsis-v"></i>
+                        <i class="fa fa-ellipsis-v"></i>
+                      </span>
+                    </td>
+                    <td>{{ i.employe_name }}</td>
+                    <td>{{ i.hike_sallary }}</td>
+                    <td>{{ i.description }}</td>
+                    <td>{{ i.Increment_date }}</td>
+                    <td><a href="update_inc_sal/{{ i.id }}" class="btn-warning"><i class="fa fa-edit"></i></a></td>
+                    <td><a onclick="return confirm('Delete this record?')" href="delete_inc_sal/{{ i.id }}"><i
+                          class="fa fa-trash-o"></i></a></td>
+    
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <div class="box-footer clearfix no-border">
+              <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/increase_Sal"> Increment
+                  sallary </a></button>
+            </div>
+          </div>
+
+    </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+<script>
+    $('a.delete').on('click', function () {
+      var choice = confirm('Do you really want to delete this record?');
+      if (choice === true) {
+        return true;
+      }
+      return false;
+    });
+
+  </script>
+{% endblock %}

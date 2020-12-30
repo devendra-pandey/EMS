@@ -86,6 +86,23 @@ def employee_admin(request):
             }
     return render(request, 'employees/dashboard.html',context)
 
+@login_required(login_url='/')
+def employees(request):
+    emp = Employee.objects.filter(status = '1').order_by('-created')
+
+
+    ##employee Pagination
+    paginator = Paginator(emp, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+                'page_obj':page_obj,
+            }
+
+
+    return render(request, 'employees/employees.html',context)
+
 
 
 @login_required(login_url='/')
@@ -149,6 +166,35 @@ def delete_emp(request, id):
     emp_data.save()
     return redirect('dashboard')
 
+@login_required(login_url='/')
+def all_sal(request):
+    mon_sal = Monthly_Salary.objects.filter(employee_name__status='1', status='1').order_by('-created')
+    ##employee Sallary Pagination
+    paginator = Paginator(mon_sal, 2)
+    page_number = request.GET.get('page')
+    mon_sal_obj = paginator.get_page(page_number)
+
+    context = {
+        'mon_sal_obj':mon_sal_obj,
+        
+    }
+    return render(request,'employees/all_sallary.html', context)
+
+@login_required(login_url='/')
+def all_sal_increment(request):
+    inc_sal = Sallary_increament.objects.filter(employe_name__status='1',status ='1').order_by('-created')
+
+    ##salary increment Pagination
+    paginator = Paginator(inc_sal, 2) 
+    page_number = request.GET.get('page')
+    inc_Sallary_page = paginator.get_page(page_number)
+
+
+    context = {
+        'inc_Sallary_page':inc_Sallary_page,
+
+    }
+    return render(request,'employees/all_increment.html', context)
 
 @login_required(login_url='/')
 def sallary_increment_create(request):  
@@ -216,6 +262,36 @@ def delete_inc_sal(request, id):
     sal_inc_data.status = '0'
     sal_inc_data.save()
     return redirect('dashboard')
+
+@login_required(login_url='/')
+def all_monthly_sallary(request):
+
+    months = Monthly_Salary.objects.dates('date','month')
+    sallary = Monthly_Salary.objects.all().filter(status='1').values()
+    amount = {}
+    for expense in sallary:
+        month = expense['date'].month
+        print(month)
+        if month in amount:
+            print("hello")
+            amount[month] = amount[month] + expense['total_salary']
+            print(amount)
+        else:
+            amount[month] = expense['total_salary']
+
+##monthly pagination of sallary
+    paginator = Paginator(months, 2)
+    page_number = request.GET.get('page')
+    monthly = paginator.get_page(page_number)  
+
+    context = {
+        'months':months,
+        'amount': amount,
+        'sallary':sallary,
+        'monthly':monthly,
+
+    }
+    return render(request,'employees/monthly_total_sal.html', context)
 
 
 @login_required(login_url='/')

@@ -5,37 +5,26 @@
 {% block page %} Employee Detail {% endblock %}
 {% block content1 %}
 <section class="content">
-    <div class="container">
         <h2>Employee Information</h2>
-
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>FirstName</th>
-                    <th>LastName</th>
-                    <th>Gender</th>
-                    <th>Start Date</th>
-                    <th>Mobile number</th>
-                    <th>Residence Address</th>
-                    <th>Sallary</th>
-                    <th>Profile Image</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>{{ emp_info.first_name }}</td>
-                    <td>{{ emp_info.last_name }}</td>
-                    <td>{{ emp_info.gender }}</td>
-                    <td>{{ emp_info.start_date }}</td>
-                    <td>{{ emp_info.mobile_number }}</td>
-                    <td>{{ emp_info.residence_address }}</td>
-                    <td>{{ sallary_info.finall_sallary }}</td>
-                    <td><img src="{{ emp_info.profile_image.url }}" width="40px" , height="40px"></img></td>
-
-                </tr>
-
-            </tbody>
-        </table>
+            <div class="d-flex">
+            <img src="{{ emp_info.profile_image.url }}" alt="">
+            </div>
+            <div class="media-body">
+            <div class="personal_text">
+            <h3><i class="fa fa-user"></i> {{ emp_info.first_name }} {{ emp_info.last_name }}</h3>
+            <h4><i class="fa fa-address-card"></i> {{ emp_info.position }}</h4>
+            <ul class="list basic_info">
+            <li><a href="#"><i class="fa fa-calendar"></i> {{ emp_info.start_date}} </a></li>
+            <li><a href="#"><i class="fa fa-phone"></i> {{ emp_info.mobile_number }}</a></li>
+            <li><a href="#"><i class="fa fa-birthday-cake"></i> {{ emp_info.dob  }} </a></li>
+            <li><a href="#"><i class="fa fa-envelope"></i> {{ emp_info.email_id }} </a></li>
+            <li><a href="#"><i class="fa fa-info"></i> Adhar no -  {{ emp_info.aadhar }} </a></li>
+            <li><a href="#"><i class="fa fa-info"></i> Sallary -  {{ sallary_info.finall_sallary }} </a></li>
+            <li><a href="#"><i class="fa fa-home"></i> {{ emp_info.residence_address }} </a></li>
+            </ul>
+            </div>
+           
+        
     </div>
 </section>
 </div>

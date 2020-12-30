@@ -1,0 +1,46 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|Projects {% endblock title %}
+{% block control %} View Projects {% endblock %}
+{% block page %} Projects Detail {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>Projects Information</h2>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Client Name</th>
+                    <th>Project Files</th>
+                    <th>Advance Amount</th>
+                    <th>Recieved Amount</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ proj_info.project_name }}</td>
+                    <td>{{ proj_info.client_name}}</td>
+                    <td>{{ proj_info.project_files}}</td>
+                    <td>{{ proj_info.advance_amount}}</td>
+                    <td>{{ proj_info.received_amount}}</td>
+                    <td>{{ proj_info.start_date}}</td>
+                    <td>{{ proj_info.end_date}}</td>
+                    {% if proj_info.completed == 1 %}
+                    <td>Completed</td>
+                    {% else %}
+                    <td>Under Maintainance</td>
+                    {% endif %}
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+{% endblock %}

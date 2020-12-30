@@ -1,0 +1,80 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|Alert Enquiry {% endblock title %}
+{% block control %} Alert Enquiry {% endblock %}
+{% block page %} Alert Enquiry {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>Alert Enquiry</h2>
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">Alert Enquiries and Followups</h3>
+                <div class="box-tools pull-right">
+                    <!-- <ul class="pagination pagination-sm inline">
+                        {% if enq_all.has_previous %}
+                        <li><a href="?page={{ enq_all.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li><a href="#">Page {{ enq_all.number }} of {{ enq_all.paginator.num_pages }}.</a></li>
+                        {% if enq_all.has_next %}
+                        <li><a href="?page={{ enq_all.next_page_number }}">next</a></li>
+                        {% endif %}
+                    </ul> -->
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <ul class="todo-list">
+                    {% for e in enq %}
+                    {% now  "Y-m-d" as todays %}
+                    {% if e.enquiry_follow_date|date:"Y-m-d" == todays %}
+                    <li>
+                        <!-- drag handle -->
+                        <span class="handle">
+                            <i class="fa fa-ellipsis-v"></i>
+                            <i class="fa fa-ellipsis-v"></i>
+                        </span>
+                        <!-- checkbox -->
+                        <input type="checkbox" value="" name="" />
+                        <!-- todo text -->
+                        <span class="text">hey hi you have to call to client <b>{{ e.client_name}}</b> for
+                            discussion on
+                            the
+                            project <b>{{ e.enquiry_name }}</b></span>
+                        <!-- Emphasis label -->
+                        <small class="label label-danger"><i class="fa fa-clock-o"></i> {{ e.created }}mins</small>
+
+                    </li>
+
+                    {% endif %}
+                    {% endfor %}
+
+                    {% for f in feedback %}
+                    {% now  "Y-m-d" as todays %}
+                    {% if f.enquiry_follow_date|date:"Y-m-d" == todays %}
+
+                    <li>
+                        <!-- drag handle -->
+                        <span class="handle">
+                            <i class="fa fa-ellipsis-v"></i>
+                            <i class="fa fa-ellipsis-v"></i>
+                        </span>
+                        <!-- checkbox -->
+                        <input type="checkbox" value="" name="" />
+                        <!-- todo text -->
+                        <span class="text">hey hi you have to call to client of project <b>{{ f.enquiry_name}}</b> for
+                            discussion
+
+                    </li>
+
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+
+
+        </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+{% endblock %}

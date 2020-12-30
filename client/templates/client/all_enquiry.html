@@ -1,0 +1,90 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|Projects All Enquiry {% endblock title %}
+{% block control %} Projects All Enquiry {% endblock %}
+{% block page %} Projects All Enquiry {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>Projects All Enquiry</h2>
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">Enquiry</h3>
+                <div class="box-tools pull-right">
+                    <ul class="pagination pagination-sm inline">
+                        {% if enq_all.has_previous %}
+                        <li><a href="?page={{ enq_all.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li><a href="#">Page {{ enq_all.number }} of {{ enq_all.paginator.num_pages }}.</a></li>
+                        {% if enq_all.has_next %}
+                        <li><a href="?page={{ enq_all.next_page_number }}">next</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Client Name</th>
+                            <th>Enquiry Project Name</th>
+                            <th>Enquiry Date</th>
+                            <th>Comment</th>
+                            <th>update</th>
+                            <th>Completed</th>
+                            <th>Deleted</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for e in enq_all %}
+
+
+                        <tr>
+                            <td>
+                                <span class="handle">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                            </td>
+                            <td>{{ e.client_name }}</td>
+                            <td>{{ e.enquiry_name }}</td>
+                            <td>{{ e.enquiry_date }}</td>
+                            <td>{{ e.comment }}</td>
+                            <td><a href="update_enquiry/{{ e.id }}" class="btn-warning"><i
+                                        class="fa fa-edit"></i></a></td>
+                            <td><a onclick="return confirm('Are u sure completed this record?')" href=""><i
+                                        class="fa fa-check"></i></a></td>
+                            <td><a onclick="return confirm('Delete this record?')"
+                                    href="delete_enquiry/{{ e.id }}"><i class="fa fa-trash-o"></i></a></td>
+
+
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer clearfix no-border">
+                <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/add_enquiry"> Add
+                        Enquiry
+                    </a></button>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+<script>
+    $('a.delete').on('click', function () {
+      var choice = confirm('Do you really want to delete this record?');
+      if (choice === true) {
+        return true;
+      }
+      return false;
+    });
+
+  </script>
+{% endblock %}
