@@ -7,7 +7,6 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('timeline/', views.timeline, name='timeline'),
-    path('employee_data/', views.employee_data, name='employee_data'),
     path('data_projects/', views.data_projects, name='data_projects'),
     path('view_proj/<int:id>', views.proj_info),
     path('project_income_detail/', views.proj_income_details, name='proj_inc_detail'),

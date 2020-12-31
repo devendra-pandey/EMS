@@ -1,0 +1,87 @@
+{% extends "employees/header.html" %}
+{% load static %}
+{%block title %} Admin|View Company {% endblock title %}
+{% block control %} View Company {% endblock %}
+{% block page %} View Company Detail {% endblock %}
+{% block content1 %}
+<section class="content">
+    <div class="container">
+        <h2>View Company Information</h2>
+        <div class="box box-primary">
+            <div class="box-header">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">Extra Expenses</h3>
+                <div class="box-tools pull-right">
+                    <ul class="pagination pagination-sm inline">
+                        {% if page_expenses.has_previous %}
+                        <li><a href="?page={{ page_expenses.previous_page_number }}">Previous</a></li>
+                        {% endif %}
+                        <li><a href="#">Page {{ page_expenses.number }} of {{ page_expenses.paginator.num_pages }}.</a>
+                        </li>
+                        {% if page_expenses.has_next %}
+                        <li><a href="?page={{ page_expenses.next_page_number }}">next</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            <div class="box-body">
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Employee Name</th>
+                            <th>Client Name</th>
+                            <th>Other</th>
+                            <th>Expense Amount</th>
+                            <th>Date </th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for exp in page_expenses %}
+                        <tr>
+                            <td>
+                                <span class="handle">
+                                    <i class="fa fa-ellipsis-v"></i>
+                                    <i class="fa fa-ellipsis-v"></i>
+                                </span>
+                            </td>
+                            <td>{{ exp.Employee_name }}</td>
+                            <td>{{ exp.client_name }}</td>
+                            <td>{{ exp.other}}</td>
+                            <td>{{ exp.expense_amount }}</td>
+                            <td> {{ exp.date }}</td>
+
+                            <td><a href="/update_expenses/{{ exp.id }}" class="btn-warning"><i
+                                        class="fa fa-edit"></i></a></td>
+                            <td><a onclick="return confirm('Delete this record?')"
+                                    href="/delete_expenses/{{ exp.id }}"><i class="fa fa-trash-o"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="box-footer clearfix no-border">
+                <button class="btn btn-default pull-right"><i class="fa fa-plus"></i><a href="/create_expenses/"> Add
+                        Extra
+                        Expenses</a></button>
+            </div>
+
+        </div>
+</section>
+</div>
+{% include 'employees/footer.html' %}
+<script>
+    $('a.delete').on('click', function () {
+        var choice = confirm('Do you really want to delete this record?');
+        if (choice === true) {
+            return true;
+        }
+        return false;
+    });
+
+</script>
+{% endblock %}

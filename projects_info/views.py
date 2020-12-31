@@ -12,42 +12,6 @@ def timeline(request):
     return render(request, 'projects_info/timeline.html')
 
 @login_required(login_url='/')
-def employee_data(request):
-    page_data = 15
-    if request.method == 'POST':
-        datefrom = request.POST['datef']
-        dateto = request.POST['datet']
-
-        print(datefrom)
-        print(dateto)
-        emp_info = Employee.objects.all().filter( start_date__lte=dateto,start_date__gte =datefrom)
-
-        paginator = Paginator(emp_info, page_data)
-        page_number = request.GET.get('page')
-        emp_pagination = paginator.get_page(page_number)
-        
-
-        Context = {
-            'emp_info':emp_pagination,
-        }
-
-        return render(request, 'projects_info/employee_data.html', Context)
-    else:
-        emp_info = Employee.objects.all()
-
-        ##employee
-        paginator = Paginator(emp_info, page_data)
-        page_number = request.GET.get('page')
-        emp_pagination = paginator.get_page(page_number)
-   
-        Context = {
-            'emp_info':emp_pagination,
-        }
-
-        return render(request, 'projects_info/employee_data.html', Context)
-
-
-@login_required(login_url='/')
 def data_projects(request):
     page_data = 15
     if request.method == 'POST':

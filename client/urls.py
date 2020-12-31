@@ -20,7 +20,6 @@ urlpatterns = [
     path('delete_followup/<int:id>', views.delete_Followup, name='delete_followup'),
     path('alert/', views.alert),
     path('view_client/<int:id>', views.info_client, name='info_client'),
-    path('proj_dashboard/', views.proj_dashboard, name='proj_dashboard'),
     path('create_project/', views.create_project, name='create_project'),
     path('update_project/<int:id>', views.update_project, name='update_project'),
     path('delete_project/<int:id>', views.delete_project, name='delete_project'),

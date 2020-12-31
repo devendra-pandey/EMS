@@ -11,23 +11,48 @@
         <div class="box-header">
             <i class="ion ion-clipboard"></i>
             <h3 class="box-title">All Employees </h3>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="dataTables_filter">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <label>FROM:
+                                <input type="date" name="datef" class="form-control input-sm">
+                            </label>
+                            <label>TO:
+                                <input type="date" name="datet" class="form-control input-sm">
+                            </label>
+                            <input type="submit"></input>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="dataTables_filter">
+                        <form action="{% url 'employees' %}" method="GET" value="{{request.GET.q}}">
+                            Search <input type="text" name="q" value="{{request.GET.q}}" placeholder="Search posts" />
+                            <input type="submit" name="submit" value="Search" />
+                        </form>
+
+                    </div>
+                </div>
+            </div>
             <div class="box-tools pull-right">
-                {% if page_obj.has_other_pages %}
+                {% if emp_info.has_other_pages %}
                 <ul class="pagination pagination-sm inline">
-                    {% if page_obj.has_previous %}
-                    <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    {% if emp_info.has_previous %}
+                    <li><a href="?page={{ emp_info.previous_page_number }}">&laquo;</a></li>
                     {% else %}
                     <li class="disabled"><span>&laquo;</span></li>
                     {% endif %}
-                    {% for i in page_obj.paginator.page_range %}
-                    {% if page_obj.number == i %}
+                    {% for i in emp_info.paginator.page_range %}
+                    {% if emp_info.number == i %}
                     <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
                     {% else %}
                     <li><a href="?page={{ i }}">{{ i }}</a></li>
                     {% endif %}
                     {% endfor %}
-                    {% if page_obj.has_next %}
-                    <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    {% if emp_info.has_next %}
+                    <li><a href="?page={{ emp_info.next_page_number }}">&raquo;</a></li>
                     {% else %}
                     <li class="disabled"><span>&raquo;</span></li>
                     {% endif %}
@@ -50,7 +75,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for es in page_obj %}
+                            {% for es in emp_info %}
                             <tr>
                                 <td><a href="/view_emp/{{ es.id }}">{{ es.first_name}} {{ es.last_name }}</a></td>
                                 <td>{{ es.start_date}}</td>
@@ -59,10 +84,37 @@
                                 <td><a href="/delete_emp/{{ es.id }}">Delete</a></td>
                             </tr>
                             {% endfor %}
-                        </tbody>
+                            
+                            {% if submitbutton == 'Search' and request.GET.q != '' %}
+                                    {% if emp_info12 %}
+                                    <h1>Results for <b>{{ request.GET.q }}</b></h1>
+                                    <br /><br />
+                            {% for es in emp_info12 %}
+                            <tr>
+                                <td><a href="/view_emp/{{ es.id }}">{{ es.first_name}} {{ es.last_name }}</a></td>
+                                <td>{{ es.start_date}}</td>
+                                <td>{{ es.mobile_number}}</td>
+                                <td><a href="/update_emp/{{ es.id }}">Edit</a></td>
+                                <td><a href="/delete_emp/{{ es.id }}">Delete</a></td>
+                            </tr>
+                            {% endfor %}
+
+                            {% endif %}
+                            {% endif %}
+                </tbody>
                     </table>
 </section>
 </div>
 {% include 'employees/footer.html' %}
 
+<script>
+    $('a.delete').on('click', function () {
+        var choice = confirm('Do you really want to delete this record?');
+        if (choice === true) {
+            return true;
+        }
+        return false;
+    });
+
+</script>
 {% endblock %}
