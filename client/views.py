@@ -11,12 +11,6 @@ from django.template.loader import render_to_string
 from weasyprint import HTML
 from django.contrib import messages
 
-# register = template.library()
-
-# @register.filter()
-# def addDays(days):
-#    newDate = datetime.date.today() + datetime.timedelta(days=days)
-#    return newDate
 
 @login_required(login_url='/')
 def client_create(request):
@@ -25,9 +19,9 @@ def client_create(request):
         form = ClientForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('dashboard')
+            return redirect('client')
         else:
-            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'dashboard'}}">reload</a>""")
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'client'}}">reload</a>""")
     else:  
         return render(request, 'client/client_create.html', {'upload_form':form})
 
@@ -37,11 +31,11 @@ def update_client(request, id):
     try:
         client_get = Client.objects.get(id = client_id)
     except Client.DoesNotExist:
-        return redirect('dashboard')
+        return redirect('client')
     form = ClientForm(request.POST or None, instance = client_get)
     if form.is_valid():
        form.save()
-       return redirect('dashboard')
+       return redirect('client')
     return render(request, 'client/client_create.html', {'upload_form':form})
 
 @login_required(login_url='/')
@@ -50,10 +44,10 @@ def delete_client(request, id):
     try:
         client_data = Client.objects.get(id = client_id)
     except Client.DoesNotExist:
-        return redirect('dashboard')
+        return redirect('client')
     client_data.status = '0'
     client_data.save()
-    return redirect('dashboard')
+    return redirect('client')
 
 
 @login_required(login_url='/')
