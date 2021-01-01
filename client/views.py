@@ -221,9 +221,9 @@ def create_project(request):
         if form.is_valid():
             form.save()
             
-            return redirect('proj_dashboard')
+            return redirect('data_projects')
         else:
-            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'proj_dashboard'}}">reload</a>""")
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'data_projects'}}">reload</a>""")
     else:      
         return render(request, 'client/create_project.html', {'upload_form':form})
 
@@ -318,9 +318,9 @@ def project_income(request):
                 total_amt = amt.received_amount
                 print(total_amt)
             to_update = Project.objects.filter(id=id).update(received_amount=total_amt + proj_amount )
-            return redirect('proj_dashboard')
+            return redirect('data_projects')
         else:
-            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : '/proj_dashboard/'}}">reload</a>""")
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : '/data_projects/'}}">reload</a>""")
     else:      
         return render(request, 'client/project_income.html', {'upload_form':form})
 
@@ -333,7 +333,7 @@ def update_project_income(request, id):
         ab1 = proj_income_get.amount
         print(ab1)
     except Project_income.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     form = Project_incomeForm(request.POST or None, instance = proj_income_get)
     if form.is_valid():
        obj = form.save()
@@ -345,7 +345,7 @@ def update_project_income(request, id):
            total_amt = amt.received_amount
            print(total_amt)
        to_update = Project.objects.filter(id=id).update(received_amount=total_amt + proj_amount - ab1 )
-       return redirect('proj_dashboard')
+       return redirect('data_projects')
     return render(request, 'client/project_income.html', {'upload_form':form})
 
 @login_required(login_url='/')
@@ -354,7 +354,7 @@ def delete_project_income(request, id):
     try:
         proj_income_data = Project_income.objects.get(id = proj_income_id)
     except Project_income.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     
     id = proj_income_data.project_name.id
     ab = Project.objects.filter(id=id)
@@ -364,7 +364,7 @@ def delete_project_income(request, id):
     proj_income_data.status = '0'
     proj_income_data.save()
     to_update = Project.objects.filter(id=id).update(received_amount=total_amt - proj_income_data.amount )
-    return redirect('proj_dashboard')
+    return redirect('data_projects')
 
 @login_required(login_url='/')
 def assign_project(request):
@@ -381,9 +381,9 @@ def assign_project(request):
             #     total_amt = amt.amount
             #     print(total_amt)
             # to_update = Project.objects.filter(id=id).update(amount=total_amt + proj_amount)
-            return redirect('proj_dashboard')
+            return redirect('data_projects')
         else:
-            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'proj_dashboard'}}">reload</a>""")
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'data_projects'}}">reload</a>""")
     else:      
         return render(request, 'client/assign_project.html', {'upload_form':form})
 
@@ -394,11 +394,11 @@ def update_assign_project(request, id):
     try:
         proj_income_get = Project_Assign.objects.get(id = proj_income_id)
     except Project_Assign.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     form = Project_AssignForm(request.POST or None, instance = proj_income_get)
     if form.is_valid():
        form.save()
-       return redirect('proj_dashboard')
+       return redirect('data_projects')
     return render(request, 'client/assign_project.html', {'upload_form':form})
 
 
@@ -408,10 +408,10 @@ def delete_project_assign(request, id):
     try:
         proj_assign_data = Project_Assign.objects.get(id = proj_assign_id)
     except Project_Assign.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     proj_assign_data.status = '0'
     proj_assign_data.save()
-    return redirect('proj_dashboard')
+    return redirect('data_projects')
 
 @login_required(login_url='/')
 def complete_assign_project(request, id):
@@ -419,10 +419,10 @@ def complete_assign_project(request, id):
     try:
         proj_assign_data = Project_Assign.objects.get(id = proj_assign_id)
     except Project_Assign.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     proj_assign_data.completed = 1
     proj_assign_data.save()
-    return redirect('proj_dashboard')
+    return redirect('data_projects')
 
 @login_required(login_url='/')
 def uncomplete_assign_project(request, id):
@@ -430,10 +430,10 @@ def uncomplete_assign_project(request, id):
     try:
         proj_assign_data = Project_Assign.objects.get(id = proj_assign_id)
     except Project_Assign.DoesNotExist:
-        return redirect('proj_dashboard')
+        return redirect('data_projects')
     proj_assign_data.completed = 0
     proj_assign_data.save()
-    return redirect('proj_dashboard')
+    return redirect('data_projects')
 
 @login_required(login_url='/')
 def create_company(request):
@@ -442,9 +442,9 @@ def create_company(request):
         form = Company_ProfileForm(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save()
-            return redirect('proj_dashboard')
+            return redirect('data_projects')
         else:
-            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'proj_dashboard'}}">reload</a>""")
+            return HttpResponse("""your form is wrong, reload on <a href = "{{ url : 'data_projects'}}">reload</a>""")
     else:      
         return render(request, 'client/create_company.html', {'upload_form':form})
 
