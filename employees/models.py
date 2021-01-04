@@ -4,7 +4,7 @@ from django.utils.html import format_html
 # Create your models here.
 TYPE_GENDER = (
         ('0', 'Female'),
-        ('1', 'male'),
+        ('1', 'Male'),
     )
 
 TYPE_MARRIED = (
@@ -24,7 +24,7 @@ class Employee(models.Model):
     nationality = models.CharField(max_length=20, default="INDIA")
     mobile_number = models.CharField(max_length=13)
     email_id = models.CharField(max_length=60)
-    residence_address = models.CharField(max_length=20)
+    residence_address = models.CharField(max_length=500)
     aadhar = models.CharField(max_length=20 , unique=True , null=True, blank=True)
     id_image = models.FileField(upload_to='static/Uploads/id/', null= True , blank=True)
     annual_allowance = models.IntegerField(default=21)

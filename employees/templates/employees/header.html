@@ -106,8 +106,118 @@
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
           <li class="header">MAIN NAVIGATION</li>
-          {% block side_nav %}
-          {% endblock %}
+
+
+          <li class="active treeview">
+            <a href="/employee_admin">
+              <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>Employees</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/all_emp"><i class="fa fa-circle-o"></i> All Employee</a></li>
+              <li><a href="/create"><i class="fa fa-circle-o"></i> Add New Employee</a></li>
+
+            </ul>
+          </li>
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>client</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/clients"><i class="fa fa-circle-o"></i> All client</a></li>
+              <li><a href="/create_client"><i class="fa fa-circle-o"></i> Add New Client</a></li>
+
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>Projects</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/data_projects/"><i class="fa fa-circle-o"></i> All Projects</a></li>
+              <li><a href="/create_project"><i class="fa fa-circle-o"></i> Add New Projects</a></li>
+              <li><a href="/project_income_detail"><i class="fa fa-circle-o"></i> Projects Income</a></li>
+              <li><a href="/add_project_income"><i class="fa fa-circle-o"></i> Add Projects Income</a></li>
+              <li><a href="/proj_assign_details"><i class="fa fa-circle-o"></i> Assigned Projects</a></li>
+              <li><a href="/assign_project"><i class="fa fa-circle-o"></i> Assign The Projects to Employee</a></li>
+
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>PAYROLL</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/all_sal"><i class="fa fa-circle-o"></i> All Sallary</a></li>
+              <li><a href="/all_inc"><i class="fa fa-circle-o"></i> All Increment Sallary</a></li>
+              <li><a href="/month_Sal"><i class="fa fa-circle-o"></i> Calculate Month Sallary</a></li>
+              <li><a href="/increase_Sal"><i class="fa fa-circle-o"></i> Increase sallary</a></li>
+              <li><a href="/all_monthly_sallary"><i class="fa fa-circle-o"></i> Monthly Total Sallary</a></li>
+
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>ENQUIRY</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/all_enq"><i class="fa fa-circle-o"></i> All Enquiry</a></li>
+              <li><a href="/all_followup"><i class="fa fa-circle-o"></i> All Enquiry Followup</a></li>
+              <li><a href="/alert"><i class="fa fa-circle-o"></i> Alert</a></li>
+              <li><a href="/month_Sal"><i class="fa fa-circle-o"></i> Add new Enquiry</a></li>
+              <li><a href="/increase_Sal"><i class="fa fa-circle-o"></i> Add Followup</a></li>
+
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>Extra Expenses</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+
+              <li><a href="view_extra_expenses"><i class="fa fa-circle-o"></i> Extra Expenses</a></li>
+              <li><a href="/create_expenses"><i class="fa fa-circle-o"></i> Add Extra Expenses</a></li>
+              <li><a href="/view_extra_monthly_expenses"><i class="fa fa-circle-o"></i> View Monthly Extra Expenses</a>
+              </li>
+              <li><a href="/view_extra_yearly_expenses"><i class="fa fa-circle-o"></i> View Yearly Extra expenses</a>
+              </li>
+            </ul>
+          </li>
+
+          <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>Extra Details</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="/view_tax"><i class="fa fa-circle-o"></i> View Tax</a></li>
+              <li><a href="/create_tax"><i class="fa fa-circle-o"></i> Add Tax</a></li>
+              <li><a href="/view_company"><i class="fa fa-circle-o"></i> View company</a></li>
+              <li><a href="/create_company"><i class="fa fa-circle-o"></i> Add company</a></li>
+            </ul>
+          </li>
+
 
         </ul>
       </section>
