@@ -37,6 +37,19 @@
     </div>
     {% endif %}
     <div class="row">
+        <div class="col-xs-4">
+            {% for message in messages %}
+
+            <div class="alert alert-success">
+                <a class="close" href="#" data-dismiss="alert">×</a>
+
+                {{ message }}
+
+            </div>
+            {% endfor %}
+
+        </div>
+
         <!-- /.col -->
         <div class="col-xs-4">
             <button type="submit" class="btn btn-primary btn-block btn-flat">{% trans 'Log In' %}</button>
